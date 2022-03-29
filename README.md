@@ -5,4 +5,4 @@
 - **Yazeed Mograby**
 ## Under the supervision of
 **Dr. Ahmas Ewais**
-## IN [AAUJ University](https://www.aaup.edu)
+## IN [AAUP University](https://www.aaup.edu)
