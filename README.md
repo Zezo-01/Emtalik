@@ -1,7 +1,7 @@
 # Emtalik
 ## A Senior project made by
-- **Fadi Abo Shalash**
-- **Anas Manasra**
+- **Fadi Shalash**
+- **Anas Manassra**
 - **Yazeed Mograby**
 ## Under the supervision of
 **Dr. Ahmas Ewais**
