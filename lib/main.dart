@@ -1,5 +1,5 @@
-import 'package:emtalik/login.dart';
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 import 'login.dart';
 import 'settings.dart';
 import 'signup.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Emtalik',
+      title: "app-name".i18n(),
       debugShowCheckedModeBanner: false,
       home: login(),
     );
