@@ -1,3 +1,4 @@
+import 'package:emtalik/etc/localemanager.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'login.dart';
@@ -12,12 +13,12 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "app-name".i18n(),
-      debugShowCheckedModeBanner: false,
+      supportedLocales: LocaleManager.supportedLocales,
+      localizationsDelegates: LocaleManager.localeDelegates,
+      onGenerateTitle: (context) => 'app-name'.i18n(),
       home: login(),
     );
   }

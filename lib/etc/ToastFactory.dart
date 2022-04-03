@@ -11,8 +11,8 @@ abstract class ToastFactory {
   static const int _animation_duration_in_ms = 5;
   // ignore: constant_identifier_names
   static const int _toast_duration_in_s = 2;
-  static void makeToast(TOAST_TYPE toastType, String title, String description,
-      bool fromTop, Function? onClose) {
+  static void makeToast(BuildContext context, TOAST_TYPE toastType,
+      String title, String description, bool fromTop, Function? onClose) {
     switch (toastType) {
       case TOAST_TYPE.success:
         {
@@ -33,7 +33,7 @@ abstract class ToastFactory {
                 : MOTION_TOAST_POSITION.bottom,
             onClose: onClose,
             layoutOrientation: ORIENTATION.ltr,
-          );
+          ).show(context);
 
           break;
         }
@@ -56,7 +56,7 @@ abstract class ToastFactory {
                 : MOTION_TOAST_POSITION.bottom,
             onClose: onClose,
             layoutOrientation: ORIENTATION.ltr,
-          );
+          ).show(context);
           break;
         }
       case TOAST_TYPE.error:
@@ -78,7 +78,7 @@ abstract class ToastFactory {
                 : MOTION_TOAST_POSITION.bottom,
             onClose: onClose,
             layoutOrientation: ORIENTATION.ltr,
-          );
+          ).show(context);
           break;
         }
       case TOAST_TYPE.warning:
@@ -100,12 +100,11 @@ abstract class ToastFactory {
                 : MOTION_TOAST_POSITION.bottom,
             onClose: onClose,
             layoutOrientation: ORIENTATION.ltr,
-          );
+          ).show(context);
           break;
         }
 
       case TOAST_TYPE.info:
-      default:
         {
           MotionToast.info(
             description: Text(description),
@@ -124,7 +123,8 @@ abstract class ToastFactory {
                 : MOTION_TOAST_POSITION.bottom,
             onClose: onClose,
             layoutOrientation: ORIENTATION.ltr,
-          );
+          ).show(context);
+          break;
         }
     }
   }
