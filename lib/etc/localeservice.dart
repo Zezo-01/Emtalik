@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:localization/localization.dart';
 
-abstract class AppEnv {
+abstract class LocaleInfo {
   static const List<Locale> supportedLocales = [
     Locale('ar'),
     Locale('en'),
