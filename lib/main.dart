@@ -1,4 +1,6 @@
+import 'package:emtalik/etc/appenv.dart';
 import 'package:emtalik/etc/localemanager.dart';
+import 'package:emtalik/sandbox.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'login.dart';
@@ -19,7 +21,9 @@ class MyApp extends StatelessWidget {
       supportedLocales: LocaleManager.supportedLocales,
       localizationsDelegates: LocaleManager.localeDelegates,
       onGenerateTitle: (context) => 'app-name'.i18n(),
-      home: login(),
+      theme: AppEnv.defaultLightTheme,
+      darkTheme: AppEnv.defaultDarkTheme,
+      home: SandBox(),
     );
   }
 }

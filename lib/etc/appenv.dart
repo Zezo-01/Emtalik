@@ -21,14 +21,18 @@ abstract class AppEnv {
   // DARK THEME COLOR SCHEME
   static const ColorScheme _defaultDarkColorScheme = ColorScheme(
     brightness: Brightness.light,
+    // Text Fields and labels
     primary: Colors.blueAccent,
     onPrimary: Colors.black26,
     background: Colors.blueGrey,
+    //Apps Background
     onBackground: Colors.indigo,
     error: Color.fromARGB(255, 124, 8, 0),
     onError: Colors.redAccent,
     surface: Colors.white,
+    // Borders style
     onSurface: Colors.grey,
+    //CONTROLS SUCH AS FLOATING ACTION BUTTON
     secondary: Colors.green,
     onSecondary: Color.fromARGB(255, 1, 109, 4),
   );
