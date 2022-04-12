@@ -1,3 +1,4 @@
+import 'package:emtalik/Widgets/UserInfoWidgets/passwordfield.dart';
 import 'package:emtalik/etc/appenv.dart';
 import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/sandbox.dart';
@@ -23,7 +24,11 @@ class MyApp extends StatelessWidget {
       onGenerateTitle: (context) => 'app-name'.i18n(),
       theme: AppEnv.defaultLightTheme,
       darkTheme: AppEnv.defaultDarkTheme,
-      home: SandBox(),
+      home: Scaffold(
+          body: Container(
+        margin: EdgeInsets.fromLTRB(50, 50, 50, 0),
+        child: PasswordField(),
+      )),
     );
   }
 }

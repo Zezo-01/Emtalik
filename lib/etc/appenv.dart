@@ -22,7 +22,7 @@ abstract class AppEnv {
   static const ColorScheme _defaultDarkColorScheme = ColorScheme(
     brightness: Brightness.light,
     // Text Fields and labels
-    primary: Colors.blueAccent,
+    primary: Color.fromARGB(255, 53, 189, 26),
     onPrimary: Colors.black26,
     background: Colors.blueGrey,
     //Apps Background
