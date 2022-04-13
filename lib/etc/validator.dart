@@ -1,11 +1,11 @@
 abstract class Validator {
   static bool passwordValidator(String password) {
-    return true;
+    if (RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$',
+    ).hasMatch(password)) return true;
+    return false;
   }
 }
 
 
-//  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,25}$/gm REGULAR EXPRESSION
-
-
-// TODO: implement passwordValidator
+// TODO: implmenet name and email validator

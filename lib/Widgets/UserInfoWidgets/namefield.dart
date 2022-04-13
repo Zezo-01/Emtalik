@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 import 'package:localization/localization.dart';
 
-class PasswordField extends StatefulWidget {
-  PasswordField({
+class PasswordFormField extends StatefulWidget {
+  PasswordFormField({
     Key? key,
     this.onChange,
     this.enable,
@@ -28,23 +28,23 @@ class PasswordField extends StatefulWidget {
   FocusNode? focusNode;
   @override
   // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => _PasswordField(
+  State<StatefulWidget> createState() => _PasswordFormField(
         onChange: onChange,
         enable: enable,
+        info: info,
         controller: controller,
         focusNode: focusNode,
-        info: info,
       );
 }
 
-class _PasswordField extends State<StatefulWidget> {
+class _PasswordFormField extends State<StatefulWidget> {
   bool showPassword = true;
   bool? enable;
   String? info;
   TextEditingController? controller;
   void Function(String value)? onChange;
   FocusNode? focusNode;
-  _PasswordField({
+  _PasswordFormField({
     this.onChange,
     this.enable,
     this.info,
@@ -61,7 +61,15 @@ class _PasswordField extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return "";
+        }
+        if (Validator.passwordValidator(value)) {
+          return "";
+        }
+      },
       focusNode: focusNode,
       controller: controller,
       obscureText: showPassword,
@@ -78,9 +86,9 @@ class _PasswordField extends State<StatefulWidget> {
                   controller!.clear();
                 },
               ),
-        label: Text("password".i18n()),
+        labelText: "password".i18n(),
         counter: Text(
-          enable == false || info == null ? "" : info.toString().i18n(),
+          info == null || enable == false ? "" : info.toString().i18n(),
           style: const TextStyle(
             fontSize: 12,
             color: Colors.amber,

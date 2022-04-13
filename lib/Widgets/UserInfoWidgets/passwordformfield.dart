@@ -5,12 +5,11 @@ import 'package:flutter/material.dart';
 
 import 'package:localization/localization.dart';
 
-class PasswordField extends StatefulWidget {
-  PasswordField({
+class PasswordFormField extends StatefulWidget {
+  PasswordFormField({
     Key? key,
     this.onChange,
     this.enable,
-    this.info,
     this.controller,
     this.focusNode,
   }) : super(key: key);
@@ -21,33 +20,30 @@ class PasswordField extends StatefulWidget {
   // INFO: this is to set the textfiedl as enabled or not
   bool? enable;
   // INFO: this is to display an info under the textifled
-  String? info;
+
   // INFO: this is a controller to control the text field from outside when used
   TextEditingController? controller;
   //INFO: focus node used for focus configurations used for outside this widget
   FocusNode? focusNode;
   @override
   // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => _PasswordField(
+  State<StatefulWidget> createState() => _PasswordFormField(
         onChange: onChange,
         enable: enable,
         controller: controller,
         focusNode: focusNode,
-        info: info,
       );
 }
 
-class _PasswordField extends State<StatefulWidget> {
+class _PasswordFormField extends State<StatefulWidget> {
   bool showPassword = true;
   bool? enable;
-  String? info;
   TextEditingController? controller;
   void Function(String value)? onChange;
   FocusNode? focusNode;
-  _PasswordField({
+  _PasswordFormField({
     this.onChange,
     this.enable,
-    this.info,
     this.controller,
     this.focusNode,
   });
@@ -61,7 +57,18 @@ class _PasswordField extends State<StatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          print("Empty field");
+          return "empty-field".i18n();
+        } else if (Validator.passwordValidator(value)) {
+          print("Its correct");
+          return null;
+        }
+        print("Not a password");
+        return "password-doesnt-match-constraints".i18n();
+      },
       focusNode: focusNode,
       controller: controller,
       obscureText: showPassword,
@@ -78,9 +85,9 @@ class _PasswordField extends State<StatefulWidget> {
                   controller!.clear();
                 },
               ),
-        label: Text("password".i18n()),
+        labelText: "password".i18n(),
         counter: Text(
-          enable == false || info == null ? "" : info.toString().i18n(),
+          enable == false ? "" : 'password-constraints'.toString().i18n(),
           style: const TextStyle(
             fontSize: 12,
             color: Colors.amber,
