@@ -29,6 +29,13 @@ class _PasswordField extends State<StatefulWidget> {
   _PasswordField({this.onChange, this.enable, this.info, this.controller});
 
   @override
+  void initState() {
+    controller ??= TextEditingController();
+    controller?.addListener(() => setState(() {}));
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
@@ -38,7 +45,7 @@ class _PasswordField extends State<StatefulWidget> {
       enabled: enable,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
-        prefixIcon: controller!.text.isEmpty
+        prefixIcon: controller == null || controller!.text.isEmpty
             ? const Icon(Icons.password)
             : IconButton(
                 icon: const Icon(Icons.close),

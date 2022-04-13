@@ -13,8 +13,14 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({Key? key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => _MyApp();
+}
+
+class _MyApp extends State<StatefulWidget> {
   final ted = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -31,7 +37,6 @@ class MyApp extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(50, 50, 50, 0),
             child: PasswordField(
               info: 'password-constraints',
-              controller: ted,
             ),
           ),
         ),
