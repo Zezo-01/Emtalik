@@ -10,12 +10,12 @@ import 'signup.dart';
 import 'settings.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
+  MyApp({Key? key}) : super(key: key);
+  final ted = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,11 +24,18 @@ class MyApp extends StatelessWidget {
       onGenerateTitle: (context) => 'app-name'.i18n(),
       theme: AppEnv.defaultLightTheme,
       darkTheme: AppEnv.defaultDarkTheme,
-      home: Scaffold(
+      home: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
           body: Container(
-        margin: EdgeInsets.fromLTRB(50, 50, 50, 0),
-        child: PasswordField(),
-      )),
+            margin: EdgeInsets.fromLTRB(50, 50, 50, 0),
+            child: PasswordField(
+              info: 'password-constraints',
+              controller: ted,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

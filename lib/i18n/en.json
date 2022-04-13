@@ -4,6 +4,7 @@
     "welcome-text": "This text is in english",
     "hello": "Hello",
     "Email":"E-mail",
-    "password":"Password"
+    "password":"Password",
+    "password-constraints":"You're password should be  at least 8 and at most 25 charecters long and has at least 1 capital and a small letter"
 }
   
