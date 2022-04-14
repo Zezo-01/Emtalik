@@ -7,6 +7,8 @@
     "password":"Password",
     "password-constraints":"You're password should be  at least 8 and at most 25 charecters long and has at least 1 capital and a small letter",
     "empty-field":"this field shouldn't be empty",
-    "password-doesnt-match-constraints":"Password doesn't match constraints"
+    "password-doesnt-match-constraints":"Password doesn't match constraints",
+    "error":"Error",
+    "submited":"Submited"
 }
   

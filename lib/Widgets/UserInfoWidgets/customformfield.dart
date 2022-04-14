@@ -5,19 +5,24 @@ import 'package:flutter/material.dart';
 
 import 'package:localization/localization.dart';
 
-class PasswordFormField extends StatefulWidget {
-  PasswordFormField({
-    Key? key,
-    this.onChange,
-    this.enable,
-    this.info,
-    this.controller,
-    this.focusNode,
-  }) : super(key: key);
+class CustomFormField extends StatefulWidget {
+  CustomFormField(
+      {Key? key,
+      this.onChange,
+      this.enable,
+      this.controller,
+      this.focusNode,
+      this.info,
+      this.onValidation,
+      this.icon,
+      this.type,
+      this.enterKeyAction,
+      this.labelText})
+      : super(key: key);
   // INFO: Optional parameter to pass a function that will be excuted when ever the value of the textfield's change
   void Function(String value)? onChange;
   // INFO: this deals with the submit button (the enter key on the keyboard)
-
+  String? Function(String? value)? onValidation;
   // INFO: this is to set the textfiedl as enabled or not
   bool? enable;
   // INFO: this is to display an info under the textifled
@@ -26,32 +31,51 @@ class PasswordFormField extends StatefulWidget {
   TextEditingController? controller;
   //INFO: focus node used for focus configurations used for outside this widget
   FocusNode? focusNode;
+  // INFO: this is the suffix icon
+  Widget? icon;
+  // INFO: Keyboard layout
+  TextInputType? type;
+  // INFO: Keyboar's enter key
+  TextInputAction? enterKeyAction;
+  // INFO: The label's text
+  String? labelText;
   @override
   // ignore: no_logic_in_create_state
-  State<StatefulWidget> createState() => _PasswordFormField(
-        onChange: onChange,
-        enable: enable,
-        info: info,
-        controller: controller,
-        focusNode: focusNode,
-      );
+  State<StatefulWidget> createState() => _CustomFormField(
+      onChange: onChange,
+      enable: enable,
+      controller: controller,
+      focusNode: focusNode,
+      info: info,
+      onValidation: onValidation,
+      icon: icon,
+      type: type,
+      enterKeyAction: enterKeyAction,
+      labelText: labelText);
 }
 
-class _PasswordFormField extends State<StatefulWidget> {
-  bool showPassword = true;
+class _CustomFormField extends State<StatefulWidget> {
   bool? enable;
-  String? info;
   TextEditingController? controller;
   void Function(String value)? onChange;
+  String? Function(String? value)? onValidation;
   FocusNode? focusNode;
-  _PasswordFormField({
-    this.onChange,
-    this.enable,
-    this.info,
-    this.controller,
-    this.focusNode,
-  });
-
+  String? info;
+  Widget? icon;
+  TextInputType? type;
+  TextInputAction? enterKeyAction;
+  String? labelText;
+  _CustomFormField(
+      {this.onChange,
+      this.enable,
+      this.controller,
+      this.focusNode,
+      this.info,
+      this.onValidation,
+      this.icon,
+      this.type,
+      this.enterKeyAction,
+      this.labelText});
   @override
   void initState() {
     controller ??= TextEditingController();
@@ -62,47 +86,31 @@ class _PasswordFormField extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          return "";
-        }
-        if (Validator.passwordValidator(value)) {
-          return "";
-        }
-      },
+      validator: onValidation,
       focusNode: focusNode,
       controller: controller,
-      obscureText: showPassword,
-      keyboardType: TextInputType.visiblePassword,
+      keyboardType: type,
       onChanged: onChange,
       enabled: enable,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         prefixIcon: controller == null || controller!.text.isEmpty
-            ? const Icon(Icons.password)
+            ? icon
             : IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () {
                   controller!.clear();
                 },
               ),
-        labelText: "password".i18n(),
+        labelText: labelText,
         counter: Text(
-          info == null || enable == false ? "" : info.toString().i18n(),
+          enable == false || info == null || info!.isEmpty
+              ? ""
+              : info.toString().i18n(),
           style: const TextStyle(
             fontSize: 12,
             color: Colors.amber,
           ),
-        ),
-        suffixIcon: IconButton(
-          onPressed: () {
-            setState(() {
-              showPassword = !showPassword;
-            });
-          },
-          icon: showPassword
-              ? const Icon(Icons.visibility)
-              : const Icon(Icons.visibility_off),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(50),

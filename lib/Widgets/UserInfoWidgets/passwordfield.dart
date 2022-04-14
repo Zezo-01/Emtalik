@@ -5,6 +5,20 @@ import 'package:flutter/material.dart';
 
 import 'package:localization/localization.dart';
 
+/*
+
+
+
+
+
+                                         DONT USE
+                                         DEPRECATED
+
+
+
+
+*/
+@deprecated
 class PasswordField extends StatefulWidget {
   PasswordField({
     Key? key,

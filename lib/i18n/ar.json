@@ -7,6 +7,8 @@
     "password":"الرقم السري",
     "password-constraints":"الرقم السري يجب أن يكون حجمه  ما بين 8 و 25 ، وأن يحتوي على حرف إنجليزي كبير و صغير على الأقل",
     "empty-field":"يجب ملئ هذا الحقل",
-    "password-doesnt-match-constraints":"الكلمة السرية لا توافق القيود"
+    "password-doesnt-match-constraints":"الكلمة السرية لا توافق القيود",
+    "error":"خطأ",
+    "submited":"تم الإرسال"
 }
   

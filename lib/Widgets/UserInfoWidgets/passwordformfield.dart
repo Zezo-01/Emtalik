@@ -6,21 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 
 class PasswordFormField extends StatefulWidget {
-  PasswordFormField({
-    Key? key,
-    this.onChange,
-    this.enable,
-    this.controller,
-    this.focusNode,
-  }) : super(key: key);
+  PasswordFormField(
+      {Key? key,
+      this.onChange,
+      this.enable,
+      this.controller,
+      this.focusNode,
+      this.info,
+      this.onValidation})
+      : super(key: key);
   // INFO: Optional parameter to pass a function that will be excuted when ever the value of the textfield's change
   void Function(String value)? onChange;
   // INFO: this deals with the submit button (the enter key on the keyboard)
-
+  String? Function(String? value)? onValidation;
   // INFO: this is to set the textfiedl as enabled or not
   bool? enable;
   // INFO: this is to display an info under the textifled
-
+  String? info;
   // INFO: this is a controller to control the text field from outside when used
   TextEditingController? controller;
   //INFO: focus node used for focus configurations used for outside this widget
@@ -28,11 +30,12 @@ class PasswordFormField extends StatefulWidget {
   @override
   // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _PasswordFormField(
-        onChange: onChange,
-        enable: enable,
-        controller: controller,
-        focusNode: focusNode,
-      );
+      onChange: onChange,
+      enable: enable,
+      controller: controller,
+      focusNode: focusNode,
+      info: info,
+      onValidation: onValidation);
 }
 
 class _PasswordFormField extends State<StatefulWidget> {
@@ -40,13 +43,16 @@ class _PasswordFormField extends State<StatefulWidget> {
   bool? enable;
   TextEditingController? controller;
   void Function(String value)? onChange;
+  String? Function(String? value)? onValidation;
   FocusNode? focusNode;
-  _PasswordFormField({
-    this.onChange,
-    this.enable,
-    this.controller,
-    this.focusNode,
-  });
+  String? info;
+  _PasswordFormField(
+      {this.onChange,
+      this.enable,
+      this.controller,
+      this.focusNode,
+      this.info,
+      this.onValidation});
 
   @override
   void initState() {
@@ -58,17 +64,7 @@ class _PasswordFormField extends State<StatefulWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: (value) {
-        if (value == null || value.trim().isEmpty) {
-          print("Empty field");
-          return "empty-field".i18n();
-        } else if (Validator.passwordValidator(value)) {
-          print("Its correct");
-          return null;
-        }
-        print("Not a password");
-        return "password-doesnt-match-constraints".i18n();
-      },
+      validator: onValidation,
       focusNode: focusNode,
       controller: controller,
       obscureText: showPassword,
@@ -87,7 +83,9 @@ class _PasswordFormField extends State<StatefulWidget> {
               ),
         labelText: "password".i18n(),
         counter: Text(
-          enable == false ? "" : 'password-constraints'.toString().i18n(),
+          enable == false || info == null || info!.isEmpty
+              ? ""
+              : info.toString().i18n(),
           style: const TextStyle(
             fontSize: 12,
             color: Colors.amber,
