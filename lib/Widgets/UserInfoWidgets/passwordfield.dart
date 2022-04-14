@@ -11,8 +11,8 @@ import 'package:localization/localization.dart';
 
 
 
-                                         DONT USE
-                                         DEPRECATED
+*                                        DONT USE
+*                                       DEPRECATED
 
 
 
@@ -51,7 +51,7 @@ class PasswordField extends StatefulWidget {
       );
 }
 
-class _PasswordField extends State<StatefulWidget> {
+class _PasswordField extends State<PasswordField> {
   bool showPassword = true;
   bool? enable;
   String? info;

@@ -6,7 +6,11 @@ import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:localization/localization.dart';
 
-import 'etc/validator.dart';
+import '../etc/validator.dart';
+
+/*
+*                           THIS IS A SANDBOX CLASS USED FOR TESTING WIDGETS
+*/
 
 class SandBox extends StatefulWidget {
   @override
@@ -14,18 +18,18 @@ class SandBox extends StatefulWidget {
 }
 
 class _SandBox extends State<StatefulWidget> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String? errorMessage;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        key: _scaffoldKey,
         body: Container(
           margin: const EdgeInsets.fromLTRB(50, 50, 50, 0),
-          child: CustomFormField(),
+          child: CustomFormField(
+            icon: const Icon(
+              Icons.perm_identity,
+            ),
+          ),
         ),
       ),
     );
