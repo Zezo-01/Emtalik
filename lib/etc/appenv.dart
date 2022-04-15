@@ -54,8 +54,10 @@ abstract class AppEnv {
           backgroundColor: Color.fromARGB(255, 236, 166, 61),
           foregroundColor: Colors.black,
         ),
-        textTheme: TextTheme(
-          bodyText1: TextStyle(color: Colors.amber),
+        textTheme: const TextTheme(
+          bodyText1: TextStyle(
+            color: Colors.amber,
+          ),
         ),
       );
 }
