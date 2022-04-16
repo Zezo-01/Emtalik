@@ -9,6 +9,9 @@ class SandBoxText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+      ),
       body: SingleChildScrollView(
         child: Container(
           alignment: Alignment.center,
@@ -16,14 +19,6 @@ class SandBoxText extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(height: 90),
-              Text(
-                "Text Theme Body Text 1",
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-              Text(
-                "Text Theme Body Text 2",
-                style: Theme.of(context).textTheme.bodyText2,
-              ),
               Text(
                 "Text Theme Body Large",
                 style: Theme.of(context).textTheme.bodyLarge,
@@ -37,56 +32,18 @@ class SandBoxText extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               Text(
-                "Text Theme Button",
-                style: Theme.of(context).textTheme.button,
-              ),
-              Text(
-                "Text Theme Body Caption",
-                style: Theme.of(context).textTheme.caption,
-              ),
-              Text(
-                "Text Theme Display Large",
+                "Emtalik",
                 style: Theme.of(context).textTheme.displayLarge,
                 textAlign: TextAlign.center,
               ),
               Text(
-                "Text Theme Display Medium",
+                "Medium",
                 style: Theme.of(context).textTheme.displayMedium,
                 textAlign: TextAlign.center,
               ),
               Text(
-                "Text Theme Display Small",
+                "Small",
                 style: Theme.of(context).textTheme.displaySmall,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "Text Theme Head Line 1",
-                style: Theme.of(context).textTheme.headline1,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "Text Theme Head Line 2",
-                style: Theme.of(context).textTheme.headline2,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "Text Theme Head Line 3",
-                style: Theme.of(context).textTheme.headline3,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "Text Theme Head Line 4",
-                style: Theme.of(context).textTheme.headline4,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "Text Theme Head Line 5",
-                style: Theme.of(context).textTheme.headline5,
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                "Text Theme Head Line 6",
-                style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),
               Text(
@@ -102,22 +59,6 @@ class SandBoxText extends StatelessWidget {
               Text(
                 "Text Theme Head Line Small",
                 style: Theme.of(context).textTheme.headlineSmall,
-              ),
-              Text(
-                "Text Theme Overline",
-                style: Theme.of(context).textTheme.overline,
-              ),
-              Text(
-                "Text Theme Overline",
-                style: Theme.of(context).textTheme.overline,
-              ),
-              Text(
-                "Text Theme Subtitle 1",
-                style: Theme.of(context).textTheme.subtitle1,
-              ),
-              Text(
-                "Text Theme Subtitle 2",
-                style: Theme.of(context).textTheme.subtitle2,
               ),
               Text(
                 "Text Theme Label Large",

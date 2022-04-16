@@ -3,6 +3,7 @@ import 'package:emtalik/etc/appenv.dart';
 import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/sandbox/sanboxtext.dart';
 import 'package:emtalik/sandbox/sandbox.dart';
+import 'package:emtalik/sandbox/sandboxui.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'login.dart';
@@ -31,7 +32,7 @@ class _MyApp extends State<StatefulWidget> {
       onGenerateTitle: (context) => 'app-name'.i18n(),
       theme: AppEnv.defaultLightTheme,
       darkTheme: AppEnv.defaultDarkTheme,
-      home: SandBoxText(),
+      home: SandBoxUi(),
     );
   }
 }
