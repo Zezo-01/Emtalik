@@ -17,7 +17,7 @@ class CustomFormField extends StatefulWidget {
       this.icon,
       this.type,
       this.enterKeyAction,
-      this.labelText,
+      required this.labelText,
       this.onSave})
       : super(key: key);
   // INFO: Optional parameter to pass a function that will be excuted when ever the value of the textfield's change
@@ -39,7 +39,7 @@ class CustomFormField extends StatefulWidget {
   // INFO: Keyboar's enter key
   TextInputAction? enterKeyAction;
   // INFO: The label's text
-  String? labelText;
+  String labelText;
   //INFO : Calls onSaved
   void Function(String? name)? onSave;
   @override
@@ -68,7 +68,7 @@ class _CustomFormField extends State<CustomFormField> {
   Widget? icon;
   TextInputType? type;
   TextInputAction? enterKeyAction;
-  String? labelText;
+  String labelText;
   void Function(String? name)? onSave;
   _CustomFormField(
       {this.onChange,
@@ -80,7 +80,7 @@ class _CustomFormField extends State<CustomFormField> {
       this.icon,
       this.type,
       this.enterKeyAction,
-      this.labelText,
+      required this.labelText,
       this.onSave});
   @override
   void initState() {
@@ -99,6 +99,7 @@ class _CustomFormField extends State<CustomFormField> {
       keyboardType: type,
       onChanged: onChange,
       enabled: enable,
+      style: Theme.of(context).textTheme.labelMedium,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         prefixIcon: controller == null || controller!.text.isEmpty
@@ -109,7 +110,7 @@ class _CustomFormField extends State<CustomFormField> {
                   controller!.clear();
                 },
               ),
-        labelText: labelText,
+        labelText: labelText.i18n(),
         counter: Text(
           enable == false || info == null || info!.isEmpty
               ? ""

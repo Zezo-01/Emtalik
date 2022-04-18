@@ -26,6 +26,7 @@ class _SandBox extends State<StatefulWidget> {
         body: Container(
           margin: const EdgeInsets.fromLTRB(50, 50, 50, 0),
           child: CustomFormField(
+            labelText: "someshit",
             icon: const Icon(
               Icons.perm_identity,
             ),

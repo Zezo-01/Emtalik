@@ -6,14 +6,16 @@ abstract class AppEnv {
   static const _defaultDarkTextColor = Color.fromARGB(255, 143, 98, 55);
   static const _defaultDarkMediumTextColor = Color.fromARGB(181, 160, 124, 91);
   static const _defaultDarkSmallTextColor = Color.fromARGB(255, 160, 134, 111);
+  static const _defaultDarklabelMediumTextColor = Colors.white60;
   //*
   static const _defaultLightTextColor = Color.fromARGB(255, 143, 98, 55);
   static const _defaultLightMediumTextColor = Color.fromARGB(181, 160, 124, 91);
   static const _defaultLightSmallTextColor = Color.fromARGB(255, 160, 134, 111);
+  static const _defaultLightlabelMediumTextColor = Colors.white60;
   // LIGHT THEME COLOR SCHEME
   static const ColorScheme _defaultLightColorScheme = ColorScheme(
     brightness: Brightness.light,
-    primary: Colors.blueAccent,
+    primary: Colors.greenAccent,
     onPrimary: Colors.black26,
     background: Colors.blueGrey,
     onBackground: Colors.indigo,
@@ -29,9 +31,9 @@ abstract class AppEnv {
   static const ColorScheme _defaultDarkColorScheme = ColorScheme(
     brightness: Brightness.dark,
     // Text Fields and labels
-    primary: Color.fromARGB(255, 53, 189, 26),
-    onPrimary: Color.fromARGB(255, 143, 98, 55),
-    background: Colors.blueGrey,
+    primary: Color.fromARGB(255, 9, 70, 12),
+    onPrimary: Color.fromARGB(255, 146, 81, 21),
+    background: Colors.white10,
     //Apps Background
     onBackground: Colors.indigo,
     error: Color.fromARGB(255, 124, 8, 0),
@@ -45,12 +47,57 @@ abstract class AppEnv {
   );
 
   // LIGHT THEME DATA
-  static get defaultLightTheme => ThemeData(
+  static ThemeData defaultLightTheme(BuildContext context) => ThemeData(
         colorScheme: _defaultLightColorScheme,
+        fontFamily: 'Changa',
         scaffoldBackgroundColor: Colors.white,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 236, 166, 61),
+          backgroundColor: Colors.transparent,
           foregroundColor: Colors.black,
+          elevation: 0,
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+            splashFactory: NoSplash.splashFactory,
+            alignment: Alignment.center,
+            textStyle: MaterialStateProperty.all(
+              const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  decoration: TextDecoration.underline,
+                  fontFamily: 'Changa'),
+            ),
+          ),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            textStyle: MaterialStateProperty.all(
+              const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Changa'),
+            ),
+            side: MaterialStateProperty.all(
+              const BorderSide(
+                color: Color.fromARGB(255, 108, 132, 143),
+                width: 2.5,
+              ),
+            ),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            padding: MaterialStateProperty.all(
+              const EdgeInsetsDirectional.all(8),
+            ),
+            textStyle: MaterialStateProperty.all(
+              const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Color.fromARGB(255, 143, 98, 55),
+                  fontFamily: 'Changa'),
+            ),
+          ),
         ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(
@@ -108,7 +155,7 @@ abstract class AppEnv {
           ),
           labelMedium: TextStyle(
             fontSize: 14,
-            color: _defaultLightMediumTextColor,
+            color: _defaultLightlabelMediumTextColor,
             fontWeight: FontWeight.w300,
           ),
           labelSmall: TextStyle(
@@ -134,13 +181,59 @@ abstract class AppEnv {
         ),
       );
   // DARK THEME DATA
-  static get defaultDarkTheme => ThemeData(
+  static ThemeData defaultDarkTheme(BuildContext context) => ThemeData(
         fontFamily: 'Changa',
         colorScheme: _defaultDarkColorScheme,
         scaffoldBackgroundColor: Colors.white10,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color.fromARGB(255, 236, 166, 61),
-          foregroundColor: Colors.black,
+          backgroundColor: Colors.transparent,
+          foregroundColor: Colors.white60,
+          elevation: 0,
+        ),
+        textButtonTheme: TextButtonThemeData(
+          style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all(Colors.white70),
+              splashFactory: NoSplash.splashFactory,
+              alignment: Alignment.center,
+              textStyle: MaterialStateProperty.all(
+                const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                  decoration: TextDecoration.underline,
+                  fontFamily: 'Changa',
+                ),
+              )),
+        ),
+        outlinedButtonTheme: OutlinedButtonThemeData(
+          style: ButtonStyle(
+            foregroundColor: MaterialStateProperty.all(Colors.white70),
+            textStyle: MaterialStateProperty.all(
+              const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Changa'),
+            ),
+            side: MaterialStateProperty.all(
+              const BorderSide(
+                color: Colors.indigo,
+                width: 2.5,
+              ),
+            ),
+          ),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ButtonStyle(
+            padding: MaterialStateProperty.all(
+              const EdgeInsetsDirectional.all(8),
+            ),
+            foregroundColor: MaterialStateProperty.all(Colors.white70),
+            textStyle: MaterialStateProperty.all(
+              const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                  fontFamily: 'Changa'),
+            ),
+          ),
         ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(
@@ -199,7 +292,7 @@ abstract class AppEnv {
           ),
           labelMedium: TextStyle(
             fontSize: 14,
-            color: _defaultDarkMediumTextColor,
+            color: _defaultDarklabelMediumTextColor,
             fontWeight: FontWeight.w300,
           ),
           labelSmall: TextStyle(

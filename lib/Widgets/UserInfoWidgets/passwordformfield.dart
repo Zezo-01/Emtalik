@@ -77,6 +77,7 @@ class _PasswordFormField extends State<PasswordFormField> {
       keyboardType: TextInputType.visiblePassword,
       onChanged: onChange,
       enabled: enable,
+      style: Theme.of(context).textTheme.labelMedium,
       textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         prefixIcon: controller == null || controller!.text.isEmpty

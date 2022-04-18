@@ -8,7 +8,12 @@
     "password-constraints":"You're password should be  at least 8 and at most 25 charecters long and has at least 1 capital and a small letter",
     "empty-field":"this field shouldn't be empty",
     "password-doesnt-match-constraints":"Password doesn't match constraints",
+    "id":"ID",
+    "login":"Login",
+    "no-account?":"Don't have an account?",
+    "login-as-guest":"Login as a guest",
     "error":"Error",
-    "submited":"Submited"
+    "submited":"Submited", 
+    "id-types":"Email, Username or Phone Number"
 }
   

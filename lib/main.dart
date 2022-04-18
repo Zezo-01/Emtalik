@@ -1,12 +1,12 @@
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/appenv.dart';
 import 'package:emtalik/etc/localemanager.dart';
+import 'package:emtalik/pages/login.dart';
 import 'package:emtalik/sandbox/sanboxtext.dart';
 import 'package:emtalik/sandbox/sandbox.dart';
 import 'package:emtalik/sandbox/sandboxui.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-import 'login.dart';
 import 'settings.dart';
 import 'signup.dart';
 import 'settings.dart';
@@ -30,9 +30,9 @@ class _MyApp extends State<StatefulWidget> {
       supportedLocales: LocaleManager.supportedLocales,
       localizationsDelegates: LocaleManager.localeDelegates,
       onGenerateTitle: (context) => 'app-name'.i18n(),
-      theme: AppEnv.defaultLightTheme,
-      darkTheme: AppEnv.defaultDarkTheme,
-      home: SandBoxUi(),
+      theme: AppEnv.defaultLightTheme(context),
+      darkTheme: AppEnv.defaultDarkTheme(context),
+      home: LoginPage(),
     );
   }
 }
