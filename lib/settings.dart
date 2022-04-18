@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
-import 'login.dart';
 
 class NavBar extends StatelessWidget {
   @override
@@ -61,8 +59,9 @@ class NavBar extends StatelessWidget {
             leading: Icon(Icons.exit_to_app),
             title: Text('Exit'),
             onTap: () {
-              Navigator.of(context)
+              /* Navigator.of(context)
                   .push(MaterialPageRoute(builder: (context) => login()));
+                  */
             },
           ),
         ],

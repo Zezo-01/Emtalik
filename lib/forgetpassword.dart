@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'login.dart';
 
 class ForgotPassword extends StatefulWidget {
   @override
@@ -13,8 +12,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     var width = MediaQuery.of(context).size.width;
     return Container(
       decoration: BoxDecoration(
-          gradient:
-              new LinearGradient(colors: [Colors.blueAccent,Colors.white54 ,Colors.yellowAccent])),
+          gradient: new LinearGradient(colors: [
+        Colors.blueAccent,
+        Colors.white54,
+        Colors.yellowAccent
+      ])),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: Stack(
@@ -45,7 +47,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: Container(
                       height: 1,
                       width: width * 0.8,
-                      
                     ),
                   ),
                   SizedBox(
@@ -84,21 +85,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   ),
                   Center(
                     child: Container(
-
-                      alignment: Alignment.bottomCenter,
-    child: TextButton(
-  style: TextButton.styleFrom(
-    backgroundColor: Colors.blueAccent,
-    minimumSize: Size(300, 50)
-  ),
-  onPressed: () { Navigator.of(context).push(MaterialPageRoute(builder:(context)=>login()));},
-  child: Text('Rest Password',
-  style: TextStyle(
-    color: Colors.white
-  ),),
-
-)
-                    ),
+                        alignment: Alignment.bottomCenter,
+                        child: TextButton(
+                          style: TextButton.styleFrom(
+                              backgroundColor: Colors.blueAccent,
+                              minimumSize: Size(300, 50)),
+                          onPressed: () {
+                            /*
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => login()));
+                            */
+                          },
+                          child: Text(
+                            'Rest Password',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )),
                   ),
                 ],
               ),
