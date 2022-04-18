@@ -14,8 +14,7 @@ class LoginPage extends StatefulWidget {
 }
 
 /*
-*
-*                                 TODO:ERROR *** VERTICAL SCROLLING IS NEEDED
+*                              TODO:ERROR *** VERTICAL SCROLLING IS NEEDED
 */
 class _LoginPage extends State<LoginPage> {
   final TextEditingController _id = TextEditingController();
