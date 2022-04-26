@@ -18,7 +18,8 @@ class CustomFormField extends StatefulWidget {
       this.type,
       this.enterKeyAction,
       required this.labelText,
-      this.onSave})
+      this.onSave,
+      this.onComplete})
       : super(key: key);
   // INFO: Optional parameter to pass a function that will be excuted when ever the value of the textfield's change
   void Function(String value)? onChange;
@@ -42,6 +43,8 @@ class CustomFormField extends StatefulWidget {
   String labelText;
   //INFO : Calls onSaved
   void Function(String? name)? onSave;
+  //INFO: WHEN DONE EDITING
+  void Function()? onComplete;
   @override
   // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _CustomFormField(
@@ -55,7 +58,8 @@ class CustomFormField extends StatefulWidget {
       type: type,
       enterKeyAction: enterKeyAction,
       labelText: labelText,
-      onSave: onSave);
+      onSave: onSave,
+      onComplete: onComplete);
 }
 
 class _CustomFormField extends State<CustomFormField> {
@@ -70,6 +74,7 @@ class _CustomFormField extends State<CustomFormField> {
   TextInputAction? enterKeyAction;
   String labelText;
   void Function(String? name)? onSave;
+  void Function()? onComplete;
   _CustomFormField(
       {this.onChange,
       this.enable,
@@ -81,7 +86,8 @@ class _CustomFormField extends State<CustomFormField> {
       this.type,
       this.enterKeyAction,
       required this.labelText,
-      this.onSave});
+      this.onSave,
+      this.onComplete});
   @override
   void initState() {
     controller ??= TextEditingController();
@@ -92,6 +98,7 @@ class _CustomFormField extends State<CustomFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onEditingComplete: onComplete,
       onSaved: onSave,
       validator: onValidation,
       focusNode: focusNode,

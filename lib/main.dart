@@ -32,7 +32,11 @@ class _MyApp extends State<StatefulWidget> {
       onGenerateTitle: (context) => 'app-name'.i18n(),
       theme: AppEnv.defaultLightTheme(context),
       darkTheme: AppEnv.defaultDarkTheme(context),
+<<<<<<< HEAD
       home: SandBoxText(),
+=======
+      home: const LoginPage(),
+>>>>>>> f60e85567a1f793e43d6b0ad472ec40fe254945b
     );
   }
 }

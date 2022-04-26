@@ -17,14 +17,28 @@ class LoginPage extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginPage();
 }
 
+/*
+*                              TODO:ERROR *** VERTICAL SCROLLING IS NEEDED
+*/
 class _LoginPage extends State<LoginPage> {
   final TextEditingController _id = TextEditingController();
   final TextEditingController _password = TextEditingController();
+  FocusNode idNode = FocusNode();
+  FocusNode passwordNode = FocusNode();
+  FocusNode loginNode = FocusNode();
+  @override
+  void dispose() {
+    idNode.dispose();
+    passwordNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Container(
           width: double.infinity,
           height: double.infinity,
@@ -45,6 +59,7 @@ class _LoginPage extends State<LoginPage> {
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Column(
+              mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const SizedBox(height: 40),
@@ -56,13 +71,21 @@ class _LoginPage extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CustomFormField(
+                      onComplete: () {
+                        FocusScope.of(context).requestFocus(passwordNode);
+                      },
+                      focusNode: idNode,
                       controller: _id,
-                      enterKeyAction: TextInputAction.done,
+                      enterKeyAction: TextInputAction.next,
                       type: TextInputType.name,
                       labelText: "id-types",
                       icon: const Icon(Icons.perm_identity),
                     ),
                     PasswordFormField(
+                      onComplete: () {
+                        FocusScope.of(context).requestFocus(loginNode);
+                      },
+                      focusNode: passwordNode,
                       controller: _password,
                     ),
                     Row(
@@ -70,6 +93,7 @@ class _LoginPage extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         ElevatedButton(
+                          focusNode: loginNode,
                           onPressed: () {
                             
                             ToastFactory.makeToast(

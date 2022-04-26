@@ -14,7 +14,8 @@ class PasswordFormField extends StatefulWidget {
       this.focusNode,
       this.info,
       this.onSave,
-      this.onValidation})
+      this.onValidation,
+      this.onComplete})
       : super(key: key);
   // INFO: Optional parameter to pass a function that will be excuted when ever the value of the textfield's change
   void Function(String value)? onChange;
@@ -30,6 +31,8 @@ class PasswordFormField extends StatefulWidget {
   FocusNode? focusNode;
   //INFO : Calls onSaved
   void Function(String? name)? onSave;
+  //INFO: ON DONE EDITING
+  void Function()? onComplete;
   @override
   // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _PasswordFormField(
@@ -38,7 +41,8 @@ class PasswordFormField extends StatefulWidget {
       controller: controller,
       focusNode: focusNode,
       info: info,
-      onValidation: onValidation);
+      onValidation: onValidation,
+      onComplete: onComplete);
 }
 
 class _PasswordFormField extends State<PasswordFormField> {
@@ -50,6 +54,8 @@ class _PasswordFormField extends State<PasswordFormField> {
   void Function(String? value)? onSave;
   FocusNode? focusNode;
   String? info;
+  void Function()? onComplete;
+
   _PasswordFormField(
       {this.onChange,
       this.enable,
@@ -57,7 +63,8 @@ class _PasswordFormField extends State<PasswordFormField> {
       this.focusNode,
       this.info,
       this.onValidation,
-      this.onSave});
+      this.onSave,
+      this.onComplete});
 
   @override
   void initState() {
@@ -69,6 +76,7 @@ class _PasswordFormField extends State<PasswordFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onEditingComplete: onComplete,
       onSaved: onSave,
       validator: onValidation,
       focusNode: focusNode,
