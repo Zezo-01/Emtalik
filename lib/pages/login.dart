@@ -3,8 +3,12 @@ import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+
+import '../forgetpassword.dart';
+import '../mainpage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -67,6 +71,7 @@ class _LoginPage extends State<LoginPage> {
                       children: [
                         ElevatedButton(
                           onPressed: () {
+                            
                             ToastFactory.makeToast(
                                 context,
                                 TOAST_TYPE.info,
@@ -75,10 +80,11 @@ class _LoginPage extends State<LoginPage> {
                                 false,
                                 () {});
                           },
-                          child: Text("login".i18n()),
+                          child: Text("Login".i18n()),
                         ),
                         TextButton(
-                          onPressed: () {
+                          onPressed: (){
+                            
                             ToastFactory.makeToast(
                                 context,
                                 TOAST_TYPE.info,
