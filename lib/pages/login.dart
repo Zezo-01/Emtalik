@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 
 import '../forgetpassword.dart';
-import '../mainpage.dart';
+import 'mainpage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -95,7 +95,7 @@ class _LoginPage extends State<LoginPage> {
                         ElevatedButton(
                           focusNode: loginNode,
                           onPressed: () {
-                            
+                            Navigator.of(context).pushNamed('/mainpage');
                             ToastFactory.makeToast(
                                 context,
                                 TOAST_TYPE.info,

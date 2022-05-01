@@ -1,15 +1,8 @@
-import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
+import 'package:emtalik/Widgets/route_gen.dart';
 import 'package:emtalik/etc/appenv.dart';
 import 'package:emtalik/etc/localemanager.dart';
-import 'package:emtalik/pages/login.dart';
-import 'package:emtalik/sandbox/sanboxtext.dart';
-import 'package:emtalik/sandbox/sandbox.dart';
-import 'package:emtalik/sandbox/sandboxui.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-import 'settings.dart';
-import 'signup.dart';
-import 'settings.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,11 +25,8 @@ class _MyApp extends State<StatefulWidget> {
       onGenerateTitle: (context) => 'app-name'.i18n(),
       theme: AppEnv.defaultLightTheme(context),
       darkTheme: AppEnv.defaultDarkTheme(context),
-<<<<<<< HEAD
-      home: SandBoxText(),
-=======
-      home: const LoginPage(),
->>>>>>> f60e85567a1f793e43d6b0ad472ec40fe254945b
+      initialRoute: '/mainpage',
+      onGenerateRoute: RouteGeneration.generateRoute,
     );
   }
 }

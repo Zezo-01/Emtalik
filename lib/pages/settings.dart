@@ -9,7 +9,7 @@ class NavBar extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             accountName: Text('Fadi Shalash'),
-            accountEmail: Text('fadielshalash@gmail.com'),
+            accountEmail:Text("he") ,
             currentAccountPicture: CircleAvatar(
               child: ClipOval(
                 child: Image.network(
@@ -59,9 +59,7 @@ class NavBar extends StatelessWidget {
             leading: Icon(Icons.exit_to_app),
             title: Text('Exit'),
             onTap: () {
-              /* Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => login()));
-                  */
+              Navigator.of(context).pushNamed('/');
             },
           ),
         ],
