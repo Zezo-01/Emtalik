@@ -3,11 +3,8 @@ import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/etc/toastfactory.dart';
-import 'package:emtalik/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-
-import '../forgetpassword.dart';
 import 'mainpage.dart';
 
 class LoginPage extends StatefulWidget {

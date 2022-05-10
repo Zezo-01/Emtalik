@@ -1,5 +1,6 @@
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/pages/login.dart';
+import 'package:emtalik/pages/signup.dart';
 import 'package:flutter/material.dart';
 class RouteGeneration{
 static Route<dynamic> generateRoute(RouteSettings settings){
@@ -9,6 +10,8 @@ static Route<dynamic> generateRoute(RouteSettings settings){
     return MaterialPageRoute(builder:(_)=> LoginPage());
     case '/mainpage' :
     return MaterialPageRoute(builder:(_)=> MyHomePage());
+    case '/signup' :
+    return MaterialPageRoute(builder:(_)=> Signup());
   }
   return errorRoute();
 }
