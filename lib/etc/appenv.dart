@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 abstract class AppEnv {
   // This is not good colors and needs to be changed
 
-  static const _defaultDarkTextColor = Color.fromARGB(255, 143, 98, 55);
-  static const _defaultDarkMediumTextColor = Color.fromARGB(181, 160, 124, 91);
-  static const _defaultDarkSmallTextColor = Color.fromARGB(255, 160, 134, 111);
+  static const _defaultDarkTextColor = Color.fromARGB(255, 212, 175, 55);
+  static const _defaultDarkMediumTextColor = Color.fromARGB(181, 221, 208, 195);
+  static const _defaultDarkSmallTextColor = Color.fromARGB(255, 236, 234, 232);
   static const _defaultDarklabelMediumTextColor = Colors.white60;
   //*
-  static const _defaultLightTextColor = Color.fromARGB(255, 143, 98, 55);
+  static const _defaultLightTextColor = Color.fromARGB(255, 212, 175, 55);
   static const _defaultLightMediumTextColor = Color.fromARGB(181, 160, 124, 91);
   static const _defaultLightSmallTextColor = Color.fromARGB(255, 160, 134, 111);
   static const _defaultLightlabelMediumTextColor = Colors.white60;
   // LIGHT THEME COLOR SCHEME
   static const ColorScheme _defaultLightColorScheme = ColorScheme(
     brightness: Brightness.light,
-    primary: Colors.greenAccent,
-    onPrimary: Colors.black26,
+    primary: Color.fromARGB(255, 70, 197, 136),
+    onPrimary: Colors.white,
     background: Colors.blueGrey,
     onBackground: Colors.indigo,
     error: Color.fromARGB(255, 124, 8, 0),
@@ -32,8 +32,8 @@ abstract class AppEnv {
     brightness: Brightness.dark,
     // Text Fields and labels
     primary: Color.fromARGB(255, 9, 70, 12),
-    onPrimary: Color.fromARGB(255, 146, 81, 21),
-    background: Colors.white10,
+    onPrimary: Color.fromARGB(255, 212, 175, 55),
+    background: Colors.black12,
     //Apps Background
     onBackground: Colors.indigo,
     error: Color.fromARGB(255, 124, 8, 0),
