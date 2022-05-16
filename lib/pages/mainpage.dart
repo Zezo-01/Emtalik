@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:emtalik/main.dart';
+import 'package:emtalik/pages/NavBar.dart';
 import 'package:flutter/material.dart';
 
 
@@ -13,23 +14,23 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePage extends State<MyHomePage> {
   @override
-  Widget build(BuildContext context) => Scaffold(
-        appBar: AppBar(
-          
-        ),
-        body: ListView(
-          padding: EdgeInsets.all(16),
-          children: [
-            bulidCard(),
-             bulidCard(),
-              bulidCard(),
-               bulidCard(),
-                bulidCard(),
+  Widget build(BuildContext context)
+  {
+return Scaffold(
+  drawer: NavBar(),
+appBar: AppBar(
+  title: Text('Settings'),
+),
+body: Center(
+child: Column(
+  children: [
+    bulidCard()
+  ],
+),
 
+),
+);
 
-          ],
-        ),
-      );
 }
 
 
@@ -120,3 +121,4 @@ Text('Location:- Arraba',
           ],
         ),
       );
+}

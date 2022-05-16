@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable, prefer_const_constructors
+
 import 'package:emtalik/Widgets/route_gen.dart';
 import 'package:emtalik/etc/appenv.dart';
 import 'package:emtalik/etc/localemanager.dart';
@@ -25,7 +27,7 @@ class _MyApp extends State<StatefulWidget> {
       onGenerateTitle: (context) => 'app-name'.i18n(),
       theme: AppEnv.defaultLightTheme(context),
       darkTheme: AppEnv.defaultDarkTheme(context),
-      initialRoute: '/settingsuser',
+      initialRoute: '/signup1',
       onGenerateRoute: RouteGeneration.generateRoute,
     );
   }

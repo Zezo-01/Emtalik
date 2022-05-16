@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class Terms extends StatelessWidget{
+class Support extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('Terms And Conditions'),
+      title: Text('Support'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("1-"),
-          Text("1-"),
-          Text("1-"),
-          Text("1-"),
-          Text("1-"),
-          Text("We Wish "),
+          Text("Call Us"),
+          Text("054-4883698"),
+          Text("23123123"),
+          Text("Fax"),
+          Text("2342342"),
+          Text("Email "),
+          Text("ssadasdasd "),
         ],
 
       ),

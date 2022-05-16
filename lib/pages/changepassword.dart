@@ -11,6 +11,8 @@ class ChangePassword extends StatelessWidget{
         mainAxisSize: MainAxisSize.min,
         children: [
           PasswordFormField(),
+          Text("Enter Password Again"),
+          PasswordFormField(),
    
         ],
 
@@ -18,7 +20,7 @@ class ChangePassword extends StatelessWidget{
       actions: [
         ElevatedButton(
           
-          onPressed: (){Navigator.of(context).pushNamed('/settingsuser');},
+          onPressed: (){Navigator.of(context).pushNamed('/mainpage');},
           child: Text("Save"),
 
 

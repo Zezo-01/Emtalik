@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
+import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:localization/localization.dart';
@@ -9,6 +12,17 @@ class Signup extends StatefulWidget{
 }
 
 class _Signup extends State<Signup>{
+    final TextEditingController _id = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  FocusNode idNode = FocusNode();
+  FocusNode passwordNode = FocusNode();
+  FocusNode loginNode = FocusNode();
+  @override
+  void dispose() {
+    idNode.dispose();
+    passwordNode.dispose();
+    super.dispose();
+  }
   final formKey=GlobalKey<FormState>();
   String name="";
   @override
@@ -32,23 +46,19 @@ class _Signup extends State<Signup>{
               SizedBox(height: height*0.04,),
               Text("Here To Get Welcomed"),
               SizedBox(height: height*0.05,),
-              TextFormField(
-                    decoration:InputDecoration(labelText: "Enter Your First Name"),
-                    validator: (value){
-                      if(value!.isEmpty || RegExp(r'^[a-z A-Z]+$').hasMatch(value)){
-                        return "Enter Correct Name";
-                        
-                      }
-                      else {
-                        return null;
-                      }
 
-                    },
-              ),
-
+          CustomFormField(
+                      onComplete: () {},
+                      focusNode: idNode,
+                      controller: _id,
+                      enterKeyAction: TextInputAction.next,
+                      type: TextInputType.name,
+                      labelText:"Enter Your Fisrt Name",
+                      icon: const Icon(Icons.perm_identity),
+                    ),
 
               SizedBox(height: height*0.05,),
-              TextFormField(
+              /*TextFormField(
                     decoration:InputDecoration(labelText: "Enter Your Second Name"),
                     validator: (value){
                       if(value!.isEmpty || RegExp(r'^[a-z A-Z]+$').hasMatch(value)){
@@ -61,34 +71,33 @@ class _Signup extends State<Signup>{
 
                     },
               ),
-
+              */
+          CustomFormField(
+                      onComplete: () {},
+                      focusNode: idNode,
+                      controller: _id,
+                      enterKeyAction: TextInputAction.next,
+                      type: TextInputType.name,
+                      labelText:"Enter Your Second Name",
+                      icon: const Icon(Icons.perm_identity),
+                    ),
 
               SizedBox(height: height*0.05,),
-              TextFormField(
-                    decoration:InputDecoration(labelText: "Enter Your Last Name"),
-                    validator: (value){
-                      if(value!.isEmpty || RegExp(r'^[a-z A-Z]+$').hasMatch(value)){
-                        return "Enter Correct Name";
-                        
-                      }
-                      else {
-                        return null;
-                      }
-
-                    },
-              ),
+          CustomFormField(
+                      onComplete: () {},
+                      focusNode: idNode,
+                      controller: _id,
+                      enterKeyAction: TextInputAction.next,
+                      type: TextInputType.name,
+                      labelText:"Enter Your Last Name",
+                      icon: const Icon(Icons.perm_identity),
+                    ),
               SizedBox(height: height*0.05,),
 
-    ElevatedButton(
-                          
+       ElevatedButton(
+                          focusNode: loginNode,
                           onPressed: () {
-                            if(formKey.currentState!.validate()){
-                              
-                              final snackBar=SnackBar(content: Text('Next'));
-                              
-                              _scaffoldkey.currentState!.showSnackBar(snackBar);
-                              
-                            }
+                            Navigator.of(context).pushNamed('/signup2');
 
                           },
                           child: Text("Next".i18n()),

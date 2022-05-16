@@ -1,3 +1,4 @@
+import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:localization/localization.dart';
@@ -9,6 +10,18 @@ class Signup2 extends StatefulWidget{
 }
 
 class _Signup2 extends State<Signup2>{
+
+    final TextEditingController _id = TextEditingController();
+  final TextEditingController _password = TextEditingController();
+  FocusNode idNode = FocusNode();
+  FocusNode passwordNode = FocusNode();
+  FocusNode loginNode = FocusNode();
+  @override
+  void dispose() {
+    idNode.dispose();
+    passwordNode.dispose();
+    super.dispose();
+  }
   final formKey=GlobalKey<FormState>();
   String name="";
   @override
@@ -33,12 +46,22 @@ class _Signup2 extends State<Signup2>{
               Text("Here To Get Welcomed"),
               SizedBox(height: height*0.05,),
 
+CustomFormField(
+                      onComplete: () {},
+                      focusNode: idNode,
+                      controller: _id,
+                      enterKeyAction: TextInputAction.next,
+                      type: TextInputType.name,
+                      labelText:"Enter Your Email",
+                      icon: const Icon(Icons.email),
+                    ),
 
-              TextFormField(
-                    decoration:InputDecoration(labelText: "Enter Your Phone Number"),
+              SizedBox(height: height*0.05,),
+              /*TextFormField(
+                    decoration:InputDecoration(labelText: "Enter Your Second Name"),
                     validator: (value){
-                      if(value!.isEmpty || RegExp(r'^[+]*[(]{0,1})[0-9]{1,4}[)]{0,1}[-\s\./0-9]+$').hasMatch(value)){
-                        return "Enter Correct Phone Number";
+                      if(value!.isEmpty || RegExp(r'^[a-z A-Z]+$').hasMatch(value)){
+                        return "Enter Correct Name";
                         
                       }
                       else {
@@ -47,41 +70,37 @@ class _Signup2 extends State<Signup2>{
 
                     },
               ),
-
-
-              SizedBox(height: height*0.05,),
-              TextFormField(
-                    decoration:InputDecoration(labelText: "Enter Your Email"),
-                    validator: (value){
-                      if(value!.isEmpty || RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w]{2,4}]').hasMatch(value)){
-                        return "Enter Correct Email";
-                        
-                      }
-                      else {
-                        return null;
-                      }
-
-                    },
-              ),
-
+              */
+          CustomFormField(
+                      onComplete: () {},
+                      focusNode: idNode,
+                      controller: _id,
+                      enterKeyAction: TextInputAction.next,
+                      type: TextInputType.name,
+                      labelText:"Enter Your Phone Number",
+                      icon: const Icon(Icons.phone),
+                    ),
 
               SizedBox(height: height*0.05,),
-              Row(),
-              SizedBox(height: height*0.01,),
-              Row(),
+          CustomFormField(
+                      onComplete: () {},
+                      focusNode: idNode,
+                      controller: _id,
+                      enterKeyAction: TextInputAction.next,
+                      type: TextInputType.name,
+                      labelText:"Enter Your Country",
+                      icon: const Icon(Icons.location_city),
+                    ),
+              SizedBox(height: height*0.05,),
 
-    ElevatedButton(
-                          
+       ElevatedButton(
+                          focusNode: loginNode,
                           onPressed: () {
-                            if(formKey.currentState!.validate()){
-                              final snackBar=SnackBar(content: Text('Submiting Sign Up'));
-                              _scaffoldkey.currentState!.showSnackBar(snackBar);
-                            }
-                            Navigator.of(context).pushNamed('/mainpage');
-                          },
-                          child: Text("Submit".i18n()),
-                        ),
+                            Navigator.of(context).pushNamed('/signup2');
 
+                          },
+                          child: Text("Next".i18n()),
+                        ),
             ],
           ),
         ),
