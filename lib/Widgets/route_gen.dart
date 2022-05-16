@@ -1,7 +1,10 @@
+import 'package:emtalik/pages/changepassword.dart';
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/pages/login.dart';
+import 'package:emtalik/pages/terms.dart';
 import 'package:flutter/material.dart';
 
+import '../pages/settingsadmin.dart';
 import '../pages/signup1.dart';
 import '../pages/signup2.dart';
 class RouteGeneration{
@@ -16,6 +19,12 @@ static Route<dynamic> generateRoute(RouteSettings settings){
     return MaterialPageRoute(builder:(_)=> Signup());
     case '/signup2' :
     return MaterialPageRoute(builder:(_)=> Signup2());
+    case '/settingsuser' :
+    return MaterialPageRoute(builder:(_)=> SettigsAdmin());
+     case '/terms' :
+    return MaterialPageRoute(builder:(_)=> Terms());
+    case '/changepassword' :
+    return MaterialPageRoute(builder:(_)=> ChangePassword());
   }
   return errorRoute();
 }

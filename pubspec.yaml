@@ -38,10 +38,7 @@ flutter:
 
   assets:
     - lib/i18n/
-    - lib/pages/images/house.png
-    - lib/pages/images/lands.png
-    - lib/pages/images/parking.png
-    - lib/pages/images/store.png
+
 
       
 

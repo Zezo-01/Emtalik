@@ -1,8 +1,5 @@
-
 import 'dart:ui';
-
 import 'package:emtalik/main.dart';
-import 'package:emtalik/pages/settings.dart';
 import 'package:flutter/material.dart';
 
 
