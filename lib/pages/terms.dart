@@ -9,12 +9,14 @@ class Terms extends StatelessWidget{
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("1-"),
-          Text("1-"),
-          Text("1-"),
-          Text("1-"),
-          Text("1-"),
-          Text("We Wish "),
+          Text("1-Agreement to terms."),
+          Text("2-User Representation."),
+          Text("3-Submissions."),
+          Text("4-Goverinig Law."),
+          Text("5-User Data."),
+          Text("6-Site Management. "),
+          Text("7-Copy Right . "),
+          Text("8-Prohbited Activites. "),
         ],
 
       ),

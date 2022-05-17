@@ -24,7 +24,7 @@ appBar: AppBar(
 body: Center(
 child: Column(
   children: [
-    bulidCard()
+    bulidCard(),
   ],
 ),
 
