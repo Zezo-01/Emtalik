@@ -1,7 +1,9 @@
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class Terms extends StatelessWidget{
+class Terms extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -18,18 +20,14 @@ class Terms extends StatelessWidget{
           Text("7-Copy Right . "),
           Text("8-Prohbited Activites. "),
         ],
-
       ),
       actions: [
-        TextButton(onPressed: (){
-          Navigator.of(context).pushNamed('/mainpage');
-        }, 
-        
-        child: Text("Close")
-        )
+        TextButton(
+            onPressed: () {
+              Navigator.of(context).pushNamed('/mainpage');
+            },
+            child: Text("Close"))
       ],
     );
-
   }
-  
 }

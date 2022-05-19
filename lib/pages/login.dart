@@ -104,8 +104,8 @@ class _LoginPage extends State<LoginPage> {
                           child: Text("Login".i18n()),
                         ),
                         TextButton(
-                          onPressed: (){
-                            
+                          onPressed: () {
+                            Navigator.of(context).pushNamed('/signup1');
                             ToastFactory.makeToast(
                                 context,
                                 TOAST_TYPE.info,
