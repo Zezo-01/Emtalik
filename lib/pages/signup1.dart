@@ -5,14 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:localization/localization.dart';
 
-class Signup extends StatefulWidget{
+class Signup extends StatefulWidget {
   @override
-  _Signup createState()=>_Signup();
-  
+  _Signup createState() => _Signup();
 }
 
-class _Signup extends State<Signup>{
-    final TextEditingController _id = TextEditingController();
+class _Signup extends State<Signup> {
+  final TextEditingController _id = TextEditingController();
   final TextEditingController _password = TextEditingController();
   FocusNode idNode = FocusNode();
   FocusNode passwordNode = FocusNode();
@@ -23,12 +22,13 @@ class _Signup extends State<Signup>{
     passwordNode.dispose();
     super.dispose();
   }
-  final formKey=GlobalKey<FormState>();
-  String name="";
+
+  final formKey = GlobalKey<FormState>();
+  String name = "";
   @override
   Widget build(BuildContext context) {
-    final double height=MediaQuery.of(context).size.height;
-    final GlobalKey<ScaffoldState> _scaffoldkey=GlobalKey<ScaffoldState>();
+    final double height = MediaQuery.of(context).size.height;
+    final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: _scaffoldkey,
       appBar: AppBar(
@@ -37,79 +37,90 @@ class _Signup extends State<Signup>{
       ),
       backgroundColor: Color(0xFFffffff),
       body: Container(
-        padding: const EdgeInsets.only(left: 40,right: 40),
+        padding: const EdgeInsets.only(left: 40, right: 40),
         child: Form(
           key: formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: height*0.04,),
-              Text("Here To Get Welcomed"),
-              SizedBox(height: height*0.05,),
-
-          CustomFormField(
-                      onComplete: () {},
-                      focusNode: idNode,
-                      controller: _id,
-                      enterKeyAction: TextInputAction.next,
-                      type: TextInputType.name,
-                      labelText:"Enter Your Fisrt Name",
-                      icon: const Icon(Icons.perm_identity),
-                    ),
-
-              SizedBox(height: height*0.05,),
-              /*TextFormField(
-                    decoration:InputDecoration(labelText: "Enter Your Second Name"),
-                    validator: (value){
-                      if(value!.isEmpty || RegExp(r'^[a-z A-Z]+$').hasMatch(value)){
-                        return "Enter Correct Name";
-                        
-                      }
-                      else {
-                        return null;
-                      }
-
-                    },
+              SizedBox(
+                height: height * 0.04,
               ),
-              */
-          CustomFormField(
-                      onComplete: () {},
-                      focusNode: idNode,
-                      controller: _id,
-                      enterKeyAction: TextInputAction.next,
-                      type: TextInputType.name,
-                      labelText:"Enter Your Second Name",
-                      icon: const Icon(Icons.perm_identity),
-                    ),
-
-              SizedBox(height: height*0.05,),
-          CustomFormField(
-                      onComplete: () {},
-                      focusNode: idNode,
-                      controller: _id,
-                      enterKeyAction: TextInputAction.next,
-                      type: TextInputType.name,
-                      labelText:"Enter Your Last Name",
-                      icon: const Icon(Icons.perm_identity),
-                    ),
-              SizedBox(height: height*0.05,),
-
-       ElevatedButton(
-                          focusNode: loginNode,
-                          onPressed: () {
-                            Navigator.of(context).pushNamed('/signup2');
-
-                          },
-                          child: Text("Next".i18n()),
-                        ),
-
+              Text("Here To Get Welcomed"),
+              SizedBox(
+                height: height * 0.05,
+              ),
+              CustomFormField(
+                onComplete: () {},
+                focusNode: idNode,
+                controller: _id,
+                enterKeyAction: TextInputAction.next,
+                type: TextInputType.name,
+                labelText: "Enter Your User Name",
+                icon: const Icon(Icons.perm_identity),
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
+              CustomFormField(
+                onComplete: () {},
+                focusNode: idNode,
+                controller: _id,
+                enterKeyAction: TextInputAction.next,
+                type: TextInputType.name,
+                labelText: "Enter Your Fisrt Name",
+                icon: const Icon(Icons.perm_identity),
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
+              CustomFormField(
+                onComplete: () {},
+                focusNode: idNode,
+                controller: _id,
+                enterKeyAction: TextInputAction.next,
+                type: TextInputType.name,
+                labelText: "Enter Your Second Name",
+                icon: const Icon(Icons.perm_identity),
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
+              CustomFormField(
+                onComplete: () {},
+                focusNode: idNode,
+                controller: _id,
+                enterKeyAction: TextInputAction.next,
+                type: TextInputType.name,
+                labelText: "Enter Your Third Name",
+                icon: const Icon(Icons.perm_identity),
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
+              CustomFormField(
+                onComplete: () {},
+                focusNode: idNode,
+                controller: _id,
+                enterKeyAction: TextInputAction.next,
+                type: TextInputType.name,
+                labelText: "Enter Your Last Name",
+                icon: const Icon(Icons.perm_identity),
+              ),
+              SizedBox(
+                height: height * 0.05,
+              ),
+              ElevatedButton(
+                focusNode: loginNode,
+                onPressed: () {
+                  Navigator.of(context).pushNamed('/signup2');
+                },
+                child: Text("Next".i18n()),
+              ),
             ],
           ),
         ),
       ),
     );
-
   }
-
-  
 }

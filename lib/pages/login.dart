@@ -120,6 +120,7 @@ class _LoginPage extends State<LoginPage> {
                     ),
                     TextButton(
                       onPressed: () {
+                        Navigator.of(context).pushNamed('/mainpage');
                         ToastFactory.makeToast(
                             context,
                             TOAST_TYPE.info,
