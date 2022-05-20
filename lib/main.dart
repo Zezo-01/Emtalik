@@ -33,7 +33,7 @@ class _MyApp extends State<StatefulWidget> {
       onGenerateTitle: (context) => 'app-name'.i18n(),
       theme: AppEnv.defaultLightTheme(context),
       darkTheme: AppEnv.defaultDarkTheme(context),
-      initialRoute: '/',
+      initialRoute: '/signup1',
       onGenerateRoute: RouteGeneration.generateRoute,
     );
   }

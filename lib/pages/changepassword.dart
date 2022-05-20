@@ -12,13 +12,13 @@ class ChangePassword extends StatelessWidget {
   void dispose() {
     _firstPassNode.dispose();
     _secondPassNode.dispose();
-
   }
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     return AlertDialog(
       title: Text('Enter New Password'),
+      //Here Add SCroll And Padding
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
