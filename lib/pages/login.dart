@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
@@ -40,8 +42,6 @@ class _LoginPage extends State<LoginPage> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         body: Container(
-          width: double.infinity,
-          height: double.infinity,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               stops: const [
@@ -56,6 +56,7 @@ class _LoginPage extends State<LoginPage> {
               end: Alignment.topLeft,
             ),
           ),
+<<<<<<< HEAD
           child: Container(
             margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Column(
@@ -152,6 +153,109 @@ class _LoginPage extends State<LoginPage> {
                   ],
                 ),
               ],
+=======
+          // TODO: FADI HERE
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: Container(
+              height: MediaQuery.of(context).size.height,
+              margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+              child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const SizedBox(height: 40),
+                  Text(
+                    "app-name".i18n(),
+                    style: Theme.of(context).textTheme.displayLarge,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CustomFormField(
+                        onComplete: () {
+                          FocusScope.of(context).requestFocus(passwordNode);
+                        },
+                        focusNode: idNode,
+                        controller: _id,
+                        enterKeyAction: TextInputAction.next,
+                        type: TextInputType.name,
+                        labelText: "id-types",
+                        icon: const Icon(Icons.perm_identity),
+                      ),
+                      PasswordFormField(
+                        onComplete: () {
+                          FocusScope.of(context).requestFocus(loginNode);
+                        },
+                        focusNode: passwordNode,
+                        controller: _password,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                            focusNode: loginNode,
+                            onPressed: () {
+                              Navigator.of(context).pushNamed('/mainpage');
+                              ToastFactory.makeToast(
+                                  context,
+                                  TOAST_TYPE.info,
+                                  "Login Functionality",
+                                  "Implement Login Functionality",
+                                  false,
+                                  () {});
+                            },
+                            child: Text("Login".i18n()),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              ToastFactory.makeToast(
+                                  context,
+                                  TOAST_TYPE.info,
+                                  "Sign up Functionality",
+                                  "Implement Sign up Functionality",
+                                  false,
+                                  () {});
+                            },
+                            child: Text("no-account?".i18n()),
+                          ),
+                        ],
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          ToastFactory.makeToast(
+                              context,
+                              TOAST_TYPE.info,
+                              "Guest Functionality",
+                              "Implement Guest Functionality",
+                              false,
+                              () {});
+                        },
+                        child: Text("login-as-guest".i18n()),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Provider.of<LocaleProvider>(context, listen: false)
+                              .toggleLanguage();
+                        },
+                        child: Text(
+                            Provider.of<LocaleProvider>(context).locale ==
+                                    const Locale('ar')
+                                ? 'English'
+                                : 'العربية'),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+>>>>>>> 2e07451e17425356ef0c4a82dc285c9998b92f98
             ),
           ),
         ),

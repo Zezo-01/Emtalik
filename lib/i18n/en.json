@@ -10,7 +10,7 @@
     "password-doesnt-match-constraints":"Password doesn't match constraints",
     "id":"ID",
     "login":"Login",
-    "no-account?":"Don't have an account? Sign up!",
+    "no-account?":"Don't have an account?",
     "login-as-guest":"Login as a guest",
     "error":"Error",
     "submited":"Submited", 
