@@ -94,7 +94,7 @@ abstract class AppEnv {
               const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
+                  color: Colors.black,
                   fontFamily: 'Changa'),
             ),
           ),
@@ -231,6 +231,7 @@ abstract class AppEnv {
               const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
+                  color: Colors.black,
                   fontFamily: 'Changa'),
             ),
           ),
