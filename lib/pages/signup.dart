@@ -78,195 +78,197 @@ class _Signup extends State<Signup> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: _scaffoldkey,
-        body: Stepper(
-          type: StepperType.horizontal,
-          //Yazeed See Here
-          steps: [
-            Step(
-              state: currentStep > 0 ? StepState.complete : StepState.indexed,
-              isActive: currentStep >= 0,
-              title: Text("account".i18n()),
-              content: SingleChildScrollView(
-                child: Container(
+        body: SafeArea(
+          child: Stepper(
+            type: StepperType.horizontal,
+            //Yazeed See Here
+            steps: [
+              Step(
+                state: currentStep > 0 ? StepState.complete : StepState.indexed,
+                isActive: currentStep >= 0,
+                title: Text("account".i18n()),
+                content: SingleChildScrollView(
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: 25,
+                        ),
+                        CustomFormField(
+                          onComplete: () {
+                            FocusScope.of(context).requestFocus(_emailNode);
+                          },
+                          focusNode: _userNameNode,
+                          controller: _userId,
+                          enterKeyAction: TextInputAction.next,
+                          type: TextInputType.name,
+                          labelText: "username".i18n(),
+                          icon: const Icon(Icons.perm_identity),
+                        ),
+                        CustomFormField(
+                          onComplete: () {
+                            FocusScope.of(context).requestFocus(_passwodNode);
+                          },
+                          focusNode: _emailNode,
+                          controller: _emailId,
+                          enterKeyAction: TextInputAction.next,
+                          type: TextInputType.emailAddress,
+                          labelText: "email".i18n(),
+                          icon: const Icon(Icons.email),
+                        ),
+                        CustomFormField(
+                          onComplete: () {
+                            FocusScope.of(context).requestFocus(_passwodNode);
+                          },
+                          focusNode: _phoneNode,
+                          controller: _phoneId,
+                          enterKeyAction: TextInputAction.next,
+                          type: TextInputType.phone,
+                          labelText: "phone".i18n(),
+                          icon: const Icon(Icons.phone),
+                        ),
+                        PasswordFormField(
+                          focusNode: _passwodNode,
+                          controller: _passwordId,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              Step(
+                state: currentStep > 1 ? StepState.complete : StepState.indexed,
+                isActive: currentStep >= 1,
+                title: Text("personal".i18n()),
+                content: Container(
                   margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        height: 25,
-                      ),
                       CustomFormField(
                         onComplete: () {
-                          FocusScope.of(context).requestFocus(_emailNode);
+                          FocusScope.of(context).requestFocus(_secondNameNode);
                         },
-                        focusNode: _userNameNode,
-                        controller: _userId,
+                        focusNode: _firstNameNode,
+                        controller: _firstNameId,
                         enterKeyAction: TextInputAction.next,
                         type: TextInputType.name,
-                        labelText: "username".i18n(),
+                        labelText: "first-name".i18n(),
                         icon: const Icon(Icons.perm_identity),
                       ),
                       CustomFormField(
                         onComplete: () {
-                          FocusScope.of(context).requestFocus(_passwodNode);
+                          FocusScope.of(context).requestFocus(_thirdNameNode);
                         },
-                        focusNode: _emailNode,
-                        controller: _emailId,
+                        focusNode: _secondNameNode,
+                        controller: _secondNameId,
                         enterKeyAction: TextInputAction.next,
-                        type: TextInputType.emailAddress,
-                        labelText: "email".i18n(),
-                        icon: const Icon(Icons.email),
+                        type: TextInputType.name,
+                        labelText: "father-name".i18n(),
+                        icon: const Icon(Icons.perm_identity),
                       ),
                       CustomFormField(
                         onComplete: () {
-                          FocusScope.of(context).requestFocus(_passwodNode);
+                          FocusScope.of(context).requestFocus(_lastNameNode);
                         },
-                        focusNode: _phoneNode,
-                        controller: _phoneId,
+                        focusNode: _thirdNameNode,
+                        controller: _thirdNameId,
                         enterKeyAction: TextInputAction.next,
-                        type: TextInputType.phone,
-                        labelText: "phone".i18n(),
-                        icon: const Icon(Icons.phone),
+                        type: TextInputType.name,
+                        labelText: "grandfather-name",
+                        icon: const Icon(Icons.perm_identity),
                       ),
-                      PasswordFormField(
+                      CustomFormField(
+                        onComplete: () {
+                          //FocusScope.of(context).requestFocus();
+                        },
                         focusNode: _passwodNode,
                         controller: _passwordId,
+                        enterKeyAction: TextInputAction.next,
+                        type: TextInputType.name,
+                        labelText: "last-name",
+                        icon: const Icon(Icons.perm_identity),
                       ),
                     ],
                   ),
                 ),
               ),
+              Step(
+                  state: currentStep > 1 ? StepState.complete : StepState.indexed,
+                  isActive: currentStep >= 2,
+                  title: Text("finish".i18n()),
+                  content: Container(
+                    child: Column(
+                      children: [
+                        Text("chose-interests".i18n()),
+                        CheckboxListTile(
+                          title: Text("land".i18n()),
+                          secondary: Icon(Icons.landscape),
+                          controlAffinity: ListTileControlAffinity.platform,
+                          value: _check1,
+                          onChanged: (value) {
+                            setState(() {
+                              _check1 = value!;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text("store".i18n()),
+                          secondary: Icon(Icons.store),
+                          controlAffinity: ListTileControlAffinity.platform,
+                          value: _check2,
+                          onChanged: (value) {
+                            setState(() {
+                              _check2 = value!;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text("appartment".i18n()),
+                          secondary: Icon(Icons.home),
+                          controlAffinity: ListTileControlAffinity.platform,
+                          value: _check3,
+                          onChanged: (value) {
+                            setState(() {
+                              _check3 = value!;
+                            });
+                          },
+                        ),
+                        CheckboxListTile(
+                          title: Text("parking".i18n()),
+                          secondary: Icon(Icons.local_parking),
+                          controlAffinity: ListTileControlAffinity.platform,
+                          value: _check4,
+                          onChanged: (value) {
+                            setState(() {
+                              _check4 = value!;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ))
+            ],
+            currentStep: currentStep,
+            onStepContinue: () {
+              if (currentStep==2) {
+                Navigator.of(context).pushNamed('/mainpage');
+              } else {
+                setState(() => currentStep += 1);
+              }
+            },
+            onStepCancel: () {
+              if (currentStep == 0) {
+                Navigator.of(context).pushNamed('/');
+              } else {
+                setState(() => currentStep -= 1);
+              }
+            },
+            onStepTapped: (step) => setState(
+              (() => currentStep = step),
             ),
-            Step(
-              state: currentStep > 1 ? StepState.complete : StepState.indexed,
-              isActive: currentStep >= 1,
-              title: Text("personal".i18n()),
-              content: Container(
-                margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomFormField(
-                      onComplete: () {
-                        FocusScope.of(context).requestFocus(_secondNameNode);
-                      },
-                      focusNode: _firstNameNode,
-                      controller: _firstNameId,
-                      enterKeyAction: TextInputAction.next,
-                      type: TextInputType.name,
-                      labelText: "first-name".i18n(),
-                      icon: const Icon(Icons.perm_identity),
-                    ),
-                    CustomFormField(
-                      onComplete: () {
-                        FocusScope.of(context).requestFocus(_thirdNameNode);
-                      },
-                      focusNode: _secondNameNode,
-                      controller: _secondNameId,
-                      enterKeyAction: TextInputAction.next,
-                      type: TextInputType.name,
-                      labelText: "father-name".i18n(),
-                      icon: const Icon(Icons.perm_identity),
-                    ),
-                    CustomFormField(
-                      onComplete: () {
-                        FocusScope.of(context).requestFocus(_lastNameNode);
-                      },
-                      focusNode: _thirdNameNode,
-                      controller: _thirdNameId,
-                      enterKeyAction: TextInputAction.next,
-                      type: TextInputType.name,
-                      labelText: "grandfather-name",
-                      icon: const Icon(Icons.perm_identity),
-                    ),
-                    CustomFormField(
-                      onComplete: () {
-                        //FocusScope.of(context).requestFocus();
-                      },
-                      focusNode: _passwodNode,
-                      controller: _passwordId,
-                      enterKeyAction: TextInputAction.next,
-                      type: TextInputType.name,
-                      labelText: "last-name",
-                      icon: const Icon(Icons.perm_identity),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Step(
-                state: currentStep > 1 ? StepState.complete : StepState.indexed,
-                isActive: currentStep >= 2,
-                title: Text("finish".i18n()),
-                content: Container(
-                  child: Column(
-                    children: [
-                      Text("chose-interests".i18n()),
-                      CheckboxListTile(
-                        title: Text("land".i18n()),
-                        secondary: Icon(Icons.landscape),
-                        controlAffinity: ListTileControlAffinity.platform,
-                        value: _check1,
-                        onChanged: (value) {
-                          setState(() {
-                            _check1 = value!;
-                          });
-                        },
-                      ),
-                      CheckboxListTile(
-                        title: Text("store".i18n()),
-                        secondary: Icon(Icons.store),
-                        controlAffinity: ListTileControlAffinity.platform,
-                        value: _check2,
-                        onChanged: (value) {
-                          setState(() {
-                            _check2 = value!;
-                          });
-                        },
-                      ),
-                      CheckboxListTile(
-                        title: Text("appartment".i18n()),
-                        secondary: Icon(Icons.home),
-                        controlAffinity: ListTileControlAffinity.platform,
-                        value: _check3,
-                        onChanged: (value) {
-                          setState(() {
-                            _check3 = value!;
-                          });
-                        },
-                      ),
-                      CheckboxListTile(
-                        title: Text("parking".i18n()),
-                        secondary: Icon(Icons.local_parking),
-                        controlAffinity: ListTileControlAffinity.platform,
-                        value: _check4,
-                        onChanged: (value) {
-                          setState(() {
-                            _check4 = value!;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ))
-          ],
-          currentStep: currentStep,
-          onStepContinue: () {
-            if (currentStep==2) {
-              Navigator.of(context).pushNamed('/mainpage');
-            } else {
-              setState(() => currentStep += 1);
-            }
-          },
-          onStepCancel: () {
-            if (currentStep == 0) {
-              Navigator.of(context).pushNamed('/');
-            } else {
-              setState(() => currentStep -= 1);
-            }
-          },
-          onStepTapped: (step) => setState(
-            (() => currentStep = step),
           ),
         ),
       ),
