@@ -14,6 +14,24 @@
     "login-as-guest":"سجل الدخول كضيف",
     "error":"خطأ",
     "submited":"تم الإرسال",
-    "id-types":"بريد إلكتروني ، إسم المستخدم أو رقم الهاتف"
+    "id-types":"بريد إلكتروني ، إسم المستخدم أو رقم الهاتف",
+    "Finish" :"انهاء",
+    "Parking":"موقف سيارات",
+    "Appartment":"شقق",
+    "Stores":"مراكز تجاريه",
+    "Lands":"قطع أراضي",
+    "Chose your Interests":"اختر المفضل لديك",
+    "Enter Your User Name":"ادخل اسم المستخدم الخاص بك",
+    "Enter Your Email":"ادخل الايميل الخاص بك",
+    "Enter Your First Name":"ادخل اسم الأول",
+    "Enter Your Second Name":"ادخل الاسم الثاني",
+    "Enter Your Third Name":"ادخل الاسم الثالث",
+    "Enter Your Last Name":"ادخل الاسم الأخير",
+    "Personal":"شخصي",
+    "Account":"الحساب",
+    "Accept Terms And Conditions":"الموافقه على الشروط والقواعد",
+    "Accept Notification":"تلقي اشعارات",
+    "Enable Location":"تحديد موقعي "
+
 }
   

@@ -13,6 +13,7 @@ class ChangePassword extends StatelessWidget {
     _firstPassNode.dispose();
     _secondPassNode.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
@@ -30,8 +31,8 @@ class ChangePassword extends StatelessWidget {
             controller: _firstPassId,
           ),
           SizedBox(
-                height: height * 0.05,
-              ),
+            height: height * 0.05,
+          ),
           PasswordFormField(
             onComplete: () {
               FocusScope.of(context).requestFocus(_buttonNode);

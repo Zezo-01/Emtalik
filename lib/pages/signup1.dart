@@ -3,6 +3,7 @@
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -10,7 +11,13 @@ class Signup extends StatefulWidget {
 }
 
 class _Signup extends State<Signup> {
-  bool value = false;
+  bool _check1 = false;
+  bool _check2 = false;
+  bool _check3 = false;
+  bool _check4 = false;
+  bool _check5 = false;
+  bool _check6 = false;
+  bool _check7 = false;
   int currentStep = 0;
   bool isCompleted = false;
   final TextEditingController _userId = TextEditingController();
@@ -65,7 +72,7 @@ class _Signup extends State<Signup> {
           onStepContinue: () {
             final isLastStep = currentStep == getSteps().length - 1;
             if (isLastStep) {
-              setState(() => isCompleted = true);
+              Navigator.of(context).pushNamed('/mainpage');
             } else {
               setState(() => currentStep += 1);
             }
@@ -88,7 +95,7 @@ class _Signup extends State<Signup> {
         Step(
           state: currentStep > 0 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 0,
-          title: Text('Account'),
+          title: Text("Account".i18n()),
           content: SingleChildScrollView(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
@@ -133,7 +140,7 @@ class _Signup extends State<Signup> {
         Step(
           state: currentStep > 1 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 1,
-          title: Text('Personal'),
+          title: Text("Personal".i18n()),
           content: Container(
             height: MediaQuery.of(context).size.height,
             margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -185,6 +192,51 @@ class _Signup extends State<Signup> {
                   labelText: "Enter Your Last Name",
                   icon: const Icon(Icons.perm_identity),
                 ),
+                Text("Chose your Interests".i18n()),
+                CheckboxListTile(
+                  title: Text("Lands".i18n()),
+                  secondary: Icon(Icons.landscape),
+                  controlAffinity: ListTileControlAffinity.platform,
+                  value: _check1,
+                  onChanged: (value) {
+                    setState(() {
+                      _check1 = value!;
+                    });
+                  },
+                ),
+                CheckboxListTile(
+                  title: Text("Stores".i18n()),
+                  secondary: Icon(Icons.store),
+                  controlAffinity: ListTileControlAffinity.platform,
+                  value: _check2,
+                  onChanged: (value) {
+                    setState(() {
+                      _check2 = value!;
+                    });
+                  },
+                ),
+                CheckboxListTile(
+                  title: Text("Appartment".i18n()),
+                  secondary: Icon(Icons.home),
+                  controlAffinity: ListTileControlAffinity.platform,
+                  value: _check3,
+                  onChanged: (value) {
+                    setState(() {
+                      _check3 = value!;
+                    });
+                  },
+                ),
+                CheckboxListTile(
+                  title: Text("Parking".i18n()),
+                  secondary: Icon(Icons.local_parking),
+                  controlAffinity: ListTileControlAffinity.platform,
+                  value: _check4,
+                  onChanged: (value) {
+                    setState(() {
+                      _check4 = value!;
+                    });
+                  },
+                ),
               ],
             ),
           ),
@@ -192,11 +244,43 @@ class _Signup extends State<Signup> {
         Step(
             state: currentStep > 1 ? StepState.complete : StepState.indexed,
             isActive: currentStep >= 1,
-            title: Text('Finish'),
+            title: Text("Finish".i18n()),
             content: Container(
-              child: Row(
+              child: Column(
                 children: [
-                  
+                  CheckboxListTile(
+                    title: Text("Accept Terms And Conditions".i18n()),
+                    secondary: Icon(Icons.rule),
+                    controlAffinity: ListTileControlAffinity.platform,
+                    value: _check5,
+                    onChanged: (value) {
+                      setState(() {
+                        _check5 = value!;
+                      });
+                    },
+                  ),
+                  CheckboxListTile(
+                    title: Text("Accept Notification".i18n()),
+                    secondary: Icon(Icons.notification_add),
+                    controlAffinity: ListTileControlAffinity.platform,
+                    value: _check6,
+                    onChanged: (value) {
+                      setState(() {
+                        _check6 = value!;
+                      });
+                    },
+                  ),
+                  CheckboxListTile(
+                    title: Text("Enable Location".i18n()),
+                    secondary: Icon(Icons.location_city),
+                    controlAffinity: ListTileControlAffinity.platform,
+                    value: _check7,
+                    onChanged: (value) {
+                      setState(() {
+                        _check7 = value!;
+                      });
+                    },
+                  ),
                 ],
               ),
             ))
