@@ -124,13 +124,6 @@ class _LoginPage extends State<LoginPage> {
                             TextButton(
                               onPressed: () {
                                 Navigator.of(context).pushNamed('/signup1');
-                                ToastFactory.makeToast(
-                                    context,
-                                    TOAST_TYPE.info,
-                                    "Sign up Functionality",
-                                    "Implement Sign up Functionality",
-                                    false,
-                                    () {});
                               },
                               child: Text("no-account?".i18n()),
                             ),

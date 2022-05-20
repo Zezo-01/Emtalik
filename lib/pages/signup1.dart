@@ -78,26 +78,28 @@ class _Signup extends State<Signup> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: _scaffoldkey,
-        body: Stepper(
-          type: StepperType.horizontal,
-          steps: getSteps(),
-          currentStep: currentStep,
-          onStepContinue: () {
-            final isLastStep = currentStep == getSteps().length - 1;
-            if (isLastStep) {
-              Navigator.of(context).pushNamed('/mainpage');
-            } else {
-              setState(() => currentStep += 1);
-            }
-          },
-          onStepCancel: () {
-            if (currentStep == 0) {
-            } else {
-              setState(() => currentStep -= 1);
-            }
-          },
-          onStepTapped: (step) => setState(
-            (() => currentStep = step),
+        body: SafeArea(
+          child: Stepper(
+            type: StepperType.horizontal,
+            steps: getSteps(),
+            currentStep: currentStep,
+            onStepContinue: () {
+              final isLastStep = currentStep == getSteps().length - 1;
+              if (isLastStep) {
+                Navigator.of(context).pushNamed('/mainpage');
+              } else {
+                setState(() => currentStep += 1);
+              }
+            },
+            onStepCancel: () {
+              if (currentStep == 0) {
+              } else {
+                setState(() => currentStep -= 1);
+              }
+            },
+            onStepTapped: (step) => setState(
+              (() => currentStep = step),
+            ),
           ),
         ),
       ),
