@@ -5,10 +5,14 @@ import 'package:emtalik/etc/appenv.dart';
 import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent));
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => LocaleProvider()),
