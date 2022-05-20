@@ -1,27 +1,13 @@
 // ignore_for_file: prefer_const_constructors, unused_field, prefer_final_fields, use_key_in_widget_constructors
-
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 
-//
-//
-//
-//
-//
+// ignore: todo
 //        TODO: IMPLEMENT CANCEL BUTTON RETURNS TO THE MAIN PAGE
+// ignore: todo
 //        TODO: Give meaningfull route names and meaningfull file names
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
 class Signup extends StatefulWidget {
   @override
   _Signup createState() => _Signup();
@@ -196,7 +182,8 @@ class _Signup extends State<Signup> {
                 ),
               ),
               Step(
-                  state: currentStep > 1 ? StepState.complete : StepState.indexed,
+                  state:
+                      currentStep > 1 ? StepState.complete : StepState.indexed,
                   isActive: currentStep >= 2,
                   title: Text("finish".i18n()),
                   content: Container(
@@ -253,7 +240,7 @@ class _Signup extends State<Signup> {
             ],
             currentStep: currentStep,
             onStepContinue: () {
-              if (currentStep==2) {
+              if (currentStep == 2) {
                 Navigator.of(context).pushNamed('/mainpage');
               } else {
                 setState(() => currentStep += 1);

@@ -1,15 +1,11 @@
-import 'dart:ffi';
-
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
-import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
-import 'mainpage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
