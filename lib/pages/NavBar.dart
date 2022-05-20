@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_import
+// ignore_for_file: unnecessary_import, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

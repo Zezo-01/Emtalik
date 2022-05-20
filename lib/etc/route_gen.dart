@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, prefer_const_constructors
+// ignore_for_file: unused_local_variable, prefer_const_constructors, duplicate_ignore
 
 import 'package:emtalik/pages/changepassword.dart';
 import 'package:emtalik/pages/mainpage.dart';
@@ -6,8 +6,7 @@ import 'package:emtalik/pages/login.dart';
 import 'package:emtalik/pages/support.dart';
 import 'package:emtalik/pages/terms.dart';
 import 'package:flutter/material.dart';
-import '../pages/signup1.dart';
-
+import '../pages/signup.dart';
 
 class RouteGeneration {
   static Route<dynamic> generateRoute(RouteSettings settings) {
