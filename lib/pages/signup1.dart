@@ -202,51 +202,6 @@ class _Signup extends State<Signup> {
                   labelText: "last-name",
                   icon: const Icon(Icons.perm_identity),
                 ),
-                Text("chose-interests".i18n()),
-                CheckboxListTile(
-                  title: Text("land".i18n()),
-                  secondary: Icon(Icons.landscape),
-                  controlAffinity: ListTileControlAffinity.platform,
-                  value: _check1,
-                  onChanged: (value) {
-                    setState(() {
-                      _check1 = value!;
-                    });
-                  },
-                ),
-                CheckboxListTile(
-                  title: Text("store".i18n()),
-                  secondary: Icon(Icons.store),
-                  controlAffinity: ListTileControlAffinity.platform,
-                  value: _check2,
-                  onChanged: (value) {
-                    setState(() {
-                      _check2 = value!;
-                    });
-                  },
-                ),
-                CheckboxListTile(
-                  title: Text("appartment".i18n()),
-                  secondary: Icon(Icons.home),
-                  controlAffinity: ListTileControlAffinity.platform,
-                  value: _check3,
-                  onChanged: (value) {
-                    setState(() {
-                      _check3 = value!;
-                    });
-                  },
-                ),
-                CheckboxListTile(
-                  title: Text("parking".i18n()),
-                  secondary: Icon(Icons.local_parking),
-                  controlAffinity: ListTileControlAffinity.platform,
-                  value: _check4,
-                  onChanged: (value) {
-                    setState(() {
-                      _check4 = value!;
-                    });
-                  },
-                ),
               ],
             ),
           ),
@@ -258,36 +213,48 @@ class _Signup extends State<Signup> {
             content: Container(
               child: Column(
                 children: [
+                  Text("chose-interests".i18n()),
                   CheckboxListTile(
-                    title: Text("Accept Terms And Conditions".i18n()),
-                    secondary: Icon(Icons.rule),
+                    title: Text("land".i18n()),
+                    secondary: Icon(Icons.landscape),
                     controlAffinity: ListTileControlAffinity.platform,
-                    value: _check5,
+                    value: _check1,
                     onChanged: (value) {
                       setState(() {
-                        _check5 = value!;
+                        _check1 = value!;
                       });
                     },
                   ),
                   CheckboxListTile(
-                    title: Text("Accept Notification".i18n()),
-                    secondary: Icon(Icons.notification_add),
+                    title: Text("store".i18n()),
+                    secondary: Icon(Icons.store),
                     controlAffinity: ListTileControlAffinity.platform,
-                    value: _check6,
+                    value: _check2,
                     onChanged: (value) {
                       setState(() {
-                        _check6 = value!;
+                        _check2 = value!;
                       });
                     },
                   ),
                   CheckboxListTile(
-                    title: Text("Enable Location".i18n()),
-                    secondary: Icon(Icons.location_city),
+                    title: Text("appartment".i18n()),
+                    secondary: Icon(Icons.home),
                     controlAffinity: ListTileControlAffinity.platform,
-                    value: _check7,
+                    value: _check3,
                     onChanged: (value) {
                       setState(() {
-                        _check7 = value!;
+                        _check3 = value!;
+                      });
+                    },
+                  ),
+                  CheckboxListTile(
+                    title: Text("parking".i18n()),
+                    secondary: Icon(Icons.local_parking),
+                    controlAffinity: ListTileControlAffinity.platform,
+                    value: _check4,
+                    onChanged: (value) {
+                      setState(() {
+                        _check4 = value!;
                       });
                     },
                   ),
