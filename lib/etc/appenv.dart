@@ -79,7 +79,7 @@ abstract class AppEnv {
             ),
             side: MaterialStateProperty.all(
               const BorderSide(
-                color: Color.fromARGB(255, 108, 132, 143),
+                color: Color.fromARGB(225, 108, 132, 143),
                 width: 2.5,
               ),
             ),
@@ -94,7 +94,7 @@ abstract class AppEnv {
               const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Color.fromARGB(255, 143, 98, 55),
+                  color: Colors.black,
                   fontFamily: 'Changa'),
             ),
           ),
@@ -215,7 +215,7 @@ abstract class AppEnv {
             ),
             side: MaterialStateProperty.all(
               const BorderSide(
-                color: Colors.indigo,
+                color: Colors.grey,
                 width: 2.5,
               ),
             ),
@@ -231,6 +231,7 @@ abstract class AppEnv {
               const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
+                  color: Colors.black,
                   fontFamily: 'Changa'),
             ),
           ),
