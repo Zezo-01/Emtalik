@@ -22,6 +22,7 @@ class LoginPage extends StatefulWidget {
 *                              TODO:ERROR *** VERTICAL SCROLLING IS NEEDED
 */
 class _LoginPage extends State<LoginPage> {
+  final formKey = GlobalKey<FormState>();
   final TextEditingController _id = TextEditingController();
   final TextEditingController _password = TextEditingController();
 
@@ -72,73 +73,83 @@ class _LoginPage extends State<LoginPage> {
                     "app-name".i18n(),
                     style: Theme.of(context).textTheme.displayLarge,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      CustomFormField(
-                        onComplete: () {
-                          FocusScope.of(context).requestFocus(passwordNode);
-                        },
-                        focusNode: idNode,
-                        controller: _id,
-                        enterKeyAction: TextInputAction.next,
-                        type: TextInputType.name,
-                        labelText: "id-types",
-                        icon: const Icon(Icons.perm_identity),
-                      ),
-                      PasswordFormField(
-                        onComplete: () {
-                          FocusScope.of(context).requestFocus(loginNode);
-                        },
-                        focusNode: passwordNode,
-                        controller: _password,
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          ElevatedButton(
-                            focusNode: loginNode,
-                            onPressed: () {
-                              Navigator.of(context).pushNamed('/mainpage');
-                              ToastFactory.makeToast(
-                                  context,
-                                  TOAST_TYPE.info,
-                                  "Login Functionality",
-                                  "Implement Login Functionality",
-                                  false,
-                                  () {});
-                            },
-                            child: Text("Login".i18n()),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pushNamed('/signup1');
-                              ToastFactory.makeToast(
-                                  context,
-                                  TOAST_TYPE.info,
-                                  "Sign up Functionality",
-                                  "Implement Sign up Functionality",
-                                  false,
-                                  () {});
-                            },
-                            child: Text("no-account?".i18n()),
-                          ),
-                        ],
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          ToastFactory.makeToast(
-                              context,
-                              TOAST_TYPE.info,
-                              "Guest Functionality",
-                              "Implement Guest Functionality",
-                              false,
-                              () {});
-                        },
-                        child: Text("login-as-guest".i18n()),
-                      ),
-                    ],
+                  Form(
+                    key: formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomFormField(
+                          onComplete: () {
+                            FocusScope.of(context).requestFocus(passwordNode);
+                          },
+                          onValidation: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'required-field'.i18n();
+                            }
+                          },
+                          focusNode: idNode,
+                          controller: _id,
+                          enterKeyAction: TextInputAction.next,
+                          type: TextInputType.name,
+                          labelText: "id-types",
+                          icon: const Icon(Icons.perm_identity),
+                        ),
+                        PasswordFormField(
+                          onComplete: () {
+                            FocusScope.of(context).requestFocus(loginNode);
+                          },
+                          onValidation: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'required-field'.i18n();
+                            }
+                          },
+                          focusNode: passwordNode,
+                          controller: _password,
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            ElevatedButton(
+                              focusNode: loginNode,
+                              onPressed: () {
+                                final form = formKey.currentState!;
+                                if (form.validate()) {
+                                  // HERE SERVER STUFF
+                                  Navigator.of(context).pushNamed('/mainpage');
+                                }
+                              },
+                              child: Text("login".i18n()),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed('/signup1');
+                                ToastFactory.makeToast(
+                                    context,
+                                    TOAST_TYPE.info,
+                                    "Sign up Functionality",
+                                    "Implement Sign up Functionality",
+                                    false,
+                                    () {});
+                              },
+                              child: Text("no-account?".i18n()),
+                            ),
+                          ],
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            ToastFactory.makeToast(
+                                context,
+                                TOAST_TYPE.info,
+                                "Guest Functionality",
+                                "Implement Guest Functionality",
+                                false,
+                                () {});
+                          },
+                          child: Text("login-as-guest".i18n()),
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,

@@ -3,10 +3,10 @@
     "app-bar-title-main":"Hello",
     "welcome-text": "This text is in english",
     "hello": "Hello",
-    "Email":"E-mail",
+    "email":"E-mail",
     "password":"Password",
     "password-constraints":"Your password should be at least 8, at most 25 characters long, have at least 1 upper case and 1 lower case letter",
-    "empty-field":"this field should not be empty",
+    "required-field":"this field is required",
     "password-doesnt-match-constraints":"Password doesn't match constraints",
     "id":"ID",
     "login":"Login",
@@ -14,6 +14,19 @@
     "login-as-guest":"Login as a guest",
     "error":"Error",
     "submited":"Submited", 
-    "id-types":"Email, Username or Phone Number"
+    "id-types":"Email, Username or Phone Number",
+    "finish" :"Done",
+    "parking":"Parkings",
+    "appartment":"Appartments",
+    "store":"Stores",
+    "land":"Lands",
+    "username":"Username",
+    "chose-interests":"Interested in",
+    "first-name":"First Name",
+    "father-name":"Father's Name",
+    "grandfather-name":"Grandfather's Name",
+    "last-name":"Last Name",
+    "personal":"Personal",
+    "account":"Account"
 }
   

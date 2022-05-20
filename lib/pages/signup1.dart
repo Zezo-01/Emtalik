@@ -61,10 +61,6 @@ class _Signup extends State<Signup> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         key: _scaffoldkey,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.background,
-          elevation: 0,
-        ),
         body: Stepper(
           type: StepperType.horizontal,
           steps: getSteps(),
@@ -95,17 +91,15 @@ class _Signup extends State<Signup> {
         Step(
           state: currentStep > 0 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 0,
-          title: Text("Account".i18n()),
+          title: Text("account".i18n()),
           content: SingleChildScrollView(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
             child: Container(
-              height: MediaQuery.of(context).size.height,
               margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  SizedBox(
+                    height: 25,
+                  ),
                   CustomFormField(
                     onComplete: () {
                       FocusScope.of(context).requestFocus(_emailNode);
@@ -114,7 +108,7 @@ class _Signup extends State<Signup> {
                     controller: _userId,
                     enterKeyAction: TextInputAction.next,
                     type: TextInputType.name,
-                    labelText: "Enter Your User Name",
+                    labelText: "username".i18n(),
                     icon: const Icon(Icons.perm_identity),
                   ),
                   CustomFormField(
@@ -125,7 +119,7 @@ class _Signup extends State<Signup> {
                     controller: _emailId,
                     enterKeyAction: TextInputAction.next,
                     type: TextInputType.name,
-                    labelText: "Enter Your Email",
+                    labelText: "email".i18n(),
                     icon: const Icon(Icons.email),
                   ),
                   PasswordFormField(
@@ -140,9 +134,8 @@ class _Signup extends State<Signup> {
         Step(
           state: currentStep > 1 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 1,
-          title: Text("Personal".i18n()),
+          title: Text("personal".i18n()),
           content: Container(
-            height: MediaQuery.of(context).size.height,
             margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -156,7 +149,7 @@ class _Signup extends State<Signup> {
                   controller: _firstNameId,
                   enterKeyAction: TextInputAction.next,
                   type: TextInputType.name,
-                  labelText: "Enter Your First Name",
+                  labelText: "first-name".i18n(),
                   icon: const Icon(Icons.perm_identity),
                 ),
                 CustomFormField(
@@ -167,7 +160,7 @@ class _Signup extends State<Signup> {
                   controller: _secondNameId,
                   enterKeyAction: TextInputAction.next,
                   type: TextInputType.name,
-                  labelText: "Enter Your Second Name",
+                  labelText: "father-name".i18n(),
                   icon: const Icon(Icons.perm_identity),
                 ),
                 CustomFormField(
@@ -178,7 +171,7 @@ class _Signup extends State<Signup> {
                   controller: _thirdNameId,
                   enterKeyAction: TextInputAction.next,
                   type: TextInputType.name,
-                  labelText: "Enter Your Third Name",
+                  labelText: "grandfather-name",
                   icon: const Icon(Icons.perm_identity),
                 ),
                 CustomFormField(
@@ -189,12 +182,12 @@ class _Signup extends State<Signup> {
                   controller: _passwordId,
                   enterKeyAction: TextInputAction.next,
                   type: TextInputType.name,
-                  labelText: "Enter Your Last Name",
+                  labelText: "last-name",
                   icon: const Icon(Icons.perm_identity),
                 ),
-                Text("Chose your Interests".i18n()),
+                Text("chose-interests".i18n()),
                 CheckboxListTile(
-                  title: Text("Lands".i18n()),
+                  title: Text("land".i18n()),
                   secondary: Icon(Icons.landscape),
                   controlAffinity: ListTileControlAffinity.platform,
                   value: _check1,
@@ -205,7 +198,7 @@ class _Signup extends State<Signup> {
                   },
                 ),
                 CheckboxListTile(
-                  title: Text("Stores".i18n()),
+                  title: Text("store".i18n()),
                   secondary: Icon(Icons.store),
                   controlAffinity: ListTileControlAffinity.platform,
                   value: _check2,
@@ -216,7 +209,7 @@ class _Signup extends State<Signup> {
                   },
                 ),
                 CheckboxListTile(
-                  title: Text("Appartment".i18n()),
+                  title: Text("appartment".i18n()),
                   secondary: Icon(Icons.home),
                   controlAffinity: ListTileControlAffinity.platform,
                   value: _check3,
@@ -227,7 +220,7 @@ class _Signup extends State<Signup> {
                   },
                 ),
                 CheckboxListTile(
-                  title: Text("Parking".i18n()),
+                  title: Text("parking".i18n()),
                   secondary: Icon(Icons.local_parking),
                   controlAffinity: ListTileControlAffinity.platform,
                   value: _check4,
@@ -244,7 +237,7 @@ class _Signup extends State<Signup> {
         Step(
             state: currentStep > 1 ? StepState.complete : StepState.indexed,
             isActive: currentStep >= 1,
-            title: Text("Finish".i18n()),
+            title: Text("finish".i18n()),
             content: Container(
               child: Column(
                 children: [
