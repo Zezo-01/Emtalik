@@ -5,6 +5,23 @@ import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 
+//
+//
+//
+//
+//
+//        TODO: IMPLEMENT CANCEL BUTTON RETURNS TO THE MAIN PAGE
+//        TODO: Give meaningfull route names and meaningfull file names
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 class Signup extends StatefulWidget {
   @override
   _Signup createState() => _Signup();
