@@ -3,8 +3,10 @@ import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 import 'mainpage.dart';
 
 class LoginPage extends StatefulWidget {
@@ -20,6 +22,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPage extends State<LoginPage> {
   final TextEditingController _id = TextEditingController();
   final TextEditingController _password = TextEditingController();
+
   FocusNode idNode = FocusNode();
   FocusNode passwordNode = FocusNode();
   FocusNode loginNode = FocusNode();
@@ -138,15 +141,13 @@ class _LoginPage extends State<LoginPage> {
                   children: [
                     TextButton(
                       onPressed: () {
-                        LocaleManager.selectArabic();
+                        Provider.of<LocaleProvider>(context, listen: false)
+                            .toggleLanguage();
                       },
-                      child: const Text("العربية"),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        LocaleManager.selectEnglish();
-                      },
-                      child: const Text("English"),
+                      child: Text(Provider.of<LocaleProvider>(context).locale ==
+                              const Locale('ar')
+                          ? 'English'
+                          : 'العربية'),
                     ),
                   ],
                 ),

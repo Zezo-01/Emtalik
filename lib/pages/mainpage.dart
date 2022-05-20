@@ -42,9 +42,7 @@ class _MyHomePage extends State<MyHomePage> {
                     'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1327&q=80',
                   ),
                   child: InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushNamed('/terms');
-                    },
+                    onTap: () {},
                   ),
                   height: 500,
                   width: 1000,
@@ -95,7 +93,25 @@ class _MyHomePage extends State<MyHomePage> {
                 )),
             ButtonBar(
               alignment: MainAxisAlignment.start,
-              children: [],
+              children: [
+                /*
+                FlatButton(
+                  color: Colors.black,
+                  child: Text('Wishlist '),
+                  onPressed: () {},
+                ),
+                FlatButton(
+                  color: Colors.black,
+                  child: Text('Call'),
+                  onPressed: () {},
+                ),
+                FlatButton(
+                  color: Colors.black,
+                  child: Text('Chat'),
+                  onPressed: () {},
+                ),
+                */
+              ],
             )
           ],
         ),
