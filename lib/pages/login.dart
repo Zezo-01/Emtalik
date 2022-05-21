@@ -133,7 +133,7 @@ class _LoginPage extends State<LoginPage> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed('/mainpage');
+                            Navigator.of(context).pushNamed('/guestpage');
                             ToastFactory.makeToast(
                               
                                 context,
