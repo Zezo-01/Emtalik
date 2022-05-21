@@ -1,12 +1,15 @@
+import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
+import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 import 'mainpage.dart';
@@ -29,6 +32,12 @@ class _LoginPage extends State<LoginPage> {
   FocusNode idNode = FocusNode();
   FocusNode passwordNode = FocusNode();
   FocusNode loginNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   void dispose() {
     idNode.dispose();
@@ -112,11 +121,11 @@ class _LoginPage extends State<LoginPage> {
                           children: [
                             ElevatedButton(
                               focusNode: loginNode,
-                              onPressed: () {
+                              onPressed: () async {
                                 final form = formKey.currentState!;
                                 if (form.validate()) {
-                                  // HERE SERVER STUFF
-                                  Navigator.of(context).pushNamed('/mainpage');
+                                  // TODO: IMPLEMENT VALIDATION
+                                  // Navigator.of(context).pushNamed('/mainpage');
                                 }
                               },
                               child: Text("login".i18n()),
