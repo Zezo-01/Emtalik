@@ -12,7 +12,7 @@ abstract class ToastFactory {
   // ignore: constant_identifier_names
   static const int _toast_duration_in_s = 3;
   static void makeToast(BuildContext context, TOAST_TYPE toastType,
-      String title, String description, bool fromTop, Function? onClose) {
+      String? title, String description, bool fromTop, Function? onClose) {
     switch (toastType) {
       case TOAST_TYPE.success:
         {
@@ -27,13 +27,15 @@ abstract class ToastFactory {
             iconType: Platform.isAndroid
                 ? ICON_TYPE.materialDesign
                 : ICON_TYPE.cupertino,
-            title: Text(
-              title,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            title: title != null
+                ? Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.bold,
+                        ),
+                  )
+                : null,
             iconSize: 25,
             animationType:
                 fromTop == true ? ANIMATION.fromTop : ANIMATION.fromBottom,
@@ -62,13 +64,15 @@ abstract class ToastFactory {
             iconType: Platform.isAndroid
                 ? ICON_TYPE.materialDesign
                 : ICON_TYPE.cupertino,
-            title: Text(
-              title,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            title: title != null
+                ? Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.bold,
+                        ),
+                  )
+                : null,
             iconSize: 25,
             animationType:
                 fromTop == true ? ANIMATION.fromTop : ANIMATION.fromBottom,
@@ -96,13 +100,15 @@ abstract class ToastFactory {
             iconType: Platform.isAndroid
                 ? ICON_TYPE.materialDesign
                 : ICON_TYPE.cupertino,
-            title: Text(
-              title,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            title: title != null
+                ? Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.bold,
+                        ),
+                  )
+                : null,
             iconSize: 25,
             animationType:
                 fromTop == true ? ANIMATION.fromTop : ANIMATION.fromBottom,
@@ -130,13 +136,15 @@ abstract class ToastFactory {
             iconType: Platform.isAndroid
                 ? ICON_TYPE.materialDesign
                 : ICON_TYPE.cupertino,
-            title: Text(
-              title,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            title: title != null
+                ? Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.bold,
+                        ),
+                  )
+                : null,
             iconSize: 25,
             animationType:
                 fromTop == true ? ANIMATION.fromTop : ANIMATION.fromBottom,
@@ -165,13 +173,15 @@ abstract class ToastFactory {
             iconType: Platform.isAndroid
                 ? ICON_TYPE.materialDesign
                 : ICON_TYPE.cupertino,
-            title: Text(
-              title,
-              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
+            title: title != null
+                ? Text(
+                    title,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.bold,
+                        ),
+                  )
+                : null,
             iconSize: 25,
             animationType:
                 fromTop == true ? ANIMATION.fromTop : ANIMATION.fromBottom,

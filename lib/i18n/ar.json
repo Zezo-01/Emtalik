@@ -7,7 +7,6 @@
     "password":"الرقم السري",
     "password-constraints":"الرقم السري يجب أن يكون حجمه  ما بين 8 و 25 ، وأن يحتوي على حرف إنجليزي كبير و صغير على الأقل",
     "required-field":"هذا الحقل مطلوب",
-    "password-doesnt-match-constraints":"الكلمة السرية لا توافق القيود",
     "id":"هوية",
     "login":"سجل الدخول",
     "no-account?":"لا تملك حساب؟",
@@ -27,6 +26,11 @@
     "grandfather-name":"إسم الجد",
     "last-name":"إسم العائلة",
     "personal":"شخصي",
-    "account":"الحساب"
+    "account":"الحساب",
+    "Invalid Username":"إسم مستخدم خاطئ",
+    "Invalid Password":"الرقم السري غير صحيح",
+    "Invalid Contact Number":"رقم الهاتف غير صحيح",
+    "Invalid Email":"عنوان بريد غير صحيح",
+    "no-connection":"لا يوجد اتصال بالخادم"
 }
   

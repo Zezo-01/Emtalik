@@ -7,10 +7,12 @@ import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/models/error.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:localization/localization.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -123,8 +125,36 @@ class _LoginPage extends State<LoginPage> {
                               onPressed: () async {
                                 final form = formKey.currentState!;
                                 if (form.validate()) {
-                                  // TODO: IMPLEMENT VALIDATION
-                                  // Navigator.of(context).pushNamed('/mainpage');
+                                  var request;
+                                  try {
+                                    request = await HttpService.validateUser(
+                                        _id.value.text, _password.value.text);
+                                  } catch (exception) {
+                                    ToastFactory.makeToast(
+                                        context,
+                                        TOAST_TYPE.error,
+                                        null,
+                                        "no-connection".i18n(),
+                                        false,
+                                        () {});
+                                  }
+                                  if (request != null) {
+                                    if (request.statusCode == 200) {
+                                      // PROVIDER SAVES DATA
+                                      // Navigator.of(context).pushNamed('/mainpage');
+                                    } else {
+                                      // ERROR HANDLING
+                                      ToastFactory.makeToast(
+                                          context,
+                                          TOAST_TYPE.error,
+                                          "error".i18n(),
+                                          Error.fromRawJson(request.body)
+                                              .message
+                                              .i18n(),
+                                          false,
+                                          () {});
+                                    }
+                                  }
                                 }
                               },
                               child: Text("login".i18n()),
