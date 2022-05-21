@@ -27,13 +27,12 @@ class RouteGeneration {
         return MaterialPageRoute(builder: (_) => ChangePassword());
       case '/support':
         return MaterialPageRoute(builder: (_) => Support());
-        case '/sandboxtext':
+      case '/sandboxtext':
         return MaterialPageRoute(builder: (_) => SandBoxText());
-        case '/sandbox':
+      case '/sandbox':
         return MaterialPageRoute(builder: (_) => SandBox());
-          case '/sandboxui':
+      case '/sandboxui':
         return MaterialPageRoute(builder: (_) => SandBoxUi());
-
     }
     return errorRoute();
   }
