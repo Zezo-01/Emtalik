@@ -29,7 +29,6 @@ class _LoginPage extends State<LoginPage> {
 
   FocusNode idNode = FocusNode();
   FocusNode passwordNode = FocusNode();
-  FocusNode loginNode = FocusNode();
 
   @override
   void initState() {
@@ -102,9 +101,6 @@ class _LoginPage extends State<LoginPage> {
                           icon: const Icon(Icons.perm_identity),
                         ),
                         PasswordFormField(
-                          onComplete: () {
-                            FocusScope.of(context).requestFocus(loginNode);
-                          },
                           onValidation: (value) {
                             if (value == null || value.trim().isEmpty) {
                               return 'required-field'.i18n();
@@ -118,7 +114,6 @@ class _LoginPage extends State<LoginPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             ElevatedButton(
-                              focusNode: loginNode,
                               onPressed: () async {
                                 final form = formKey.currentState!;
                                 if (form.validate()) {
