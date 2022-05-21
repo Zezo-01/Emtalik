@@ -5,13 +5,13 @@ abstract class AppEnv {
 
   static const _defaultDarkTextColor = Color.fromARGB(255, 212, 175, 55);
   static const _defaultDarkMediumTextColor = Color.fromARGB(181, 221, 208, 195);
-  static const _defaultDarkSmallTextColor = Color.fromARGB(255, 236, 234, 232);
+  static const _defaultDarkSmallTextColor = Colors.black;
   static const _defaultDarklabelMediumTextColor = Colors.white60;
   //*
   static const _defaultLightTextColor = Color.fromARGB(255, 212, 175, 55);
   static const _defaultLightMediumTextColor = Color.fromARGB(181, 160, 124, 91);
-  static const _defaultLightSmallTextColor = Color.fromARGB(255, 160, 134, 111);
-  static const _defaultLightlabelMediumTextColor = Colors.white60;
+  static const _defaultLightSmallTextColor = Colors.black;
+  static const _defaultLightlabelMediumTextColor = Colors.black;
   // LIGHT THEME COLOR SCHEME
   static const ColorScheme _defaultLightColorScheme = ColorScheme(
     brightness: Brightness.light,
