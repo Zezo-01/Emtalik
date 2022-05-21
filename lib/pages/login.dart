@@ -4,6 +4,7 @@ import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/error.dart';
 import 'package:emtalik/providers/locale_provider.dart';
+import 'package:emtalik/providers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:motion_toast/motion_toast.dart';
@@ -135,9 +136,13 @@ class _LoginPage extends State<LoginPage> {
                                         () {});
                                   }
                                   if (request != null) {
+                                    // USER LOGIN
                                     if (request.statusCode == 200) {
-                                      // PROVIDER SAVES DATA
-                                      // Navigator.of(context).pushNamed('/mainpage');
+                                      Provider.of<User>(context, listen: false)
+                                          .login(
+                                              User.fromRawJson(request.body));
+                                      Navigator.of(context)
+                                          .pushNamed('/mainpage');
                                     } else {
                                       // ERROR HANDLING
                                       ToastFactory.makeToast(
