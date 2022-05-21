@@ -1,19 +1,15 @@
-import 'dart:convert';
-import 'dart:ffi';
-
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
-import 'package:emtalik/etc/http_service.dart';
-import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/error.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 import 'package:localization/localization.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:provider/provider.dart';
+
+import '../etc/http_service.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -169,6 +165,7 @@ class _LoginPage extends State<LoginPage> {
                         ),
                         TextButton(
                           onPressed: () {
+                            Navigator.of(context).pushNamed('/guestpage');
                             ToastFactory.makeToast(
                                 context,
                                 TOAST_TYPE.info,

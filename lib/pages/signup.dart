@@ -82,6 +82,7 @@ class _Signup extends State<Signup> {
                           height: 25,
                         ),
                         CustomFormField(
+                          info: "user-name-constraints".i18n(),
                           onComplete: () {
                             FocusScope.of(context).requestFocus(_emailNode);
                           },
@@ -115,6 +116,7 @@ class _Signup extends State<Signup> {
                           icon: const Icon(Icons.phone),
                         ),
                         PasswordFormField(
+                          info: 'password-constraints'.i18n(),
                           focusNode: _passwodNode,
                           controller: _passwordId,
                         ),

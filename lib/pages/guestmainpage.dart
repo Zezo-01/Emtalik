@@ -4,20 +4,16 @@ import 'package:emtalik/pages/NavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key}) : super(key: key);
+class GuestPage extends StatefulWidget {
+  GuestPage({Key? key}) : super(key: key);
 
-  _MyHomePage createState() => _MyHomePage();
+  _GuestPage createState() => _GuestPage();
 }
 
-class _MyHomePage extends State<MyHomePage> {
+class _GuestPage extends State<GuestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavBar(),
-      appBar: AppBar(
-        title: Text("settings".i18n()),
-      ),
       body: Center(
         child: Column(
           children: [
@@ -96,25 +92,7 @@ class _MyHomePage extends State<MyHomePage> {
                   )),
               ButtonBar(
                 alignment: MainAxisAlignment.start,
-                children: [
-                  /*
-                  FlatButton(
-                    color: Colors.black,
-                    child: Text('Wishlist '),
-                    onPressed: () {},
-                  ),
-                  FlatButton(
-                    color: Colors.black,
-                    child: Text('Call'),
-                    onPressed: () {},
-                  ),
-                  FlatButton(
-                    color: Colors.black,
-                    child: Text('Chat'),
-                    onPressed: () {},
-                  ),
-                  */
-                ],
+                children: [],
               )
             ],
           ),

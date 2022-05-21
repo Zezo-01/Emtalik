@@ -2,6 +2,7 @@
 
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 
 class ChangePassword extends StatelessWidget {
   final TextEditingController _firstPassId = TextEditingController();
@@ -18,12 +19,13 @@ class ChangePassword extends StatelessWidget {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height;
     return AlertDialog(
-      title: Text('Enter New Password'),
+      title: Text("enter-new-password".i18n()),
       //Here Add SCroll And Padding
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           PasswordFormField(
+            info: "password-constraints".i18n(),
             onComplete: () {
               FocusScope.of(context).requestFocus(_secondPassNode);
             },
@@ -33,7 +35,12 @@ class ChangePassword extends StatelessWidget {
           SizedBox(
             height: height * 0.05,
           ),
+          Text("enter-password-again".i18n()),
+          SizedBox(
+            height: height * 0.05,
+          ),
           PasswordFormField(
+            info: "password-constraints".i18n(),
             onComplete: () {
               FocusScope.of(context).requestFocus(_buttonNode);
             },
@@ -47,7 +54,7 @@ class ChangePassword extends StatelessWidget {
           onPressed: () {
             Navigator.of(context).pushNamed('/mainpage');
           },
-          child: Text("Save"),
+          child: Text("save".i18n()),
         ),
       ],
     );

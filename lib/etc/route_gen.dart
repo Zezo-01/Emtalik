@@ -1,10 +1,14 @@
 // ignore_for_file: unused_local_variable, prefer_const_constructors, duplicate_ignore
 
 import 'package:emtalik/pages/changepassword.dart';
+import 'package:emtalik/pages/guestmainpage.dart';
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/pages/login.dart';
 import 'package:emtalik/pages/support.dart';
 import 'package:emtalik/pages/terms.dart';
+import 'package:emtalik/sandbox/sanboxtext.dart';
+import 'package:emtalik/sandbox/sandbox.dart';
+import 'package:emtalik/sandbox/sandboxui.dart';
 import 'package:flutter/material.dart';
 import '../pages/signup.dart';
 
@@ -24,6 +28,14 @@ class RouteGeneration {
         return MaterialPageRoute(builder: (_) => ChangePassword());
       case '/support':
         return MaterialPageRoute(builder: (_) => Support());
+        case '/guestpage':
+        return MaterialPageRoute(builder: (_) => GuestPage());
+      case '/sandboxtext':
+        return MaterialPageRoute(builder: (_) => SandBoxText());
+      case '/sandbox':
+        return MaterialPageRoute(builder: (_) => SandBox());
+      case '/sandboxui':
+        return MaterialPageRoute(builder: (_) => SandBoxUi());
     }
     return errorRoute();
   }

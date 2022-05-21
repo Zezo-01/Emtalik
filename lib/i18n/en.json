@@ -6,6 +6,7 @@
     "email":"E-mail",
     "password":"Password",
     "password-constraints":"Your password should be at least 8, at most 25 characters long, have at least 1 upper case and 1 lower case letter",
+    "user-name-constraints":"Your Username should be at least 5, at most 45 characters only english letters.",
     "required-field":"this field is required",
     "id":"ID",
     "login":"Login",
@@ -31,6 +32,24 @@
     "Invalid Password":"Incorrect Password",
     "Invalid Contact Number":"Incorrect Contact Number",
     "Invalid Email":"Incorrect Email",
-    "no-connection":"There is no connection to the server"
+    "no-connection":"There is no connection to the server",
+    "settings":"Settings",
+    "change-password":"Change Password",
+    "terms-and-conditions":" Terms And Conditions",
+    "support":" Support",
+    "enter-new-password":"Enter New Password",
+    "enter-password-again":"Enter Password Again",
+    "save":"Save",
+    "call-us":"Call Us",
+    "1-agreement-to-terms.":"1-Agreement to terms.",
+    "2-user-representation.":"2-user Representation.",
+    "3-submissions.":"3-Submissions.",
+    "4-goverinig-law.":"4-Goverinig Law.",
+    "5-user-data.":"5-User Data.",
+    "6-site-management":"6-Site Management.",
+    "7-copy-right.":"7-Copy Right.",
+    "8-prohbited-activites.":"8-Prohbited Activites.",
+    "close":"Close"
+
 }
   
