@@ -25,6 +25,7 @@ class ChangePassword extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           PasswordFormField(
+            info: "password-constraints".i18n(),
             onComplete: () {
               FocusScope.of(context).requestFocus(_secondPassNode);
             },
@@ -39,6 +40,7 @@ class ChangePassword extends StatelessWidget {
             height: height * 0.05,
           ),
           PasswordFormField(
+            info: "password-constraints".i18n(),
             onComplete: () {
               FocusScope.of(context).requestFocus(_buttonNode);
             },
