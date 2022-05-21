@@ -4,8 +4,6 @@ import 'package:emtalik/pages/changepassword.dart';
 import 'package:emtalik/pages/guestmainpage.dart';
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/pages/login.dart';
-import 'package:emtalik/pages/support.dart';
-import 'package:emtalik/pages/terms.dart';
 import 'package:emtalik/sandbox/sanboxtext.dart';
 import 'package:emtalik/sandbox/sandbox.dart';
 import 'package:emtalik/sandbox/sandboxui.dart';
@@ -22,12 +20,8 @@ class RouteGeneration {
         return MaterialPageRoute(builder: (_) => MyHomePage());
       case '/signup':
         return MaterialPageRoute(builder: (_) => Signup());
-      case '/terms':
-        return MaterialPageRoute(builder: (_) => Terms());
       case '/changepassword':
         return MaterialPageRoute(builder: (_) => ChangePassword());
-      case '/support':
-        return MaterialPageRoute(builder: (_) => Support());
         case '/guestpage':
         return MaterialPageRoute(builder: (_) => GuestPage());
       case '/sandboxtext':

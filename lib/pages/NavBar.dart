@@ -22,20 +22,7 @@ class NavBar extends StatelessWidget {
               Navigator.of(context).pushNamed('/changepassword');
             },
           ),
-          ListTile(
-            leading: Icon(Icons.add_link),
-            title: Text("terms-and-conditions".i18n()),
-            onTap: () {
-              Navigator.of(context).pushNamed('/terms');
-            },
-          ),
-          ListTile(
-            leading: Icon(Icons.support),
-            title: Text("support".i18n()),
-            onTap: () {
-              Navigator.of(context).pushNamed('/support');
-            },
-          ),
+          
         ],
       ),
     );
