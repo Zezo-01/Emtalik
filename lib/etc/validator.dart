@@ -5,5 +5,26 @@ abstract class Validator {
     ).hasMatch(password)) return true;
     return false;
   }
+
+  static bool usernameValidator(String username) {
+    if (RegExp(
+      r'^[0-9A-z]{4,25}$',
+    ).hasMatch(username)) return true;
+    return false;
+  }
+
+  static bool nameValidator(String name) {
+    if (RegExp(
+      r'^[A-z]{4,15}$',
+    ).hasMatch(name)) return true;
+    return false;
+  }
+
+  static bool emailValidator(String email) {
+    if (RegExp(
+      r'^(.+)@(\\S+)$',
+    ).hasMatch(email)) return true;
+    return false;
+  }
 }
 // TODO: implmenet name and email validator
