@@ -2,6 +2,7 @@
 
 import 'package:emtalik/pages/NavBar.dart';
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -15,7 +16,7 @@ class _MyHomePage extends State<MyHomePage> {
     return Scaffold(
       drawer: NavBar(),
       appBar: AppBar(
-        title: Text('Settings'),
+        title: Text("settings".i18n()),
       ),
       body: Center(
         child: Column(

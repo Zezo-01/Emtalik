@@ -6,6 +6,7 @@
     "email":"إيميل",
     "password":"الرقم السري",
     "password-constraints":"الرقم السري يجب أن يكون حجمه  ما بين 8 و 25 ، وأن يحتوي على حرف إنجليزي كبير و صغير على الأقل",
+    "user-name-constraints":"اسم المستخدم يجب ان يكون بين 5 الى 45 حرف و الأحرف ففقط  بلأنجليزيه",
     "required-field":"هذا الحقل مطلوب",
     "password-doesnt-match-constraints":"الكلمة السرية لا توافق القيود",
     "id":"هوية",
@@ -27,6 +28,24 @@
     "grandfather-name":"إسم الجد",
     "last-name":"إسم العائلة",
     "personal":"شخصي",
-    "account":"الحساب"
+    "account":"الحساب",
+    "settings":"الأعدادات",
+    "change-password":"تغيير كلمه السر",
+    "terms-and-conditions":"الأحكام والشروط",
+    "support":"الدعم الفني",
+    "enter-new-password":"ادخل كلمه السر الجديده",
+    "enter-password-again":"ادخل كلمه السر مره اخرى",
+    "save":"احفظ",
+    "call-us":"اتصل بنا",
+    "1-agreement-to-terms.":"1-الأتفاق على الشروط",
+    "2-user-representation.":"2-تمثيل المستخدم.",
+    "3-submissions.":"3-التقديمات.",
+    "4-goverinig-law.":"4-القانون الحاكم.",
+    "5-user-data.":"5-بيانات المستخدم.",
+    "6-site-management":"6- إدارة الموقع.",
+    "7-copy-right.":"7-حقوق النشر.",
+    "8-prohbited-activites.":"8- الأنشطة المحظورة.",
+    "close":"اغلاق"
+
 }
   

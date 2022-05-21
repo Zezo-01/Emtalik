@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:localization/localization.dart';
 
 class NavBar extends StatelessWidget {
   @override
@@ -16,21 +17,21 @@ class NavBar extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.password),
-            title: Text('Change Password'),
+            title: Text("change-password".i18n()),
             onTap: () {
               Navigator.of(context).pushNamed('/changepassword');
             },
           ),
           ListTile(
             leading: Icon(Icons.add_link),
-            title: Text('Terms And Conditions'),
+            title: Text("terms-and-conditions".i18n()),
             onTap: () {
               Navigator.of(context).pushNamed('/terms');
             },
           ),
           ListTile(
             leading: Icon(Icons.support),
-            title: Text('Support'),
+            title: Text("support".i18n()),
             onTap: () {
               Navigator.of(context).pushNamed('/support');
             },

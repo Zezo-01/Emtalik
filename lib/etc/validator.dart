@@ -6,6 +6,4 @@ abstract class Validator {
     return false;
   }
 }
-
-
 // TODO: implmenet name and email validator
