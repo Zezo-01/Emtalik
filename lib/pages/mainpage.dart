@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, annotate_overrides, prefer_const_constructors_in_immutables
 
-import 'package:emtalik/main.dart';
 import 'package:emtalik/pages/NavBar.dart';
 import 'package:flutter/material.dart';
 
