@@ -2,6 +2,7 @@
 
 import 'package:emtalik/pages/NavBar.dart';
 import 'package:flutter/material.dart';
+import 'package:localization/localization.dart';
 
 class GuestPage extends StatefulWidget {
   GuestPage({Key? key}) : super(key: key);
@@ -53,7 +54,7 @@ class _GuestPage extends State<GuestPage> {
                     left: 16,
                     // ignore: prefer_const_constructors
                     child: Text(
-                      'Land ',
+                      "land".i18n(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
@@ -91,25 +92,7 @@ class _GuestPage extends State<GuestPage> {
                   )),
               ButtonBar(
                 alignment: MainAxisAlignment.start,
-                children: [
-                  /*
-                  FlatButton(
-                    color: Colors.black,
-                    child: Text('Wishlist '),
-                    onPressed: () {},
-                  ),
-                  FlatButton(
-                    color: Colors.black,
-                    child: Text('Call'),
-                    onPressed: () {},
-                  ),
-                  FlatButton(
-                    color: Colors.black,
-                    child: Text('Chat'),
-                    onPressed: () {},
-                  ),
-                  */
-                ],
+                children: [],
               )
             ],
           ),

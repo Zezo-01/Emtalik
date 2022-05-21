@@ -58,7 +58,7 @@ class _MyHomePage extends State<MyHomePage> {
                     left: 16,
                     // ignore: prefer_const_constructors
                     child: Text(
-                      'Land ',
+                      "land".i18n(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

@@ -135,7 +135,6 @@ class _LoginPage extends State<LoginPage> {
                           onPressed: () {
                             Navigator.of(context).pushNamed('/guestpage');
                             ToastFactory.makeToast(
-                              
                                 context,
                                 TOAST_TYPE.info,
                                 "Guest Functionality",
