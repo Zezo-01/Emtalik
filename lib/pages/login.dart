@@ -7,9 +7,7 @@ import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/user.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
-import 'package:motion_toast/motion_toast.dart';
 import 'package:provider/provider.dart';
-
 import '../etc/http_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -19,9 +17,6 @@ class LoginPage extends StatefulWidget {
   State<StatefulWidget> createState() => _LoginPage();
 }
 
-/*
-*                              TODO:ERROR *** VERTICAL SCROLLING IS NEEDED
-*/
 class _LoginPage extends State<LoginPage> {
   final formKey = GlobalKey<FormState>();
   final TextEditingController _id = TextEditingController();
@@ -157,7 +152,7 @@ class _LoginPage extends State<LoginPage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/signup1');
+                                Navigator.of(context).pushNamed('/signup');
                               },
                               child: Text("no-account?".i18n()),
                             ),

@@ -20,7 +20,7 @@ class RouteGeneration {
         return MaterialPageRoute(builder: (_) => LoginPage());
       case '/mainpage':
         return MaterialPageRoute(builder: (_) => MyHomePage());
-      case '/signup1':
+      case '/signup':
         return MaterialPageRoute(builder: (_) => Signup());
       case '/terms':
         return MaterialPageRoute(builder: (_) => Terms());

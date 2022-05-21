@@ -17,8 +17,6 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => LocaleProvider()),
-      // ChangeNotifierProvider(
-      //     create: (context) => User(id: null, interests: null, role: null)),
       Provider(
           create: (context) => User(id: null, interests: null, role: null)),
     ],
