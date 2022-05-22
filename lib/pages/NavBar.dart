@@ -5,8 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class NavBar extends StatelessWidget {
-  final name = '';
-  final email = '';
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -15,8 +14,8 @@ class NavBar extends StatelessWidget {
         children: [
           UserAccountsDrawerHeader(
             currentAccountPicture: Icon(Icons.person),
-            accountName: Text(name),
-            accountEmail: Text(email),
+            accountName: Text("name"),
+            accountEmail: Text("Email"),
           ),
           ListTile(),
           ElevatedButton(
