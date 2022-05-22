@@ -146,6 +146,8 @@ class _LoginPage extends State<LoginPage> {
                                 }
                               },
                               child: Text("login".i18n()),
+                              style:
+                                  Theme.of(context).elevatedButtonTheme.style,
                             ),
                             TextButton(
                               onPressed: () {
