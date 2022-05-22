@@ -1,9 +1,14 @@
 // ignore_for_file: prefer_const_constructors, unused_field, prefer_final_fields, use_key_in_widget_constructors
+import 'dart:io';
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
+import 'package:emtalik/etc/enums.dart';
+import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/validator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -11,6 +16,19 @@ class Signup extends StatefulWidget {
 }
 
 class _Signup extends State<Signup> {
+    File? image;
+  Future pickYourImage() async {
+    try {
+      final userImage =
+          await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (userImage == null) return;
+      final imageDeafult = File(image!.path);
+      setState(() => image = imageDeafult);
+    } on PlatformException catch (e) {
+      ToastFactory.makeToast(context, TOAST_TYPE.info, "Error",
+          "Cant Pick Up Image", false, () {});
+    }
+  }
   bool _land = false;
   bool _store = false;
   bool _appartment = false;
@@ -345,6 +363,21 @@ class _Signup extends State<Signup> {
                               });
                             },
                           ),
+                          Column(
+                            children: [
+                              Text(
+                                "pick-up-your-image".i18n(),style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 12),
+                              ),
+                              IconButton(
+                                iconSize: 50,
+                                icon: Icon(Icons.image_search),
+                                onPressed: pickYourImage,
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -357,7 +390,8 @@ class _Signup extends State<Signup> {
                     // SIGNING UP
                     if (keys[currentStep].currentState!.validate()) {
                       // SEND SIGNUP REQUEST
-                      Navigator.of(context).pushNamed('/mainpage');
+                      //Navigator.of(context).pushNamed('/mainpage');
+                       setState(() => currentStep += 1);
                     }
                   }
                 },
