@@ -57,8 +57,8 @@ class _GuestPage extends State<GuestPage> {
                     child: InkWell(
                       onTap: () {},
                     ),
-                    height: 500,
-                    width: 1000,
+                    height: 250,
+                    width: 500,
                     fit: BoxFit.cover,
                   ),
                   Positioned(

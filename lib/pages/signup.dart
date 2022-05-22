@@ -391,7 +391,8 @@ class _Signup extends State<Signup> {
                     // SIGNING UP
                     if (keys[currentStep].currentState!.validate()) {
                       // SEND SIGNUP REQUEST
-                      Navigator.of(context).pushNamed('/mainpage');
+                      //Navigator.of(context).pushNamed('/mainpage');
+                       setState(() => currentStep += 1);
                     }
                   }
                 },
