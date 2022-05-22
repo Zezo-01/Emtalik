@@ -10,17 +10,13 @@ import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
 import 'package:image_picker/image_picker.dart';
 
-// ignore: todo
-//        TODO: IMPLEMENT CANCEL BUTTON RETURNS TO THE MAIN PAGE
-// ignore: todo
-//        TODO: Give meaningfull route names and meaningfull file names
 class Signup extends StatefulWidget {
   @override
   _Signup createState() => _Signup();
 }
 
 class _Signup extends State<Signup> {
-  File? image;
+    File? image;
   Future pickYourImage() async {
     try {
       final userImage =
@@ -33,14 +29,10 @@ class _Signup extends State<Signup> {
           "Cant Pick Up Image", false, () {});
     }
   }
-
-  bool _check1 = false;
-  bool _check2 = false;
-  bool _check3 = false;
-  bool _check4 = false;
-  bool _check5 = false;
-  bool _check6 = false;
-  bool _check7 = false;
+  bool _land = false;
+  bool _store = false;
+  bool _appartment = false;
+  bool _parking = false;
   late int currentStep;
   bool isCompleted = false;
   final TextEditingController _userId = TextEditingController();
@@ -241,10 +233,10 @@ class _Signup extends State<Signup> {
                             title: Text("land".i18n()),
                             secondary: Icon(Icons.landscape),
                             controlAffinity: ListTileControlAffinity.platform,
-                            value: _check1,
+                            value: _land,
                             onChanged: (value) {
                               setState(() {
-                                _check1 = value!;
+                                _land = value!;
                               });
                             },
                           ),
@@ -252,10 +244,10 @@ class _Signup extends State<Signup> {
                             title: Text("store".i18n()),
                             secondary: Icon(Icons.store),
                             controlAffinity: ListTileControlAffinity.platform,
-                            value: _check2,
+                            value: _store,
                             onChanged: (value) {
                               setState(() {
-                                _check2 = value!;
+                                _store = value!;
                               });
                             },
                           ),
@@ -263,10 +255,10 @@ class _Signup extends State<Signup> {
                             title: Text("appartment".i18n()),
                             secondary: Icon(Icons.home),
                             controlAffinity: ListTileControlAffinity.platform,
-                            value: _check3,
+                            value: _appartment,
                             onChanged: (value) {
                               setState(() {
-                                _check3 = value!;
+                                _appartment = value!;
                               });
                             },
                           ),
@@ -274,10 +266,10 @@ class _Signup extends State<Signup> {
                             title: Text("parking".i18n()),
                             secondary: Icon(Icons.local_parking),
                             controlAffinity: ListTileControlAffinity.platform,
-                            value: _check4,
+                            value: _parking,
                             onChanged: (value) {
                               setState(() {
-                                _check4 = value!;
+                                _parking = value!;
                               });
                             },
                           ),
