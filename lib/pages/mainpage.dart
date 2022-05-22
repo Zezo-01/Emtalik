@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, annotate_overrides, prefer_const_constructors_in_immutables
 
 import 'package:emtalik/pages/NavBar.dart';
+import 'package:emtalik/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 
@@ -12,21 +13,40 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePage extends State<MyHomePage> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      drawer: NavBar(),
-      appBar: AppBar(
-        title: Text("settings".i18n()),
-      ),
-      body: Center(
-        child: Column(
-          children: [
-            bulidCard(),
+  Widget build(BuildContext context) => DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("search".i18n()),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(
+                  context: context,
+                  delegate: MySearch(),
+                );
+              },
+            ),
           ],
+          backgroundColor: Colors.blue,
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                text: "offers".i18n(),
+                icon: Icon(Icons.local_offer),
+              ),
+              Tab(
+                text: "settings".i18n(),
+                icon: Icon(Icons.settings),
+              ),
+            ],
+          ),
         ),
-      ),
-    );
-  }
+        body: TabBarView(
+          children: [bulidCard(), NavBar()],
+        ),
+      ));
 
   Widget bulidCard() => Card(
         clipBehavior: Clip.antiAlias,
@@ -47,8 +67,8 @@ class _MyHomePage extends State<MyHomePage> {
                     child: InkWell(
                       onTap: () {},
                     ),
-                    height: 500,
-                    width: 1000,
+                    height: 200,
+                    width: 500,
                     fit: BoxFit.cover,
                   ),
                   // ignore: prefer_const_constructors
@@ -73,49 +93,20 @@ class _MyHomePage extends State<MyHomePage> {
                   child: Column(
                     children: [
                       Text(
-                        'Location:- Arraba',
+                        "location".i18n(),
                         style: TextStyle(fontSize: 16),
                       ),
                       Text(
-                        'Area:- 500',
+                        "estate".i18n(),
                         style: TextStyle(fontSize: 16),
                       ),
                       Text(
-                        'Owner:- Yazeed Mograby',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Text(
-                        'Price :- 500000',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Text(
-                        'Contact:- 04-67447748',
+                        "name-estate".i18n(),
                         style: TextStyle(fontSize: 16),
                       ),
                     ],
                   )),
-              ButtonBar(
-                alignment: MainAxisAlignment.start,
-                children: [
-                  /*
-                  FlatButton(
-                    color: Colors.black,
-                    child: Text('Wishlist '),
-                    onPressed: () {},
-                  ),
-                  FlatButton(
-                    color: Colors.black,
-                    child: Text('Call'),
-                    onPressed: () {},
-                  ),
-                  FlatButton(
-                    color: Colors.black,
-                    child: Text('Chat'),
-                    onPressed: () {},
-                  ),
-                  */
-                ],
-              )
+              ButtonBar()
             ],
           ),
         ),
