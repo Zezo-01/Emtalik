@@ -1,13 +1,9 @@
 // ignore_for_file: prefer_const_constructors, unused_field, prefer_final_fields, use_key_in_widget_constructors
-import 'dart:io';
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
-import 'package:emtalik/etc/enums.dart';
-import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/etc/validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
-import 'package:image_picker/image_picker.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -15,20 +11,6 @@ class Signup extends StatefulWidget {
 }
 
 class _Signup extends State<Signup> {
-  File? image;
-  Future pickYourImage() async {
-    try {
-      final userImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (userImage == null) return;
-      final imageDeafult = File(image!.path);
-      setState(() => image = imageDeafult);
-    } on PlatformException catch (e) {
-      ToastFactory.makeToast(context, TOAST_TYPE.info, "Error",
-          "Cant Pick Up Image", false, () {});
-    }
-  }
-
   bool _land = false;
   bool _store = false;
   bool _appartment = false;
@@ -84,12 +66,12 @@ class _Signup extends State<Signup> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         resizeToAvoidBottomInset: false,
         key: _scaffoldkey,
         body: SafeArea(
           child: Stepper(
               type: StepperType.horizontal,
+              //Yazeed See Here
               steps: [
                 Step(
                   state:
@@ -117,6 +99,18 @@ class _Signup extends State<Signup> {
                               type: TextInputType.name,
                               labelText: "username".i18n(),
                               icon: const Icon(Icons.perm_identity),
+                              onValidation: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "required-field".i18n();
+                                } else if (!Validator.usernameValidator(
+                                    value)) {
+                                  return "user-name-constraints".i18n();
+                                }
+                                // TODO: USERNAME MUST BE UNIQUE
+                                // else if(){
+
+                                // }
+                              },
                             ),
                             CustomFormField(
                               onComplete: () {
@@ -129,6 +123,17 @@ class _Signup extends State<Signup> {
                               type: TextInputType.emailAddress,
                               labelText: "email".i18n(),
                               icon: const Icon(Icons.email),
+                              onValidation: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "required-field".i18n();
+                                } else if (!Validator.emailValidator(value)) {
+                                  return "invalid-email".i18n();
+                                }
+                                // TODO: EMAIL MUST BE UNIQUE
+                                // else if(){
+                                // return "username-taken".i18n();
+                                // }
+                              },
                             ),
                             CustomFormField(
                               onComplete: () {
@@ -141,11 +146,30 @@ class _Signup extends State<Signup> {
                               type: TextInputType.phone,
                               labelText: "phone".i18n(),
                               icon: const Icon(Icons.phone),
+                              onValidation: (value) {
+                                if ((value != null &&
+                                        value.trim().isNotEmpty) &&
+                                    !Validator.emailValidator(value)) {
+                                  return "invalid-email".i18n();
+                                }
+                                // TODO: PHONE MUST BE UNIQUE
+                                // else if(){
+                                // return "email-taken".i18n();
+                                // }
+                              },
                             ),
                             PasswordFormField(
                               info: 'password-constraints'.i18n(),
                               focusNode: _passwodNode,
                               controller: _passwordId,
+                              onValidation: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "required-field".i18n();
+                                } else if (!Validator.passwordValidator(
+                                    value)) {
+                                  return 'password-constraints'.i18n();
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -171,12 +195,19 @@ class _Signup extends State<Signup> {
                               FocusScope.of(context)
                                   .requestFocus(_secondNameNode);
                             },
+                            info: "name-constraints".i18n(),
                             focusNode: _firstNameNode,
                             controller: _firstNameId,
                             enterKeyAction: TextInputAction.next,
                             type: TextInputType.name,
                             labelText: "first-name".i18n(),
                             icon: const Icon(Icons.perm_identity),
+                            onValidation: (value) {
+                              if ((value != null && value.trim().isNotEmpty) &&
+                                  !Validator.nameValidator(value)) {
+                                return "name-constraints".i18n();
+                              }
+                            },
                           ),
                           CustomFormField(
                             onComplete: () {
@@ -189,6 +220,12 @@ class _Signup extends State<Signup> {
                             type: TextInputType.name,
                             labelText: "father-name".i18n(),
                             icon: const Icon(Icons.perm_identity),
+                            onValidation: (value) {
+                              if ((value != null && value.trim().isNotEmpty) &&
+                                  !Validator.nameValidator(value)) {
+                                return "name-constraints".i18n();
+                              }
+                            },
                           ),
                           CustomFormField(
                             onComplete: () {
@@ -201,15 +238,29 @@ class _Signup extends State<Signup> {
                             type: TextInputType.name,
                             labelText: "grandfather-name",
                             icon: const Icon(Icons.perm_identity),
+                            onValidation: (value) {
+                              if ((value != null && value.trim().isNotEmpty) &&
+                                  !Validator.nameValidator(value)) {
+                                return "name-constraints".i18n();
+                              }
+                            },
                           ),
                           CustomFormField(
-                            onComplete: () {},
+                            onComplete: () {
+                              //FocusScope.of(context).requestFocus();
+                            },
                             focusNode: _passwodNode,
                             controller: _passwordId,
                             enterKeyAction: TextInputAction.next,
                             type: TextInputType.name,
                             labelText: "last-name",
                             icon: const Icon(Icons.perm_identity),
+                            onValidation: (value) {
+                              if ((value != null && value.trim().isNotEmpty) &&
+                                  !Validator.nameValidator(value)) {
+                                return "name-constraints".i18n();
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -250,7 +301,7 @@ class _Signup extends State<Signup> {
                             },
                           ),
                           CheckboxListTile(
-                            title: Text("appartment".i18n()),
+                            title: Text("appartment-houses".i18n()),
                             secondary: Icon(Icons.home),
                             controlAffinity: ListTileControlAffinity.platform,
                             value: _appartment,
@@ -270,22 +321,6 @@ class _Signup extends State<Signup> {
                                 _parking = value!;
                               });
                             },
-                          ),
-                          SizedBox(
-                            height: 7,
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "pick-up-your-image".i18n(),
-                              ),
-                              IconButton(
-                                iconSize: 50,
-                                color: Colors.green,
-                                icon: Icon(Icons.image_search),
-                                onPressed: pickYourImage,
-                              ),
-                            ],
                           ),
                         ],
                       ),
