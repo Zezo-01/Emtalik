@@ -50,7 +50,7 @@ abstract class AppEnv {
   static ThemeData defaultLightTheme(BuildContext context) => ThemeData(
         colorScheme: _defaultLightColorScheme,
         fontFamily: 'Changa',
-        scaffoldBackgroundColor: Colors.white,
+        scaffoldBackgroundColor: Color.fromARGB(239, 253, 233, 199),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.transparent,
           foregroundColor: Colors.black,

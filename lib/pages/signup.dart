@@ -84,6 +84,7 @@ class _Signup extends State<Signup> {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         resizeToAvoidBottomInset: false,
         key: _scaffoldkey,
         body: SafeArea(
