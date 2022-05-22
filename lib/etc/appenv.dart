@@ -8,16 +8,16 @@ abstract class AppEnv {
   static const _defaultDarkSmallTextColor = Colors.white;
   static const _defaultDarklabelMediumTextColor = Colors.white;
   //*
-  static const _defaultLightTextColor = Color.fromARGB(255, 212, 175, 55);
-  static const _defaultLightMediumTextColor = Color.fromARGB(181, 160, 124, 91);
+  static const _defaultLightTextColor = Colors.black;
+  static const _defaultLightMediumTextColor = Colors.black;
   static const _defaultLightSmallTextColor = Colors.black;
   static const _defaultLightlabelMediumTextColor = Colors.black;
   // LIGHT THEME COLOR SCHEME
   static const ColorScheme _defaultLightColorScheme = ColorScheme(
     brightness: Brightness.light,
-    primary: Color.fromARGB(255, 150, 111, 51),
+    primary: Colors.blueAccent,
     onPrimary: Color.fromARGB(183, 255, 218, 153),
-    background: Colors.blueGrey,
+    background: Color.fromARGB(255, 150, 111, 51),
     onBackground: Colors.indigo,
     error: Color.fromARGB(255, 124, 8, 0),
     onError: Colors.redAccent,
@@ -94,7 +94,7 @@ abstract class AppEnv {
               const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Colors.white,
                   fontFamily: 'Changa'),
             ),
           ),

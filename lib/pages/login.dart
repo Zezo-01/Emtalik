@@ -46,16 +46,12 @@ class _LoginPage extends State<LoginPage> {
         body: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
-              stops: const [
-                0.85,
-                0.5,
-              ],
               colors: [
-                Theme.of(context).colorScheme.background,
+                Theme.of(context).scaffoldBackgroundColor,
                 Theme.of(context).colorScheme.onPrimary,
               ],
-              begin: Alignment.bottomRight,
-              end: Alignment.topLeft,
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
             ),
           ),
           // TODO: FADI HERE
@@ -149,6 +145,8 @@ class _LoginPage extends State<LoginPage> {
                                 }
                               },
                               child: Text("login".i18n()),
+                              style:
+                                  Theme.of(context).elevatedButtonTheme.style,
                             ),
                             TextButton(
                               onPressed: () {
