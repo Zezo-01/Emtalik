@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-class User {
-  User({
+class UserSession {
+  UserSession({
     required this.id,
     required this.role,
     required this.interests,
@@ -13,11 +13,12 @@ class User {
   String? role;
   List<String>? interests;
 
-  factory User.fromRawJson(String str) => User.fromJson(json.decode(str));
+  factory UserSession.fromRawJson(String str) =>
+      UserSession.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
-  factory User.fromJson(Map<String, dynamic> json) => User(
+  factory UserSession.fromJson(Map<String, dynamic> json) => UserSession(
         id: json["id"],
         role: json["role"],
         interests: json["interests"],
@@ -28,7 +29,7 @@ class User {
         "role": role,
         "interests": interests,
       };
-  bool login(User user) {
+  bool login(UserSession user) {
     if (user.id != null && user.role != null) {
       id = user.id;
       role = user.role;

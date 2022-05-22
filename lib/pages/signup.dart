@@ -71,7 +71,6 @@ class _Signup extends State<Signup> {
           body: SafeArea(
             child: Stepper(
                 type: StepperType.horizontal,
-                //Yazeed See Here
                 steps: [
                   Step(
                     state: currentStep > 0

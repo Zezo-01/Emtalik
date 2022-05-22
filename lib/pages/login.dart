@@ -5,7 +5,7 @@ import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/error.dart';
 import 'package:emtalik/providers/locale_provider.dart';
-import 'package:emtalik/providers/user.dart';
+import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
@@ -125,9 +125,10 @@ class _LoginPage extends State<LoginPage> {
                                   if (request != null) {
                                     // USER LOGIN
                                     if (request.statusCode == 200) {
-                                      Provider.of<User>(context, listen: false)
-                                          .login(
-                                              User.fromRawJson(request.body));
+                                      Provider.of<UserSession>(context,
+                                              listen: false)
+                                          .login(UserSession.fromRawJson(
+                                              request.body));
                                       Navigator.of(context)
                                           .pushNamed('/mainpage');
                                     } else {

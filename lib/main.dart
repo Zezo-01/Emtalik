@@ -4,7 +4,7 @@ import 'package:emtalik/etc/route_gen.dart';
 import 'package:emtalik/etc/appenv.dart';
 import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/providers/locale_provider.dart';
-import 'package:emtalik/providers/user.dart';
+import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
@@ -18,7 +18,8 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (context) => LocaleProvider()),
       Provider(
-          create: (context) => User(id: null, interests: null, role: null)),
+          create: (context) =>
+              UserSession(id: null, interests: null, role: null)),
     ],
     child: MyApp(),
   ));
