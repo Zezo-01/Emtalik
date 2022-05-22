@@ -29,8 +29,9 @@ class _MyHomePage extends State<MyHomePage> {
               },
             ),
           ],
-          backgroundColor: Colors.blue,
+          backgroundColor:Theme.of(context).backgroundColor,
           bottom: TabBar(
+
             tabs: [
               Tab(
                 text: "offers".i18n(),
@@ -57,6 +58,7 @@ class _MyHomePage extends State<MyHomePage> {
           padding:
               EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Column(
+            
             children: [
               Stack(
                 children: [
@@ -81,7 +83,7 @@ class _MyHomePage extends State<MyHomePage> {
                       "land".i18n(),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color:Theme.of(context).colorScheme.primary ,
                         fontSize: 24,
                       ),
                     ),
@@ -94,15 +96,16 @@ class _MyHomePage extends State<MyHomePage> {
                     children: [
                       Text(
                         "location".i18n(),
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16,color:Theme.of(context).colorScheme.primary ,),
+                        
                       ),
                       Text(
                         "estate".i18n(),
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16,color:Theme.of(context).colorScheme.primary ,),
                       ),
                       Text(
                         "name-estate".i18n(),
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 16,color:Theme.of(context).colorScheme.primary ,),
                       ),
                     ],
                   )),
