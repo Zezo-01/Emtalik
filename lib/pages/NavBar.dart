@@ -1,10 +1,13 @@
 // ignore_for_file: unnecessary_import, prefer_const_constructors, use_key_in_widget_constructors, file_names
 
+import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 
 class NavBar extends StatelessWidget {
+  final name = '';
+  final email = '';
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -12,17 +15,28 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            accountName: Text('Name From DataBase'),
-            accountEmail: Text('Email From Database'),
+            currentAccountPicture: Icon(Icons.person),
+            accountName: Text(name),
+            accountEmail: Text(email),
           ),
-          ListTile(
-            leading: Icon(Icons.password),
-            title: Text("change-password".i18n()),
-            onTap: () {
-              Navigator.of(context).pushNamed('/changepassword');
+          ListTile(),
+          ElevatedButton(
+            onPressed: () {
+              Provider.of<LocaleProvider>(context, listen: false)
+                  .toggleLanguage();
             },
+            child: Text(Provider.of<LocaleProvider>(context).locale ==
+                    const Locale('ar')
+                ? 'English'
+                : 'العربية'),
           ),
-          
+          SizedBox(
+            height: 8,
+          ),
+          ElevatedButton(
+            onPressed: () {},
+            child: Text("Dark Theme"),
+          )
         ],
       ),
     );
