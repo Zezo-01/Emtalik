@@ -1,5 +1,4 @@
 // ignore_for_file: unnecessary_import, prefer_const_constructors, use_key_in_widget_constructors, file_names
-
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -31,12 +31,7 @@ class MySearch extends SearchDelegate {
       );
 
   @override
-  Widget buildResults(BuildContext context) => Center(
-        child: Text(
-          query,
-          style: TextStyle(fontSize: 64, fontWeight: FontWeight.bold),
-        ),
-      );
+  Widget buildResults(BuildContext context) => Center();
 
   @override
   Widget buildSuggestions(BuildContext context) {
