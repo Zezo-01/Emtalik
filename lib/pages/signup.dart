@@ -64,110 +64,219 @@ class _Signup extends State<Signup> {
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldkey = GlobalKey<ScaffoldState>();
     return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        key: _scaffoldkey,
-        body: SafeArea(
-          child: Stepper(
-              type: StepperType.horizontal,
-              //Yazeed See Here
-              steps: [
-                Step(
-                  state:
-                      currentStep > 0 ? StepState.complete : StepState.indexed,
-                  isActive: currentStep >= 0,
-                  title: Text("account".i18n()),
-                  content: SingleChildScrollView(
-                    child: Container(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          key: _scaffoldkey,
+          body: SafeArea(
+            child: Stepper(
+                type: StepperType.horizontal,
+                //Yazeed See Here
+                steps: [
+                  Step(
+                    state: currentStep > 0
+                        ? StepState.complete
+                        : StepState.indexed,
+                    isActive: currentStep >= 0,
+                    title: Text(
+                      "account".i18n(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 12),
+                    ),
+                    content: SingleChildScrollView(
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: Form(
+                          key: sellerFormKey,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CustomFormField(
+                                onComplete: () {
+                                  FocusScope.of(context)
+                                      .requestFocus(_secondNameNode);
+                                },
+                                focusNode: _firstNameNode,
+                                controller: _firstNameId,
+                                enterKeyAction: TextInputAction.next,
+                                type: TextInputType.name,
+                                labelText: "first-name".i18n(),
+                                icon: const Icon(Icons.perm_identity),
+                                onValidation: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "required-field".i18n();
+                                  } else if (!Validator.usernameValidator(
+                                      value)) {
+                                    return "user-name-constraints".i18n();
+                                  }
+                                  // TODO: USERNAME MUST BE UNIQUE
+                                  // else if(){
+
+                                  // }
+                                },
+                              ),
+                              CustomFormField(
+                                onComplete: () {
+                                  FocusScope.of(context)
+                                      .requestFocus(_thirdNameNode);
+                                },
+                                focusNode: _secondNameNode,
+                                controller: _secondNameId,
+                                enterKeyAction: TextInputAction.next,
+                                type: TextInputType.emailAddress,
+                                labelText: "email".i18n(),
+                                icon: const Icon(Icons.email),
+                                onValidation: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "required-field".i18n();
+                                  } else if (!Validator.emailValidator(value)) {
+                                    return "invalid-email".i18n();
+                                  }
+                                  // TODO: EMAIL MUST BE UNIQUE
+                                  // else if(){
+                                  // return "username-taken".i18n();
+                                  // }
+                                },
+                              ),
+                              CustomFormField(
+                                onComplete: () {
+                                  FocusScope.of(context)
+                                      .requestFocus(_lastNameNode);
+                                },
+                                focusNode: _thirdNameNode,
+                                controller: _thirdNameId,
+                                enterKeyAction: TextInputAction.next,
+                                type: TextInputType.phone,
+                                labelText: "phone".i18n(),
+                                icon: const Icon(Icons.phone),
+                                onValidation: (value) {
+                                  if ((value != null &&
+                                          value.trim().isNotEmpty) &&
+                                      !Validator.emailValidator(value)) {
+                                    return "invalid-email".i18n();
+                                  }
+                                  // TODO: PHONE MUST BE UNIQUE
+                                  // else if(){
+                                  // return "email-taken".i18n();
+                                  // }
+                                },
+                              ),
+                              CustomFormField(
+                                onComplete: () {},
+                                focusNode: _passwodNode,
+                                controller: _passwordId,
+                                labelText: "password".i18n(),
+                                onValidation: (value) {
+                                  if (value == null || value.trim().isEmpty) {
+                                    return "required-field".i18n();
+                                  } else if (!Validator.passwordValidator(
+                                      value)) {
+                                    return 'password-constraints'.i18n();
+                                  }
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Step(
+                    state: currentStep > 1
+                        ? StepState.complete
+                        : StepState.indexed,
+                    isActive: currentStep >= 1,
+                    title: Text(
+                      "personal".i18n(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 12),
+                    ),
+                    content: Container(
                       margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: Form(
-                        key: requiredFormKey,
+                        key: sellerFormKey,
                         child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              height: 25,
-                            ),
                             CustomFormField(
-                              info: "user-name-constraints".i18n(),
                               onComplete: () {
-                                FocusScope.of(context).requestFocus(_emailNode);
+                                FocusScope.of(context)
+                                    .requestFocus(_secondNameNode);
                               },
-                              focusNode: _userNameNode,
-                              controller: _userId,
+                              info: "name-constraints".i18n(),
+                              focusNode: _firstNameNode,
+                              controller: _firstNameId,
                               enterKeyAction: TextInputAction.next,
                               type: TextInputType.name,
-                              labelText: "username".i18n(),
+                              labelText: "first-name".i18n(),
                               icon: const Icon(Icons.perm_identity),
-                              onValidation: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return "required-field".i18n();
-                                } else if (!Validator.usernameValidator(
-                                    value)) {
-                                  return "user-name-constraints".i18n();
-                                }
-                                // TODO: USERNAME MUST BE UNIQUE
-                                // else if(){
-
-                                // }
-                              },
-                            ),
-                            CustomFormField(
-                              onComplete: () {
-                                FocusScope.of(context)
-                                    .requestFocus(_passwodNode);
-                              },
-                              focusNode: _emailNode,
-                              controller: _emailId,
-                              enterKeyAction: TextInputAction.next,
-                              type: TextInputType.emailAddress,
-                              labelText: "email".i18n(),
-                              icon: const Icon(Icons.email),
-                              onValidation: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return "required-field".i18n();
-                                } else if (!Validator.emailValidator(value)) {
-                                  return "invalid-email".i18n();
-                                }
-                                // TODO: EMAIL MUST BE UNIQUE
-                                // else if(){
-                                // return "username-taken".i18n();
-                                // }
-                              },
-                            ),
-                            CustomFormField(
-                              onComplete: () {
-                                FocusScope.of(context)
-                                    .requestFocus(_passwodNode);
-                              },
-                              focusNode: _phoneNode,
-                              controller: _phoneId,
-                              enterKeyAction: TextInputAction.next,
-                              type: TextInputType.phone,
-                              labelText: "phone".i18n(),
-                              icon: const Icon(Icons.phone),
                               onValidation: (value) {
                                 if ((value != null &&
                                         value.trim().isNotEmpty) &&
-                                    !Validator.emailValidator(value)) {
-                                  return "invalid-email".i18n();
+                                    !Validator.nameValidator(value)) {
+                                  return "name-constraints".i18n();
                                 }
-                                // TODO: PHONE MUST BE UNIQUE
-                                // else if(){
-                                // return "email-taken".i18n();
-                                // }
                               },
                             ),
-                            PasswordFormField(
-                              info: 'password-constraints'.i18n(),
+                            CustomFormField(
+                              onComplete: () {
+                                FocusScope.of(context)
+                                    .requestFocus(_thirdNameNode);
+                              },
+                              focusNode: _secondNameNode,
+                              controller: _secondNameId,
+                              enterKeyAction: TextInputAction.next,
+                              type: TextInputType.name,
+                              labelText: "father-name".i18n(),
+                              icon: const Icon(Icons.perm_identity),
+                              onValidation: (value) {
+                                if ((value != null &&
+                                        value.trim().isNotEmpty) &&
+                                    !Validator.nameValidator(value)) {
+                                  return "name-constraints".i18n();
+                                }
+                              },
+                            ),
+                            CustomFormField(
+                              onComplete: () {
+                                FocusScope.of(context)
+                                    .requestFocus(_lastNameNode);
+                              },
+                              focusNode: _thirdNameNode,
+                              controller: _thirdNameId,
+                              enterKeyAction: TextInputAction.next,
+                              type: TextInputType.name,
+                              labelText: "grandfather-name",
+                              icon: const Icon(Icons.perm_identity),
+                              onValidation: (value) {
+                                if ((value != null &&
+                                        value.trim().isNotEmpty) &&
+                                    !Validator.nameValidator(value)) {
+                                  return "name-constraints".i18n();
+                                }
+                              },
+                            ),
+                            CustomFormField(
+                              onComplete: () {
+                                //FocusScope.of(context).requestFocus();
+                              },
                               focusNode: _passwodNode,
                               controller: _passwordId,
+                              enterKeyAction: TextInputAction.next,
+                              type: TextInputType.name,
+                              labelText: "last-name",
+                              icon: const Icon(Icons.perm_identity),
                               onValidation: (value) {
-                                if (value == null || value.trim().isEmpty) {
-                                  return "required-field".i18n();
-                                } else if (!Validator.passwordValidator(
-                                    value)) {
-                                  return 'password-constraints'.i18n();
+                                if ((value != null &&
+                                        value.trim().isNotEmpty) &&
+                                    !Validator.nameValidator(value)) {
+                                  return "name-constraints".i18n();
                                 }
                               },
                             ),
@@ -176,103 +285,18 @@ class _Signup extends State<Signup> {
                       ),
                     ),
                   ),
-                ),
-                Step(
-                  state:
-                      currentStep > 1 ? StepState.complete : StepState.indexed,
-                  isActive: currentStep >= 1,
-                  title: Text("personal".i18n()),
-                  content: Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: Form(
-                      key: sellerFormKey,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          CustomFormField(
-                            onComplete: () {
-                              FocusScope.of(context)
-                                  .requestFocus(_secondNameNode);
-                            },
-                            info: "name-constraints".i18n(),
-                            focusNode: _firstNameNode,
-                            controller: _firstNameId,
-                            enterKeyAction: TextInputAction.next,
-                            type: TextInputType.name,
-                            labelText: "first-name".i18n(),
-                            icon: const Icon(Icons.perm_identity),
-                            onValidation: (value) {
-                              if ((value != null && value.trim().isNotEmpty) &&
-                                  !Validator.nameValidator(value)) {
-                                return "name-constraints".i18n();
-                              }
-                            },
-                          ),
-                          CustomFormField(
-                            onComplete: () {
-                              FocusScope.of(context)
-                                  .requestFocus(_thirdNameNode);
-                            },
-                            focusNode: _secondNameNode,
-                            controller: _secondNameId,
-                            enterKeyAction: TextInputAction.next,
-                            type: TextInputType.name,
-                            labelText: "father-name".i18n(),
-                            icon: const Icon(Icons.perm_identity),
-                            onValidation: (value) {
-                              if ((value != null && value.trim().isNotEmpty) &&
-                                  !Validator.nameValidator(value)) {
-                                return "name-constraints".i18n();
-                              }
-                            },
-                          ),
-                          CustomFormField(
-                            onComplete: () {
-                              FocusScope.of(context)
-                                  .requestFocus(_lastNameNode);
-                            },
-                            focusNode: _thirdNameNode,
-                            controller: _thirdNameId,
-                            enterKeyAction: TextInputAction.next,
-                            type: TextInputType.name,
-                            labelText: "grandfather-name",
-                            icon: const Icon(Icons.perm_identity),
-                            onValidation: (value) {
-                              if ((value != null && value.trim().isNotEmpty) &&
-                                  !Validator.nameValidator(value)) {
-                                return "name-constraints".i18n();
-                              }
-                            },
-                          ),
-                          CustomFormField(
-                            onComplete: () {
-                              //FocusScope.of(context).requestFocus();
-                            },
-                            focusNode: _passwodNode,
-                            controller: _passwordId,
-                            enterKeyAction: TextInputAction.next,
-                            type: TextInputType.name,
-                            labelText: "last-name",
-                            icon: const Icon(Icons.perm_identity),
-                            onValidation: (value) {
-                              if ((value != null && value.trim().isNotEmpty) &&
-                                  !Validator.nameValidator(value)) {
-                                return "name-constraints".i18n();
-                              }
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Step(
+                  Step(
                     state: currentStep > 1
                         ? StepState.complete
                         : StepState.indexed,
                     isActive: currentStep >= 2,
-                    title: Text("finish".i18n()),
+                    title: Text(
+                      "finish".i18n(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 12),
+                    ),
                     content: Form(
                       key: etcFormKey,
                       child: Column(
@@ -324,33 +348,31 @@ class _Signup extends State<Signup> {
                           ),
                         ],
                       ),
-                    ))
-              ],
-              currentStep: currentStep,
-              onStepContinue: () {
-                // STEPS CONTINUE BUTTON
-                if (currentStep == 2) {
-                  // SIGNING UP
-                  if (keys[currentStep].currentState!.validate()) {
-                    // SEND SIGNUP REQUEST
-                    Navigator.of(context).pushNamed('/mainpage');
+                    ),
+                  )
+                ],
+                currentStep: currentStep,
+                onStepContinue: () {
+                  // STEPS CONTINUE BUTTON
+                  if (currentStep == 2) {
+                    // SIGNING UP
+                    if (keys[currentStep].currentState!.validate()) {
+                      // SEND SIGNUP REQUEST
+                      Navigator.of(context).pushNamed('/mainpage');
+                    }
                   }
-                } else {
+                },
+                onStepCancel: () {
+                  Navigator.of(context).pushNamed('/');
+                },
+                onStepTapped: (step) {
                   if (keys[currentStep].currentState!.validate()) {
-                    setState(() => currentStep += 1);
+                    setState((() => currentStep = step));
                   }
-                }
-              },
-              onStepCancel: () {
-                Navigator.of(context).pushNamed('/');
-              },
-              onStepTapped: (step) {
-                if (keys[currentStep].currentState!.validate()) {
-                  setState((() => currentStep = step));
-                }
-              }),
-        ),
-      ),
-    );
+                }),
+          ),
+        )
+        // ignore: dead_code
+        );
   }
 }
