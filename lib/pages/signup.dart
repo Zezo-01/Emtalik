@@ -5,6 +5,7 @@ import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/etc/validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
@@ -16,7 +17,7 @@ class Signup extends StatefulWidget {
 }
 
 class _Signup extends State<Signup> {
-    File? image;
+  File? image;
   Future pickYourImage() async {
     try {
       final userImage =
@@ -29,6 +30,7 @@ class _Signup extends State<Signup> {
           "Cant Pick Up Image", false, () {});
     }
   }
+
   bool _land = false;
   bool _store = false;
   bool _appartment = false;
@@ -89,13 +91,18 @@ class _Signup extends State<Signup> {
         body: SafeArea(
           child: Stepper(
               type: StepperType.horizontal,
-              //Yazeed See Here
               steps: [
                 Step(
                   state:
                       currentStep > 0 ? StepState.complete : StepState.indexed,
                   isActive: currentStep >= 0,
-                  title: Text("account".i18n()),
+                  title: Text(
+                    "account".i18n(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontSize: 12),
+                  ),
                   content: SingleChildScrollView(
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -117,6 +124,18 @@ class _Signup extends State<Signup> {
                               type: TextInputType.name,
                               labelText: "username".i18n(),
                               icon: const Icon(Icons.perm_identity),
+                              onValidation: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "required-field".i18n();
+                                } else if (!Validator.usernameValidator(
+                                    value)) {
+                                  return "user-name-constraints".i18n();
+                                }
+                                // TODO: USERNAME MUST BE UNIQUE
+                                // else if(){
+
+                                // }
+                              },
                             ),
                             CustomFormField(
                               onComplete: () {
@@ -129,6 +148,17 @@ class _Signup extends State<Signup> {
                               type: TextInputType.emailAddress,
                               labelText: "email".i18n(),
                               icon: const Icon(Icons.email),
+                              onValidation: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "required-field".i18n();
+                                } else if (!Validator.emailValidator(value)) {
+                                  return "invalid-email".i18n();
+                                }
+                                // TODO: EMAIL MUST BE UNIQUE
+                                // else if(){
+                                // return "username-taken".i18n();
+                                // }
+                              },
                             ),
                             CustomFormField(
                               onComplete: () {
@@ -141,11 +171,30 @@ class _Signup extends State<Signup> {
                               type: TextInputType.phone,
                               labelText: "phone".i18n(),
                               icon: const Icon(Icons.phone),
+                              onValidation: (value) {
+                                if ((value != null &&
+                                        value.trim().isNotEmpty) &&
+                                    !Validator.emailValidator(value)) {
+                                  return "invalid-email".i18n();
+                                }
+                                // TODO: PHONE MUST BE UNIQUE
+                                // else if(){
+                                // return "email-taken".i18n();
+                                // }
+                              },
                             ),
                             PasswordFormField(
                               info: 'password-constraints'.i18n(),
                               focusNode: _passwodNode,
                               controller: _passwordId,
+                              onValidation: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "required-field".i18n();
+                                } else if (!Validator.passwordValidator(
+                                    value)) {
+                                  return 'password-constraints'.i18n();
+                                }
+                              },
                             ),
                           ],
                         ),
@@ -157,7 +206,13 @@ class _Signup extends State<Signup> {
                   state:
                       currentStep > 1 ? StepState.complete : StepState.indexed,
                   isActive: currentStep >= 1,
-                  title: Text("personal".i18n()),
+                  title: Text(
+                    "personal".i18n(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontSize: 12),
+                  ),
                   content: Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Form(
@@ -171,12 +226,19 @@ class _Signup extends State<Signup> {
                               FocusScope.of(context)
                                   .requestFocus(_secondNameNode);
                             },
+                            info: "name-constraints".i18n(),
                             focusNode: _firstNameNode,
                             controller: _firstNameId,
                             enterKeyAction: TextInputAction.next,
                             type: TextInputType.name,
                             labelText: "first-name".i18n(),
                             icon: const Icon(Icons.perm_identity),
+                            onValidation: (value) {
+                              if ((value != null && value.trim().isNotEmpty) &&
+                                  !Validator.nameValidator(value)) {
+                                return "name-constraints".i18n();
+                              }
+                            },
                           ),
                           CustomFormField(
                             onComplete: () {
@@ -189,6 +251,12 @@ class _Signup extends State<Signup> {
                             type: TextInputType.name,
                             labelText: "father-name".i18n(),
                             icon: const Icon(Icons.perm_identity),
+                            onValidation: (value) {
+                              if ((value != null && value.trim().isNotEmpty) &&
+                                  !Validator.nameValidator(value)) {
+                                return "name-constraints".i18n();
+                              }
+                            },
                           ),
                           CustomFormField(
                             onComplete: () {
@@ -201,6 +269,12 @@ class _Signup extends State<Signup> {
                             type: TextInputType.name,
                             labelText: "grandfather-name",
                             icon: const Icon(Icons.perm_identity),
+                            onValidation: (value) {
+                              if ((value != null && value.trim().isNotEmpty) &&
+                                  !Validator.nameValidator(value)) {
+                                return "name-constraints".i18n();
+                              }
+                            },
                           ),
                           CustomFormField(
                             onComplete: () {
@@ -212,6 +286,12 @@ class _Signup extends State<Signup> {
                             type: TextInputType.name,
                             labelText: "last-name",
                             icon: const Icon(Icons.perm_identity),
+                            onValidation: (value) {
+                              if ((value != null && value.trim().isNotEmpty) &&
+                                  !Validator.nameValidator(value)) {
+                                return "name-constraints".i18n();
+                              }
+                            },
                           ),
                         ],
                       ),
@@ -223,7 +303,13 @@ class _Signup extends State<Signup> {
                         ? StepState.complete
                         : StepState.indexed,
                     isActive: currentStep >= 2,
-                    title: Text("finish".i18n()),
+                    title: Text(
+                      "finish".i18n(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 12),
+                    ),
                     content: Form(
                       key: etcFormKey,
                       child: Column(
@@ -252,7 +338,7 @@ class _Signup extends State<Signup> {
                             },
                           ),
                           CheckboxListTile(
-                            title: Text("appartment".i18n()),
+                            title: Text("appartment-houses".i18n()),
                             secondary: Icon(Icons.home),
                             controlAffinity: ListTileControlAffinity.platform,
                             value: _appartment,
