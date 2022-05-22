@@ -22,8 +22,15 @@ abstract class Validator {
 
   static bool emailValidator(String email) {
     if (RegExp(
-      r'^(.+)@(\\S+)$',
+      r'^(.+)@(\S+)$',
     ).hasMatch(email)) return true;
+    return false;
+  }
+
+  static bool phoneValidator(String number) {
+    if (RegExp(
+      r'^[0-9]{9,15}$',
+    ).hasMatch(number)) return true;
     return false;
   }
 }

@@ -9,9 +9,7 @@
     "username-constraint": "من 4 الى 25 حرف ورقم",
     "name-constraint": "من 4 إلى 15 حروف",
     "invalid-name": "الإسم لا يوافق الشروط",
-    "username-taken": "إسم المستخدم مأخوذ",
     "invalid-email": "عنوان البريد غير صحيح",
-    "email-taken": "عنوان البريد مستخدم",
     "required-field": "هذا الحقل مطلوب",
     "id": "هوية",
     "login": "سجل الدخول",
@@ -46,5 +44,6 @@
     "close": "اغلاق",
     "phone": "رقم الهاتف",
     "pick-up-your-image": "اختر صورتك",
-    "search": "ابحث"
+    "search": "ابحث",
+    "already-taken":"الحقول التالية مأخوذة"
 }

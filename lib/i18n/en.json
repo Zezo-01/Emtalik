@@ -9,9 +9,7 @@
     "username-constraint": "4 to 25 characters with numbers",
     "name-constraint": "4 to 15 characters",
     "invalid-name": "Name doesn't match constraints",
-    "username-taken": "Username taken",
     "invalid-email": "Invalid Email",
-    "email-taken": "Email taken",
     "required-field": "this field is required",
     "id": "ID",
     "login": "Login",
@@ -44,7 +42,8 @@
     "enter-password-again": "Enter Password Again",
     "save": "Save",
     "close": "Close",
-    "phone": "Phone",
+    "phone": "Phone Number",
     "pick-up-your-image": "Pick Up Your Image",
-    "search": "Search"
+    "search": "Search",
+    "already-taken":"These fields are taken"
 }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
+import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/validator.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,7 @@ class _Signup extends State<Signup> {
       final imageDeafult = File(image!.path);
       setState(() => image = imageDeafult);
     } on PlatformException catch (e) {
-      ToastFactory.makeToast(context, TOAST_TYPE.info, "Error",
+      ToastFactory.makeToast(context, TOAST_TYPE.error, "Error",
           "Cant Pick Up Image", false, () {});
     }
   }
@@ -59,6 +60,9 @@ class _Signup extends State<Signup> {
   final sellerFormKey = GlobalKey<FormState>();
   final etcFormKey = GlobalKey<FormState>();
   late List<GlobalKey<FormState>> keys;
+  bool usernameValidated = false;
+  bool emailValidated = false;
+  bool phoneValidated = false;
 
   @override
   void initState() {
@@ -142,10 +146,6 @@ class _Signup extends State<Signup> {
                                       value)) {
                                     return "username-constraint".i18n();
                                   }
-                                  // TODO: USERNAME MUST BE UNIQUE
-                                  // else if(){
-
-                                  // }
                                 },
                               ),
                               CustomFormField(
@@ -165,10 +165,6 @@ class _Signup extends State<Signup> {
                                   } else if (!Validator.emailValidator(value)) {
                                     return "invalid-email".i18n();
                                   }
-                                  // TODO: EMAIL MUST BE UNIQUE
-                                  // else if(){
-                                  // return "username-taken".i18n();
-                                  // }
                                 },
                               ),
                               CustomFormField(
@@ -185,13 +181,9 @@ class _Signup extends State<Signup> {
                                 onValidation: (value) {
                                   if ((value != null &&
                                           value.trim().isNotEmpty) &&
-                                      !Validator.emailValidator(value)) {
-                                    return "invalid-email".i18n();
+                                      !Validator.phoneValidator(value)) {
+                                    return "invalid-phone".i18n();
                                   }
-                                  // TODO: PHONE MUST BE UNIQUE
-                                  // else if(){
-                                  // return "email-taken".i18n();
-                                  // }
                                 },
                               ),
                               Text(
@@ -212,7 +204,7 @@ class _Signup extends State<Signup> {
                                     return "required-field".i18n();
                                   } else if (!Validator.passwordValidator(
                                       value)) {
-                                    return 'password-constraints'.i18n();
+                                    return 'password-constraint'.i18n();
                                   }
                                 },
                               ),
@@ -267,7 +259,7 @@ class _Signup extends State<Signup> {
                                 if ((value != null &&
                                         value.trim().isNotEmpty) &&
                                     !Validator.nameValidator(value)) {
-                                  return "name-constraints".i18n();
+                                  return "name-constraint".i18n();
                                 }
                               },
                             ),
@@ -296,7 +288,7 @@ class _Signup extends State<Signup> {
                                 if ((value != null &&
                                         value.trim().isNotEmpty) &&
                                     !Validator.nameValidator(value)) {
-                                  return "name-constraints".i18n();
+                                  return "name-constraint".i18n();
                                 }
                               },
                             ),
@@ -325,7 +317,7 @@ class _Signup extends State<Signup> {
                                 if ((value != null &&
                                         value.trim().isNotEmpty) &&
                                     !Validator.nameValidator(value)) {
-                                  return "name-constraints".i18n();
+                                  return "name-constraint".i18n();
                                 }
                               },
                             ),
@@ -343,8 +335,8 @@ class _Signup extends State<Signup> {
                               onComplete: () {
                                 //FocusScope.of(context).requestFocus();
                               },
-                              focusNode: null,
-                              controller: _passwordId,
+                              focusNode: _lastNameNode,
+                              controller: _lastNameId,
                               enterKeyAction: TextInputAction.next,
                               type: TextInputType.name,
                               labelText: "last-name",
@@ -353,7 +345,7 @@ class _Signup extends State<Signup> {
                                 if ((value != null &&
                                         value.trim().isNotEmpty) &&
                                     !Validator.nameValidator(value)) {
-                                  return "name-constraints".i18n();
+                                  return "name-constraint".i18n();
                                 }
                               },
                             ),
@@ -445,14 +437,62 @@ class _Signup extends State<Signup> {
                   )
                 ],
                 currentStep: currentStep,
-                onStepContinue: () {
-                  // STEPS CONTINUE BUTTON
-                  if (currentStep == 2) {
-                    // SIGNING UP
-                    if (keys[currentStep].currentState!.validate()) {
-                      // SEND SIGNUP REQUEST
-                      //Navigator.of(context).pushNamed('/mainpage');
-                      setState(() => currentStep += 1);
+                onStepContinue: () async {
+                  if (keys[currentStep].currentState!.validate()) {
+                    if (currentStep == 0) {
+                      try {
+                        String notUnique = "";
+                        var usernameResponse = await HttpService.uniqueUsername(
+                            _userNameId.value.text);
+                        var emailResponse =
+                            await HttpService.uniqueEmail(_emailId.value.text);
+                        var contactNumberResponse =
+                            await HttpService.uniqueContactNumber(
+                                _phoneId.value.text);
+                        // UNIQUE USERNAME
+                        if (usernameResponse.statusCode != 200) {
+                          notUnique += "username".i18n() + " ";
+                          usernameValidated = false;
+                        } else {
+                          usernameValidated = true;
+                        }
+                        // UNIQUE EMAIL
+                        if (emailResponse.statusCode != 200) {
+                          notUnique += "email".i18n() + " ";
+                          emailValidated = false;
+                        } else {
+                          emailValidated = true;
+                        }
+                        // UNIQUE CONTACT NUMBER
+                        if (contactNumberResponse.statusCode != 200 &&
+                            _phoneId.value.text.trim().isNotEmpty) {
+                          notUnique += "phone".i18n() + " ";
+                          phoneValidated = false;
+                        } else {
+                          phoneValidated = true;
+                        }
+                        if (usernameValidated &&
+                            emailValidated &&
+                            phoneValidated) {
+                          setState(() => currentStep++);
+                        } else {
+                          ToastFactory.makeToast(
+                              context,
+                              TOAST_TYPE.warning,
+                              "already-taken".i18n(),
+                              notUnique.trim(),
+                              false,
+                              () {});
+                        }
+                      } catch (exception) {
+                        ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+                            "no-connection".i18n(), false, () {});
+                      }
+                    } else if (currentStep == 2) {
+                      // SEND REGISTER REQUEST
+                      Navigator.of(context).pushNamed('/mainpage');
+                    } else {
+                      setState(() => currentStep++);
                     }
                   }
                 },
@@ -460,7 +500,10 @@ class _Signup extends State<Signup> {
                   Navigator.of(context).pushNamed('/');
                 },
                 onStepTapped: (step) {
-                  if (keys[currentStep].currentState!.validate()) {
+                  if (keys[currentStep].currentState!.validate() &&
+                      usernameValidated &&
+                      emailValidated &&
+                      phoneValidated) {
                     setState((() => currentStep = step));
                   }
                 }),
