@@ -97,7 +97,6 @@ class _PasswordField extends State<PasswordField> {
           enable == false || info == null ? "" : info.toString().i18n(),
           style: const TextStyle(
             fontSize: 12,
-            color: Colors.amber,
           ),
         ),
         suffixIcon: IconButton(

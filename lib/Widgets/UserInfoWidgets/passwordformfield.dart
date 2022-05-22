@@ -103,7 +103,6 @@ class _PasswordFormField extends State<PasswordFormField> {
               : info.toString().i18n(),
           style: const TextStyle(
             fontSize: 12,
-            color: Colors.amber,
           ),
         ),
         suffixIcon: IconButton(

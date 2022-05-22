@@ -121,7 +121,6 @@ class _CustomFormField extends State<CustomFormField> {
               : info.toString().i18n(),
           style: const TextStyle(
             fontSize: 12,
-            color: Colors.amber,
           ),
         ),
         enabledBorder: OutlineInputBorder(
