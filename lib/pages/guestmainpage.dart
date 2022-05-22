@@ -1,3 +1,6 @@
+// ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables
+
+import 'package:emtalik/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 
@@ -11,6 +14,20 @@ class _GuestPage extends State<GuestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("search".i18n()),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: MySearch(),
+              );
+            },
+          ),
+        ],
+      ),
       body: Center(
         child: Column(
           children: [
@@ -44,12 +61,10 @@ class _GuestPage extends State<GuestPage> {
                     width: 1000,
                     fit: BoxFit.cover,
                   ),
-                  // ignore: prefer_const_constructors
                   Positioned(
                     bottom: 16,
                     right: 16,
                     left: 16,
-                    // ignore: prefer_const_constructors
                     child: Text(
                       "land".i18n(),
                       style: TextStyle(
