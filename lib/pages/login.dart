@@ -51,11 +51,10 @@ class _LoginPage extends State<LoginPage> {
                 Theme.of(context).scaffoldBackgroundColor,
                 Theme.of(context).colorScheme.onPrimary,
               ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
+              begin: Alignment.bottomLeft,
+              end: Alignment.topRight,
             ),
           ),
-          // TODO: FADI HERE
           child: SingleChildScrollView(
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),

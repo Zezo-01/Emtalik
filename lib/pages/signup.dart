@@ -16,7 +16,7 @@ class Signup extends StatefulWidget {
 }
 
 class _Signup extends State<Signup> {
-    File? image;
+  File? image;
   Future pickYourImage() async {
     try {
       final userImage =
@@ -29,13 +29,14 @@ class _Signup extends State<Signup> {
           "Cant Pick Up Image", false, () {});
     }
   }
+
   bool _land = false;
   bool _store = false;
   bool _appartment = false;
   bool _parking = false;
   late int currentStep;
   bool isCompleted = false;
-  final TextEditingController _userId = TextEditingController();
+  final TextEditingController _userNameId = TextEditingController();
   final TextEditingController _passwordId = TextEditingController();
   final TextEditingController _firstNameId = TextEditingController();
   final TextEditingController _secondNameId = TextEditingController();
@@ -48,7 +49,7 @@ class _Signup extends State<Signup> {
   FocusNode _nextNode = FocusNode();
   FocusNode _logInNode = FocusNode();
   FocusNode _userNameNode = FocusNode();
-  FocusNode _passwodNode = FocusNode();
+  FocusNode _passwordNode = FocusNode();
   FocusNode _firstNameNode = FocusNode();
   FocusNode _secondNameNode = FocusNode();
   FocusNode _thirdNameNode = FocusNode();
@@ -103,6 +104,8 @@ class _Signup extends State<Signup> {
                           .copyWith(fontSize: 12),
                     ),
                     content: SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Form(
@@ -111,23 +114,33 @@ class _Signup extends State<Signup> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
+                              Text(
+                                "username-constraint".i18n(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall!
+                                    .copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                              ),
                               CustomFormField(
                                 onComplete: () {
                                   FocusScope.of(context)
-                                      .requestFocus(_secondNameNode);
+                                      .requestFocus(_emailNode);
                                 },
-                                focusNode: _firstNameNode,
-                                controller: _firstNameId,
+                                focusNode: _userNameNode,
+                                controller: _userNameId,
                                 enterKeyAction: TextInputAction.next,
                                 type: TextInputType.name,
-                                labelText: "first-name".i18n(),
+                                labelText: "username".i18n(),
                                 icon: const Icon(Icons.perm_identity),
                                 onValidation: (value) {
                                   if (value == null || value.trim().isEmpty) {
                                     return "required-field".i18n();
                                   } else if (!Validator.usernameValidator(
                                       value)) {
-                                    return "user-name-constraints".i18n();
+                                    return "username-constraint".i18n();
                                   }
                                   // TODO: USERNAME MUST BE UNIQUE
                                   // else if(){
@@ -138,10 +151,10 @@ class _Signup extends State<Signup> {
                               CustomFormField(
                                 onComplete: () {
                                   FocusScope.of(context)
-                                      .requestFocus(_thirdNameNode);
+                                      .requestFocus(_phoneNode);
                                 },
-                                focusNode: _secondNameNode,
-                                controller: _secondNameId,
+                                focusNode: _emailNode,
+                                controller: _emailId,
                                 enterKeyAction: TextInputAction.next,
                                 type: TextInputType.emailAddress,
                                 labelText: "email".i18n(),
@@ -161,10 +174,10 @@ class _Signup extends State<Signup> {
                               CustomFormField(
                                 onComplete: () {
                                   FocusScope.of(context)
-                                      .requestFocus(_lastNameNode);
+                                      .requestFocus(_passwordNode);
                                 },
-                                focusNode: _thirdNameNode,
-                                controller: _thirdNameId,
+                                focusNode: _phoneNode,
+                                controller: _phoneId,
                                 enterKeyAction: TextInputAction.next,
                                 type: TextInputType.phone,
                                 labelText: "phone".i18n(),
@@ -181,11 +194,19 @@ class _Signup extends State<Signup> {
                                   // }
                                 },
                               ),
-                              CustomFormField(
-                                onComplete: () {},
-                                focusNode: _passwodNode,
+                              Text(
+                                "password-constraint".i18n(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .labelSmall!
+                                    .copyWith(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary),
+                              ),
+                              PasswordFormField(
+                                focusNode: _passwordNode,
                                 controller: _passwordId,
-                                labelText: "password".i18n(),
                                 onValidation: (value) {
                                   if (value == null || value.trim().isEmpty) {
                                     return "required-field".i18n();
@@ -221,12 +242,21 @@ class _Signup extends State<Signup> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            Text(
+                              "name-constraint".i18n(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                            ),
                             CustomFormField(
                               onComplete: () {
                                 FocusScope.of(context)
                                     .requestFocus(_secondNameNode);
                               },
-                              info: "name-constraints".i18n(),
                               focusNode: _firstNameNode,
                               controller: _firstNameId,
                               enterKeyAction: TextInputAction.next,
@@ -240,6 +270,16 @@ class _Signup extends State<Signup> {
                                   return "name-constraints".i18n();
                                 }
                               },
+                            ),
+                            Text(
+                              "name-constraint".i18n(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
                             ),
                             CustomFormField(
                               onComplete: () {
@@ -260,6 +300,16 @@ class _Signup extends State<Signup> {
                                 }
                               },
                             ),
+                            Text(
+                              "name-constraint".i18n(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                            ),
                             CustomFormField(
                               onComplete: () {
                                 FocusScope.of(context)
@@ -279,11 +329,21 @@ class _Signup extends State<Signup> {
                                 }
                               },
                             ),
+                            Text(
+                              "name-constraint".i18n(),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary),
+                            ),
                             CustomFormField(
                               onComplete: () {
                                 //FocusScope.of(context).requestFocus();
                               },
-                              focusNode: _passwodNode,
+                              focusNode: null,
                               controller: _passwordId,
                               enterKeyAction: TextInputAction.next,
                               type: TextInputType.name,
@@ -366,10 +426,11 @@ class _Signup extends State<Signup> {
                           Column(
                             children: [
                               Text(
-                                "pick-up-your-image".i18n(),style: Theme.of(context)
-                          .textTheme
-                          .bodyText1!
-                          .copyWith(fontSize: 12),
+                                "pick-up-your-image".i18n(),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .copyWith(fontSize: 12),
                               ),
                               IconButton(
                                 iconSize: 50,
@@ -391,7 +452,7 @@ class _Signup extends State<Signup> {
                     if (keys[currentStep].currentState!.validate()) {
                       // SEND SIGNUP REQUEST
                       //Navigator.of(context).pushNamed('/mainpage');
-                       setState(() => currentStep += 1);
+                      setState(() => currentStep += 1);
                     }
                   }
                 },
