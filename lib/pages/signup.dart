@@ -71,13 +71,18 @@ class _Signup extends State<Signup> {
         body: SafeArea(
           child: Stepper(
               type: StepperType.horizontal,
-              //Yazeed See Here
               steps: [
                 Step(
                   state:
                       currentStep > 0 ? StepState.complete : StepState.indexed,
                   isActive: currentStep >= 0,
-                  title: Text("account".i18n()),
+                  title: Text(
+                    "account".i18n(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontSize: 12),
+                  ),
                   content: SingleChildScrollView(
                     child: Container(
                       margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -181,7 +186,13 @@ class _Signup extends State<Signup> {
                   state:
                       currentStep > 1 ? StepState.complete : StepState.indexed,
                   isActive: currentStep >= 1,
-                  title: Text("personal".i18n()),
+                  title: Text(
+                    "personal".i18n(),
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyText1!
+                        .copyWith(fontSize: 12),
+                  ),
                   content: Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Form(
@@ -272,7 +283,13 @@ class _Signup extends State<Signup> {
                         ? StepState.complete
                         : StepState.indexed,
                     isActive: currentStep >= 2,
-                    title: Text("finish".i18n()),
+                    title: Text(
+                      "finish".i18n(),
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText1!
+                          .copyWith(fontSize: 12),
+                    ),
                     content: Form(
                       key: etcFormKey,
                       child: Column(
