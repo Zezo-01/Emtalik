@@ -107,7 +107,7 @@ class _Signup extends State<Signup> {
                       child: Container(
                         margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                         child: Form(
-                          key: sellerFormKey,
+                          key: requiredFormKey,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
