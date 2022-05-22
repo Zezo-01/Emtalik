@@ -51,7 +51,7 @@ class _LoginPage extends State<LoginPage> {
                 0.5,
               ],
               colors: [
-                Theme.of(context).scaffoldBackgroundColor,
+                Theme.of(context).colorScheme.background,
                 Theme.of(context).colorScheme.onPrimary,
               ],
               begin: Alignment.bottomRight,
