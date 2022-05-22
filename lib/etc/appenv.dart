@@ -16,7 +16,7 @@ abstract class AppEnv {
   static const ColorScheme _defaultLightColorScheme = ColorScheme(
     brightness: Brightness.light,
     primary: Colors.blueAccent,
-    onPrimary: Color.fromARGB(183, 255, 218, 153),
+    onPrimary: Color.fromARGB(183, 248, 208, 140),
     background: Color.fromARGB(255, 150, 111, 51),
     onBackground: Colors.indigo,
     error: Color.fromARGB(255, 124, 8, 0),
