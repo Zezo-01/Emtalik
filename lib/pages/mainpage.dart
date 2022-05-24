@@ -12,10 +12,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePage extends State<MyHomePage> {
+  int index = 0;
   @override
-  Widget build(BuildContext context) => DefaultTabController(
-      length: 2,
-      child: Scaffold(
+  Widget build(BuildContext context) => Scaffold(
+        drawer: NavBar(),
         appBar: AppBar(
           title: Text("search".i18n()),
           actions: [
@@ -29,24 +29,133 @@ class _MyHomePage extends State<MyHomePage> {
               },
             ),
           ],
-          backgroundColor: Theme.of(context).backgroundColor,
-          bottom: TabBar(
-            tabs: [
-              Tab(
-                text: "offers".i18n(),
-                icon: Icon(Icons.local_offer),
-              ),
-              Tab(
-                text: "settings".i18n(),
-                icon: Icon(Icons.settings),
-              ),
-            ],
-          ),
         ),
-        body: TabBarView(
-          children: [bulidCard(), NavBar()],
-        ),
-      ));
+        body: Column(children: <Widget>[
+          Spacer(),
+          Padding(
+            padding: EdgeInsets.only(
+                top: 10.0,
+                left: 18,
+                right: 18,
+                bottom: MediaQuery.of(context).padding.bottom),
+            child: Row(
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      index = 0;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: index == 0 ? Colors.indigo : Colors.transparent,
+                        borderRadius: BorderRadius.circular(25)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 10),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.local_offer_outlined,
+                            color: index == 0 ? Colors.white : Colors.black,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      index = 1;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: index == 1 ? Colors.indigo : Colors.transparent,
+                        borderRadius: BorderRadius.circular(25)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 10),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.real_estate_agent,
+                            color: index == 1 ? Colors.white : Colors.black,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      index = 2;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: index == 2 ? Colors.indigo : Colors.transparent,
+                        borderRadius: BorderRadius.circular(25)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 10),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.account_balance,
+                            color: index == 2 ? Colors.white : Colors.black,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      index = 3;
+                    });
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: index == 3 ? Colors.indigo : Colors.transparent,
+                        borderRadius: BorderRadius.circular(25)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 12.0, horizontal: 10),
+                      child: Row(
+                        children: <Widget>[
+                          Icon(
+                            Icons.report_problem,
+                            color: index == 3 ? Colors.white : Colors.black,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 12.0),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ]),
+      );
 
   Widget bulidCard() => Card(
         clipBehavior: Clip.antiAlias,
