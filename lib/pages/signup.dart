@@ -432,6 +432,18 @@ class _Signup extends State<Signup> {
                           ),
                           Column(
                             children: [
+                              SizedBox(),
+                              image != null
+                                  ? Image.file(
+                                      image!,
+                                      width: 100,
+                                      height: 100,
+                                    )
+                                  : Image.network(
+                                      'https://www.tenforums.com/geek/gars/images/2/types/thumb_15951118880user.png',
+                                      width: 100,
+                                      height: 100,
+                                    ),
                               Text(
                                 "pick-up-your-image".i18n(),
                                 style: Theme.of(context)
