@@ -18,8 +18,8 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (context) => LocaleProvider()),
       Provider(
-          create: (context) =>
-              UserSession(id: null, interests: null, role: null)),
+          create: (context) => UserSession(
+              id: null, interests: null, role: null, username: null)),
     ],
     child: MyApp(),
   ));
@@ -41,7 +41,7 @@ class _MyApp extends State<StatefulWidget> {
       onGenerateTitle: (context) => 'app-name'.i18n(),
       theme: AppEnv.defaultLightTheme(context),
       darkTheme: AppEnv.defaultDarkTheme(context),
-      initialRoute: '/mainpage',
+      initialRoute: '/signup',
       onGenerateRoute: RouteGeneration.generateRoute,
     );
   }

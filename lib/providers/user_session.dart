@@ -1,17 +1,25 @@
+// To parse this JSON data, do
+//
+//     final userSession = userSessionFromJson(jsonString);
+
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'dart:typed_data';
 
 class UserSession {
   UserSession({
     required this.id,
+    required this.username,
     required this.role,
-    required this.interests,
+    this.interests,
+    this.picture,
   });
 
   int? id;
+  String? username;
   String? role;
   List<String>? interests;
+  Uint8List? picture;
 
   factory UserSession.fromRawJson(String str) =>
       UserSession.fromJson(json.decode(str));
@@ -20,20 +28,28 @@ class UserSession {
 
   factory UserSession.fromJson(Map<String, dynamic> json) => UserSession(
         id: json["id"],
+        username: json["username"],
         role: json["role"],
-        interests: json["interests"],
+        interests: List<String>.from(json["interests"].map((x) => x)),
+        picture: json["picture"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
+        "username": username,
         "role": role,
-        "interests": interests,
+        "interests": interests == null
+            ? null
+            : List<dynamic>.from(interests!.map((x) => x)),
+        "picture": picture,
       };
   bool login(UserSession user) {
     if (user.id != null && user.role != null) {
       id = user.id;
       role = user.role;
       interests = user.interests;
+      username = user.username;
+      picture = user.picture;
       return true;
     } else {
       return false;
@@ -44,5 +60,7 @@ class UserSession {
     id = null;
     role = null;
     interests = null;
+    username = null;
+    picture = null;
   }
 }

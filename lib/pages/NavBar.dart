@@ -5,7 +5,6 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 class NavBar extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Drawer(

@@ -17,7 +17,9 @@ class _MyHomePage extends State<MyHomePage> {
   Widget build(BuildContext context) => Scaffold(
         drawer: NavBar(),
         appBar: AppBar(
-          title: Text("search".i18n()),
+          title: Text(
+            "search".i18n(),
+          ),
           actions: [
             IconButton(
               icon: Icon(Icons.search),

@@ -6,6 +6,7 @@ import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/validator.dart';
+import 'package:emtalik/models/user_register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
@@ -23,6 +24,7 @@ class _Signup extends State<Signup> {
       final userImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
       if (userImage == null) return;
+      //  HERE IS AN ERROR
       final imageDeafult = File(image!.path);
       setState(() => image = imageDeafult);
     } on PlatformException catch (e) {
@@ -115,6 +117,7 @@ class _Signup extends State<Signup> {
                         child: Form(
                           key: requiredFormKey,
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
@@ -231,6 +234,7 @@ class _Signup extends State<Signup> {
                       child: Form(
                         key: sellerFormKey,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
@@ -369,6 +373,7 @@ class _Signup extends State<Signup> {
                     content: Form(
                       key: etcFormKey,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("chose-interests".i18n()),
                           CheckboxListTile(
@@ -490,6 +495,37 @@ class _Signup extends State<Signup> {
                       }
                     } else if (currentStep == 2) {
                       // SEND REGISTER REQUEST
+                      if (image != null) {
+                        //  GET IMAGE EXTENSION FOR VALIDATION
+                      }
+                      List<String>? interests;
+                      if (_land == true) {
+                        interests!.add("land");
+                      }
+                      if (_appartment == true) {
+                        interests!.add("apartment");
+                      }
+                      if (_store == true) {
+                        interests!.add("store");
+                      }
+                      if (_parking == true) {
+                        interests!.add("parking");
+                      }
+                      var user = UserRegister(
+                        username: _userNameId.value.text,
+                        firstName: _firstNameId.value.text,
+                        fathersName: _thirdNameId.value.text,
+                        grandfathersName: _lastNameId.value.text,
+                        surName: _lastNameId.value.text,
+                        email: _emailId.value.text,
+                        password: _passwordId.value.text,
+                        contactNumber: _phoneId.value.text,
+                        interests: interests == null || interests.isEmpty
+                            ? null
+                            : interests,
+                        picture: image,
+                      );
+                      // LOG USER IN
                       Navigator.of(context).pushNamed('/mainpage');
                     } else {
                       setState(() => currentStep++);
@@ -508,8 +544,6 @@ class _Signup extends State<Signup> {
                   }
                 }),
           ),
-        )
-        // ignore: dead_code
-        );
+        ));
   }
 }
