@@ -45,5 +45,6 @@
     "phone": "Phone Number",
     "pick-up-your-image": "Pick Up Your Image",
     "search": "Search",
-    "already-taken":"These fields are taken"
+    "already-taken":"These fields are taken",
+    "not-supported-file":"Not Supported file"
 }

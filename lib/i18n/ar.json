@@ -45,5 +45,6 @@
     "phone": "رقم الهاتف",
     "pick-up-your-image": "اختر صورتك",
     "search": "البحث",
-    "already-taken":"الحقول التالية مأخوذة"
+    "already-taken":"الحقول التالية مأخوذة",
+    "not-supported-file":"الملف غير مدعوم"
 }

@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, unused_field, prefer_final_fields, use_key_in_widget_constructors
-import 'dart:io';
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
@@ -18,15 +16,27 @@ class Signup extends StatefulWidget {
 }
 
 class _Signup extends State<Signup> {
-  File? image;
-  Future pickYourImage() async {
+  XFile? image;
+  pickYourImage() async {
     try {
       final userImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
-      if (userImage == null) return;
-      //  HERE IS AN ERROR
-      final imageDeafult = File(image!.path);
-      setState(() => image = imageDeafult);
+
+      if (userImage != null &&
+          (userImage.mimeType == "image/jpeg" ||
+              userImage.mimeType == "image/jpg" ||
+              userImage.mimeType == "image/png" ||
+              userImage.mimeType == "image/webp")) {
+        setState(() {
+          image = userImage;
+        });
+      } else {
+        setState(() {
+          ToastFactory.makeToast(context, TOAST_TYPE.error, "",
+              "not-supported-file", false, () {});
+          image = null;
+        });
+      }
     } on PlatformException catch (e) {
       ToastFactory.makeToast(context, TOAST_TYPE.error, "Error",
           "Cant Pick Up Image", false, () {});
@@ -495,38 +505,49 @@ class _Signup extends State<Signup> {
                       }
                     } else if (currentStep == 2) {
                       // SEND REGISTER REQUEST
-                      if (image != null) {
-                        //  GET IMAGE EXTENSION FOR VALIDATION
-                      }
-                      List<String>? interests;
+
+                      List<String>? interests = [];
                       if (_land == true) {
-                        interests!.add("land");
+                        interests.add("land");
                       }
                       if (_appartment == true) {
-                        interests!.add("apartment");
+                        interests.add("apartment");
                       }
                       if (_store == true) {
-                        interests!.add("store");
+                        interests.add("store");
                       }
                       if (_parking == true) {
-                        interests!.add("parking");
+                        interests.add("parking");
                       }
                       var user = UserRegister(
                         username: _userNameId.value.text,
-                        firstName: _firstNameId.value.text,
-                        fathersName: _thirdNameId.value.text,
-                        grandfathersName: _lastNameId.value.text,
-                        surName: _lastNameId.value.text,
+                        firstName: _firstNameId.value.text.isEmpty
+                            ? null
+                            : _firstNameId.value.text,
+                        fathersName: _secondNameId.value.text.isEmpty
+                            ? null
+                            : _secondNameId.value.text,
+                        grandfathersName: _thirdNameId.value.text.isEmpty
+                            ? null
+                            : _thirdNameId.value.text,
+                        surName: _lastNameId.value.text.isEmpty
+                            ? null
+                            : _lastNameId.value.text,
                         email: _emailId.value.text,
                         password: _passwordId.value.text,
-                        contactNumber: _phoneId.value.text,
-                        interests: interests == null || interests.isEmpty
+                        contactNumber: _phoneId.value.text.isEmpty
                             ? null
-                            : interests,
-                        picture: image,
+                            : _phoneId.value.text,
+                        interests: interests.isEmpty ? null : interests,
                       );
+                      var response = await HttpService.register(user, image);
+                      if (response.statusCode == 200) {
+                        debugPrint("ALLHAMDUALLAH");
+                      } else {
+                        debugPrint("ALLHAMDUALLAH TOO BUT IT FAILED XD");
+                      }
                       // LOG USER IN
-                      Navigator.of(context).pushNamed('/mainpage');
+                      // Navigator.of(context).pushNamed('/mainpage');
                     } else {
                       setState(() => currentStep++);
                     }
