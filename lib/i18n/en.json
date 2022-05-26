@@ -46,5 +46,6 @@
     "pick-up-your-image": "Pick Up Your Image",
     "search": "Search",
     "already-taken":"These fields are taken",
-    "not-supported-file":"Not Supported file"
+    "not-supported-file":"Not Supported file",
+    "something-went-wrong":"An Error Occured"
 }

@@ -46,5 +46,6 @@
     "pick-up-your-image": "اختر صورتك",
     "search": "البحث",
     "already-taken":"الحقول التالية مأخوذة",
-    "not-supported-file":"الملف غير مدعوم"
+    "not-supported-file":"الملف غير مدعوم",
+    "something-went-wrong":"حصل خطأ"
 }

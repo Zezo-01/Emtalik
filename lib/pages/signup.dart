@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
@@ -23,21 +25,22 @@ class _Signup extends State<Signup> {
           await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (userImage != null &&
-          (userImage.mimeType == "image/jpeg" ||
-              userImage.mimeType == "image/jpg" ||
-              userImage.mimeType == "image/png" ||
-              userImage.mimeType == "image/webp")) {
+          (userImage.name.split('.')[1] == "jpeg" ||
+              userImage.name.split('.')[1] == "jpg" ||
+              userImage.name.split('.')[1] == "png" ||
+              userImage.name.split('.')[1] == "webp")) {
         setState(() {
           image = userImage;
         });
       } else {
         setState(() {
-          ToastFactory.makeToast(context, TOAST_TYPE.error, "",
+          ToastFactory.makeToast(context, TOAST_TYPE.error, null,
               "not-supported-file", false, () {});
           image = null;
         });
       }
     } on PlatformException catch (e) {
+      image = null;
       ToastFactory.makeToast(context, TOAST_TYPE.error, "Error",
           "Cant Pick Up Image", false, () {});
     }
@@ -383,7 +386,7 @@ class _Signup extends State<Signup> {
                     content: Form(
                       key: etcFormKey,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text("chose-interests".i18n()),
                           CheckboxListTile(
@@ -399,7 +402,7 @@ class _Signup extends State<Signup> {
                           ),
                           CheckboxListTile(
                             title: Text("store".i18n()),
-                            secondary: Icon(Icons.store),
+                            secondary: const Icon(Icons.store),
                             controlAffinity: ListTileControlAffinity.platform,
                             value: _store,
                             onChanged: (value) {
@@ -442,6 +445,18 @@ class _Signup extends State<Signup> {
                             icon: Icon(Icons.image_search),
                             onPressed: pickYourImage,
                           ),
+                          if (image != null)
+                            CircleAvatar(
+                              child: ClipOval(
+                                child: Image.file(
+                                  File(image!.path),
+                                  height: MediaQuery.of(context).size.height,
+                                  width: MediaQuery.of(context).size.width,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              radius: 120,
+                            ),
                         ],
                       ),
                     ),
@@ -536,12 +551,19 @@ class _Signup extends State<Signup> {
                             : _phoneId.value.text,
                         interests: interests.isEmpty ? null : interests,
                       );
-                      var response = await HttpService.register(user, image);
-                      if (response.statusCode == 200) {
-                        debugPrint("ALLHAMDUALLAH");
-                      } else {
-                        debugPrint("ALLHAMDUALLAH TOO BUT IT FAILED XD");
+                      try {
+                        var response = await HttpService.register(user, image);
+                        if (response.statusCode == 200) {
+                          debugPrint("ALLHAMDUALLAH");
+                        } else {
+                          ToastFactory.makeToast(context, TOAST_TYPE.error,
+                              null, "something-went-wrong", false, () {});
+                        }
+                      } catch (ex) {
+                        ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+                            "no-connection".i18n(), false, () {});
                       }
+
                       // LOG USER IN
                       // Navigator.of(context).pushNamed('/mainpage');
                     } else {

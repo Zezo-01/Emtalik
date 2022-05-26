@@ -67,14 +67,10 @@ abstract class HttpService {
     } else {
       picture = null;
     }
+    if (picture != null) {
+      request.files.add(picture);
+    }
 
-    request.files.add(picture);
     return await request.send();
-
-    // return await http.post(
-    //   Uri.parse(adminTarget + "/register"),
-    //   headers: {"Content-Type": "application/json"},
-    //   body: jsonEncode(user),
-    // );
   }
 }
