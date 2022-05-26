@@ -1,5 +1,6 @@
+import 'dart:ffi';
 import 'dart:io';
-
+import 'package:http/http.dart' as http;
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
@@ -7,10 +8,12 @@ import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/validator.dart';
 import 'package:emtalik/models/user_register.dart';
+import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
 class Signup extends StatefulWidget {
   @override
@@ -567,7 +570,14 @@ class _Signup extends State<Signup> {
                       try {
                         var response = await HttpService.register(user, image);
                         if (response.statusCode == 200) {
-                          debugPrint("ALLHAMDUALLAH");
+                          var notStreamedResponse =
+                              await http.Response.fromStream(response);
+                          var json = notStreamedResponse.body;
+                          Provider.of<UserSession>(context, listen: false)
+                              .login(
+                            UserSession.fromRawJson(json),
+                          );
+                          Navigator.of(context).pushNamed('/mainpage');
                         } else {
                           ToastFactory.makeToast(
                               context,
@@ -581,11 +591,6 @@ class _Signup extends State<Signup> {
                         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
                             "no-connection".i18n(), false, () {});
                       }
-
-                      // LOG USER IN
-                      // Navigator.of(context).pushNamed('/mainpage');
-                    } else {
-                      setState(() => currentStep++);
                     }
                   }
                 },

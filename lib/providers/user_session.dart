@@ -19,7 +19,7 @@ class UserSession {
   String? username;
   String? role;
   List<String>? interests;
-  Uint8List? picture;
+  String? picture;
 
   factory UserSession.fromRawJson(String str) =>
       UserSession.fromJson(json.decode(str));
