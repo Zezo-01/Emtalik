@@ -23,19 +23,31 @@ class _Signup extends State<Signup> {
     try {
       final userImage =
           await ImagePicker().pickImage(source: ImageSource.gallery);
-
       if (userImage != null &&
           (userImage.name.split('.')[1] == "jpeg" ||
               userImage.name.split('.')[1] == "jpg" ||
               userImage.name.split('.')[1] == "png" ||
               userImage.name.split('.')[1] == "webp")) {
-        setState(() {
-          image = userImage;
-        });
+        if (await userImage.length() < 5 * 1000000) {
+          setState(() {
+            image = userImage;
+          });
+        } else {
+          ToastFactory.makeToast(
+              context,
+              TOAST_TYPE.error,
+              "file-size-error".i18n(),
+              "profile-picture-constraint".i18n(),
+              false,
+              () {});
+          setState(() {
+            image = null;
+          });
+        }
       } else {
+        ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+            "not-supported-file", false, () {});
         setState(() {
-          ToastFactory.makeToast(context, TOAST_TYPE.error, null,
-              "not-supported-file", false, () {});
           image = null;
         });
       }
@@ -144,6 +156,7 @@ class _Signup extends State<Signup> {
                                             .colorScheme
                                             .primary),
                               ),
+                              const SizedBox(height: 10),
                               CustomFormField(
                                 onComplete: () {
                                   FocusScope.of(context)
@@ -556,8 +569,13 @@ class _Signup extends State<Signup> {
                         if (response.statusCode == 200) {
                           debugPrint("ALLHAMDUALLAH");
                         } else {
-                          ToastFactory.makeToast(context, TOAST_TYPE.error,
-                              null, "something-went-wrong", false, () {});
+                          ToastFactory.makeToast(
+                              context,
+                              TOAST_TYPE.error,
+                              null,
+                              "something-went-wrong".i18n(),
+                              false,
+                              () {});
                         }
                       } catch (ex) {
                         ToastFactory.makeToast(context, TOAST_TYPE.error, null,

@@ -47,5 +47,7 @@
     "search": "Search",
     "already-taken":"These fields are taken",
     "not-supported-file":"Not Supported file",
-    "something-went-wrong":"An Error Occured"
+    "something-went-wrong":"An Error Occured",
+    "file-size-error":"File size is too big",
+    "profile-picture-constraint":"File size should be less than 5 MB"
 }
