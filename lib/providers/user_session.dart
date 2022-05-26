@@ -3,6 +3,7 @@
 //     final userSession = userSessionFromJson(jsonString);
 
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'dart:typed_data';
 
@@ -43,6 +44,14 @@ class UserSession {
             : List<dynamic>.from(interests!.map((x) => x)),
         "picture": picture,
       };
+
+  Uint8List? userPictureInBytes() {
+    if (picture != null) {
+      return Uint8List.fromList(picture!.codeUnits);
+    }
+    return null;
+  }
+
   bool login(UserSession user) {
     if (user.id != null && user.role != null) {
       id = user.id;
