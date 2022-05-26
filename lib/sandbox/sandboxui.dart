@@ -1,10 +1,8 @@
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
-import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
 
 class SandBoxUi extends StatelessWidget {
@@ -21,18 +19,14 @@ class SandBoxUi extends StatelessWidget {
             children: [
               FloatingActionButton(
                 child: const Text("E"),
-                onPressed: () {
-                  LocaleManager.selectEnglish();
-                },
+                onPressed: () {},
               ),
               const SizedBox(
                 height: 10,
               ),
               FloatingActionButton(
                 child: const Text("عـ"),
-                onPressed: () {
-                  LocaleManager.selectArabic();
-                },
+                onPressed: () {},
               )
             ],
           ),

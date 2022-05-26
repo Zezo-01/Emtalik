@@ -1,12 +1,10 @@
-// ignore_for_file: unused_local_variable, prefer_const_constructors
-
 import 'package:emtalik/etc/route_gen.dart';
 import 'package:emtalik/etc/appenv.dart';
-import 'package:emtalik/etc/localemanager.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 
@@ -18,8 +16,13 @@ void main() {
     providers: [
       ChangeNotifierProvider(create: (context) => LocaleProvider()),
       Provider(
-          create: (context) => UserSession(
-              id: null, interests: null, role: null, username: null)),
+        create: (context) => UserSession(
+            id: null,
+            interests: null,
+            role: null,
+            username: null,
+            picture: null),
+      ),
     ],
     child: MyApp(),
   ));
@@ -36,8 +39,16 @@ class _MyApp extends State<StatefulWidget> {
   Widget build(BuildContext context) {
     return MaterialApp(
       locale: Provider.of<LocaleProvider>(context).locale,
-      supportedLocales: LocaleManager.supportedLocales,
-      localizationsDelegates: LocaleManager.localeDelegates,
+      supportedLocales: const [
+        Locale('ar'),
+        Locale('en'),
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        LocalJsonLocalization.delegate
+      ],
       onGenerateTitle: (context) => 'app-name'.i18n(),
       theme: AppEnv.defaultLightTheme(context),
       darkTheme: AppEnv.defaultDarkTheme(context),
