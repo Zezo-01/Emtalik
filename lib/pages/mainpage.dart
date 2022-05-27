@@ -2,8 +2,10 @@
 
 import 'package:emtalik/pages/navbar.dart';
 import 'package:emtalik/pages/search.dart';
+import 'package:emtalik/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePage extends State<MyHomePage> {
-  int index = 0;
+  int currentIndex = 0;
   @override
   Widget build(BuildContext context) => Scaffold(
         drawer: NavBar(),
@@ -32,140 +34,159 @@ class _MyHomePage extends State<MyHomePage> {
             ),
           ],
         ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          onTap: (index) => setState(() => currentIndex = index),
+          type: BottomNavigationBarType.fixed,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.report_problem),
+              label: "Someshit",
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.one_k),
+              label: "idk",
+            ),
+          ],
+        ),
         body: Column(children: <Widget>[
-          Spacer(),
-          Padding(
-            padding: EdgeInsets.only(
-              top: 10.0,
-              left: 18,
-              right: 18,
-              bottom: MediaQuery.of(context).padding.bottom,
-            ),
-            child: Row(
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      index = 0;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: index == 0
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(25)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 10),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.local_offer_outlined,
-                            color: index == 0 ? Colors.white : Colors.black,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      index = 1;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: index == 1
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(25)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 10),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.real_estate_agent,
-                            color: index == 1 ? Colors.white : Colors.black,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      index = 2;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: index == 2
-                            ? Theme.of(context).colorScheme.onPrimary
-                            : Colors.transparent,
-                        borderRadius: BorderRadius.circular(25)),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 10),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.account_balance,
-                            color: index == 2 ? Colors.white : Colors.black,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Spacer(),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      index = 3;
-                    });
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: index == 3
-                          ? Theme.of(context).colorScheme.onPrimary
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 12.0, horizontal: 10),
-                      child: Row(
-                        children: <Widget>[
-                          Icon(
-                            Icons.report_problem,
-                            color: index == 3 ? Colors.white : Colors.black,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12.0),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          )
+          // Spacer(),
+          // Padding(
+          //   padding: EdgeInsets.only(
+          //     top: 10.0,
+          //     left: 18,
+          //     right: 18,
+          //     bottom: MediaQuery.of(context).padding.bottom,
+          //   ),
+          //   child: Row(
+          //     children: <Widget>[
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             currentIndex = 0;
+          //           });
+          //         },
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //               color: currentIndex == 0
+          //                   ? Theme.of(context).colorScheme.onPrimary
+          //                   : Colors.transparent,
+          //               borderRadius: BorderRadius.circular(25)),
+          //           child: Padding(
+          //             padding: const EdgeInsets.symmetric(
+          //                 vertical: 12.0, horizontal: 10),
+          //             child: Row(
+          //               children: <Widget>[
+          //                 Icon(
+          //                   Icons.local_offer_outlined,
+          //                   color:
+          //                       currentIndex == 0 ? Colors.white : Colors.black,
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 12.0),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       Spacer(),
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             currentIndex = 1;
+          //           });
+          //         },
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //               color: currentIndex == 1
+          //                   ? Theme.of(context).colorScheme.onPrimary
+          //                   : Colors.transparent,
+          //               borderRadius: BorderRadius.circular(25)),
+          //           child: Padding(
+          //             padding: const EdgeInsets.symmetric(
+          //                 vertical: 12.0, horizontal: 10),
+          //             child: Row(
+          //               children: <Widget>[
+          //                 Icon(
+          //                   Icons.real_estate_agent,
+          //                   color:
+          //                       currentIndex == 1 ? Colors.white : Colors.black,
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 12.0),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       Spacer(),
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             currentIndex = 2;
+          //           });
+          //         },
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //               color: currentIndex == 2
+          //                   ? Theme.of(context).colorScheme.onPrimary
+          //                   : Colors.transparent,
+          //               borderRadius: BorderRadius.circular(25)),
+          //           child: Padding(
+          //             padding: const EdgeInsets.symmetric(
+          //                 vertical: 12.0, horizontal: 10),
+          //             child: Row(
+          //               children: <Widget>[
+          //                 Icon(
+          //                   Icons.account_balance,
+          //                   color:
+          //                       currentIndex == 2 ? Colors.white : Colors.black,
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 12.0),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //       Spacer(),
+          //       GestureDetector(
+          //         onTap: () {
+          //           setState(() {
+          //             currentIndex = 3;
+          //           });
+          //         },
+          //         child: Container(
+          //           decoration: BoxDecoration(
+          //             color: currentIndex == 3
+          //                 ? Theme.of(context).colorScheme.onPrimary
+          //                 : Colors.transparent,
+          //             borderRadius: BorderRadius.circular(25),
+          //           ),
+          //           child: Padding(
+          //             padding: const EdgeInsets.symmetric(
+          //                 vertical: 12.0, horizontal: 10),
+          //             child: Row(
+          //               children: <Widget>[
+          //                 Icon(
+          //                   Icons.report_problem,
+          //                   color:
+          //                       currentIndex == 3 ? Colors.white : Colors.black,
+          //                 ),
+          //                 Padding(
+          //                   padding: const EdgeInsets.only(left: 12.0),
+          //                 )
+          //               ],
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // )
         ]),
       );
 

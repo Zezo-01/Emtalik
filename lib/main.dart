@@ -26,7 +26,7 @@ void main() {
             picture: null),
       ),
     ],
-    child: MyApp(),
+    child: const MyApp(),
   ));
 }
 
@@ -55,7 +55,7 @@ class _MyApp extends State<StatefulWidget> {
       theme: AppEnv.defaultLightTheme(context),
       darkTheme: AppEnv.defaultDarkTheme(context),
       themeMode: Provider.of<ThemeProvider>(context).theme,
-      initialRoute: '/',
+      initialRoute: '/mainpage',
       onGenerateRoute: RouteGeneration.generateRoute,
     );
   }

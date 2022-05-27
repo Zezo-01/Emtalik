@@ -99,6 +99,15 @@ abstract class AppEnv {
             ),
           ),
         ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          elevation: 0,
+          type: BottomNavigationBarType.shifting,
+          showUnselectedLabels: false,
+          unselectedItemColor: Colors.grey[700],
+          selectedItemColor: _defaultLightColorScheme.primary,
+          selectedIconTheme: const IconThemeData(size: 35),
+          backgroundColor: Colors.transparent,
+        ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(
             fontSize: 20,
@@ -235,6 +244,15 @@ abstract class AppEnv {
                   fontFamily: 'Changa'),
             ),
           ),
+        ),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          elevation: 0,
+          type: BottomNavigationBarType.shifting,
+          showUnselectedLabels: false,
+          unselectedItemColor: Colors.grey[700],
+          selectedItemColor: _defaultDarkColorScheme.primary,
+          selectedIconTheme: const IconThemeData(size: 35),
+          backgroundColor: Colors.transparent,
         ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(
