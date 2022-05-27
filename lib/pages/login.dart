@@ -1,10 +1,10 @@
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
-import 'package:emtalik/etc/appenv.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/error.dart';
 import 'package:emtalik/providers/locale_provider.dart';
+import 'package:emtalik/providers/theme_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
@@ -159,7 +159,7 @@ class _LoginPage extends State<LoginPage> {
                         ),
                         TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushNamed('/guestpage');
+                            Navigator.of(context).pushNamed('/mainpage');
                             ToastFactory.makeToast(
                                 context,
                                 TOAST_TYPE.info,
@@ -174,7 +174,7 @@ class _LoginPage extends State<LoginPage> {
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextButton(
                         onPressed: () {
@@ -186,6 +186,22 @@ class _LoginPage extends State<LoginPage> {
                                     const Locale('ar')
                                 ? 'English'
                                 : 'العربية'),
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Provider.of<ThemeProvider>(context, listen: false)
+                              .toggleTheme();
+                        },
+                        icon: Icon(
+                          Provider.of<ThemeProvider>(context).theme ==
+                                  ThemeMode.dark
+                              ? Icons.light_mode
+                              : Icons.dark_mode,
+                          color: Provider.of<ThemeProvider>(context).theme ==
+                                  ThemeMode.dark
+                              ? Colors.indigoAccent
+                              : Colors.yellow[900],
+                        ),
                       ),
                     ],
                   ),

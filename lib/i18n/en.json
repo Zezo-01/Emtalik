@@ -49,5 +49,7 @@
     "not-supported-file":"Not Supported file",
     "something-went-wrong":"An Error Occured",
     "file-size-error":"File size is too big",
-    "profile-picture-constraint":"File size should be less than 5 MB"
+    "profile-picture-constraint":"File size should be less than 5 MB",
+    "light-theme":"Light Mode",
+    "dark-theme":"Dark Mode"
 }

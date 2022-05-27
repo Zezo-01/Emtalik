@@ -1,8 +1,9 @@
-// ignore_for_file: unnecessary_import, prefer_const_constructors, use_key_in_widget_constructors, file_names
 import 'package:emtalik/providers/locale_provider.dart';
+import 'package:emtalik/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
+import 'package:localization/localization.dart';
 
 class NavBar extends StatelessWidget {
   @override
@@ -27,12 +28,20 @@ class NavBar extends StatelessWidget {
                 ? 'English'
                 : 'العربية'),
           ),
-          SizedBox(
-            height: 8,
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            child: Text("Dark Theme"),
+          const SizedBox(height: 8),
+          IconButton(
+            onPressed: () {
+              Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+            },
+            icon: Icon(
+              Provider.of<ThemeProvider>(context, listen: false).theme ==
+                      ThemeMode.dark
+                  ? Icons.light_mode
+                  : Icons.dark_mode,
+              color: Provider.of<ThemeProvider>(context).theme == ThemeMode.dark
+                  ? Colors.indigoAccent
+                  : Colors.yellow[900],
+            ),
           )
         ],
       ),

@@ -49,5 +49,7 @@
     "not-supported-file":"الملف غير مدعوم",
     "something-went-wrong":"حصل خطأ",
     "file-size-error":"حجم الملف كبير جدا",
-    "profile-picture-constraint":"حجم الملف يجب أن يكون 5 ميجابايت"
+    "profile-picture-constraint":"حجم الملف يجب أن يكون 5 ميجابايت",
+    "light-theme":"الوضع الفاتح",
+    "dark-theme":"الوضع الداكن"
 }

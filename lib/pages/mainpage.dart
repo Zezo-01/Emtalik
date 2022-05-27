@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, annotate_overrides, prefer_const_constructors_in_immutables
 
-import 'package:emtalik/pages/NavBar.dart';
+import 'package:emtalik/pages/navbar.dart';
 import 'package:emtalik/pages/search.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
@@ -36,10 +36,11 @@ class _MyHomePage extends State<MyHomePage> {
           Spacer(),
           Padding(
             padding: EdgeInsets.only(
-                top: 10.0,
-                left: 18,
-                right: 18,
-                bottom: MediaQuery.of(context).padding.bottom),
+              top: 10.0,
+              left: 18,
+              right: 18,
+              bottom: MediaQuery.of(context).padding.bottom,
+            ),
             child: Row(
               children: <Widget>[
                 GestureDetector(
@@ -50,7 +51,9 @@ class _MyHomePage extends State<MyHomePage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: index == 0 ? Colors.indigo : Colors.transparent,
+                        color: index == 0
+                            ? Theme.of(context).colorScheme.onPrimary
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(25)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -78,7 +81,9 @@ class _MyHomePage extends State<MyHomePage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: index == 1 ? Colors.indigo : Colors.transparent,
+                        color: index == 1
+                            ? Theme.of(context).colorScheme.onPrimary
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(25)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -106,7 +111,9 @@ class _MyHomePage extends State<MyHomePage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: index == 2 ? Colors.indigo : Colors.transparent,
+                        color: index == 2
+                            ? Theme.of(context).colorScheme.onPrimary
+                            : Colors.transparent,
                         borderRadius: BorderRadius.circular(25)),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
@@ -134,8 +141,11 @@ class _MyHomePage extends State<MyHomePage> {
                   },
                   child: Container(
                     decoration: BoxDecoration(
-                        color: index == 3 ? Colors.indigo : Colors.transparent,
-                        borderRadius: BorderRadius.circular(25)),
+                      color: index == 3
+                          ? Theme.of(context).colorScheme.onPrimary
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(25),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 12.0, horizontal: 10),
