@@ -1,5 +1,9 @@
+import 'dart:ffi';
+import 'dart:typed_data';
+
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/theme_provider.dart';
+import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
@@ -13,11 +17,22 @@ class NavBar extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           UserAccountsDrawerHeader(
-            currentAccountPicture: Icon(Icons.person),
-            accountName: Text("name"),
-            accountEmail: Text("Email"),
+            // TODO: PFP ENCODING
+            currentAccountPicture:
+                Provider.of<UserSession>(context, listen: false).picture != null
+                    ? Image.memory(
+                        Provider.of<UserSession>(context, listen: false)
+                                .userPictureInBytes() ??
+                            Uint8List(20),
+                      )
+                    // HERE SHOULD BE THE ASSETS PICTURE
+                    : const Icon(Icons.abc_outlined),
+            accountName: Text(
+                Provider.of<UserSession>(context, listen: false).username ??
+                    ""),
+            accountEmail: const Text("Email"),
           ),
-          ListTile(),
+          const ListTile(),
           ElevatedButton(
             onPressed: () {
               Provider.of<LocaleProvider>(context, listen: false)

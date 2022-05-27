@@ -587,6 +587,9 @@ class _Signup extends State<Signup> {
                               false,
                               () {});
                         }
+                        if (currentStep == 1) {
+                          setState((() => currentStep++));
+                        }
                       } catch (ex) {
                         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
                             "no-connection".i18n(), false, () {});
