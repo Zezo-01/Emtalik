@@ -42,6 +42,7 @@ flutter:
 
   assets:
     - lib/i18n/
+    - assets/
 
 
       

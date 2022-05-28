@@ -51,5 +51,7 @@
     "file-size-error":"File size is too big",
     "profile-picture-constraint":"File size should be less than 5 MB",
     "light-theme":"Light Mode",
-    "dark-theme":"Dark Mode"
+    "dark-theme":"Dark Mode",
+    "logout":"Logout",
+    "unreviewed-states":"Unreviewed states"
 }

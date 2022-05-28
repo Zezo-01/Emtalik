@@ -51,5 +51,7 @@
     "file-size-error":"حجم الملف كبير جدا",
     "profile-picture-constraint":"حجم الملف يجب أن يكون 5 ميجابايت",
     "light-theme":"الوضع الفاتح",
-    "dark-theme":"الوضع الداكن"
+    "dark-theme":"الوضع الداكن",
+    "logout":"تسجيل الخروج",
+    "unreviewed-states":"عقارات يجب مراجعتها"
 }

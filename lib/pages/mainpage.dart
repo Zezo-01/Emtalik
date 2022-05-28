@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, annotate_overrides, prefer_const_constructors_in_immutables
 
-import 'package:emtalik/pages/navbar.dart';
+import 'package:emtalik/Widgets/CustomDrawer.dart';
 import 'package:emtalik/pages/search.dart';
+import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key}) : super(key: key);
@@ -14,40 +16,48 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePage extends State<MyHomePage> {
   int currentIndex = 0;
   @override
-  Widget build(BuildContext context) => Scaffold(
-        drawer: NavBar(),
-        appBar: AppBar(
-          title: Text(
-            "search".i18n(),
+  Widget build(BuildContext context) => SafeArea(
+        child: Scaffold(
+          // UNCOMMENT THOSE TO DISALLOW THE GUEST FROM HAVING A DRAWER
+          drawer:
+              // Provider.of<UserSession>(context).role != null
+              // ?
+              CustomDrawer()
+          // : null
+          ,
+          appBar: AppBar(
+            title: Text(
+              "search".i18n(),
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: MySearch(),
+                  );
+                },
+              ),
+            ],
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: MySearch(),
-                );
-              },
-            ),
-          ],
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: (index) => setState(() => currentIndex = index),
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.report_problem),
+                label: "Someshit",
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.one_k),
+                label: "idk",
+              ),
+            ],
+          ),
+          body: Column(children: <Widget>[]),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          currentIndex: currentIndex,
-          onTap: (index) => setState(() => currentIndex = index),
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.report_problem),
-              label: "Someshit",
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.one_k),
-              label: "idk",
-            ),
-          ],
-        ),
-        body: Column(children: <Widget>[]),
       );
 
   Widget bulidCard() => Card(
