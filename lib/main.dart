@@ -19,11 +19,11 @@ void main() {
       ChangeNotifierProvider(create: (context) => ThemeProvider()),
       Provider(
         create: (context) => UserSession(
-            id: null,
-            interests: null,
-            role: null,
-            username: null,
-            picture: null),
+          id: null,
+          interests: null,
+          role: null,
+          username: null,
+        ),
       ),
     ],
     child: const MyApp(),

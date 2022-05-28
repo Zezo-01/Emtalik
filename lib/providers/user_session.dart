@@ -3,9 +3,9 @@
 //     final userSession = userSessionFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ffi';
 
-import 'dart:typed_data';
+import 'package:emtalik/etc/http_service.dart';
+import 'package:http/http.dart' as http;
 
 class UserSession {
   UserSession({
@@ -13,14 +13,13 @@ class UserSession {
     required this.username,
     required this.role,
     this.interests,
-    this.picture,
   });
 
   int? id;
   String? username;
   String? role;
   List<String>? interests;
-  String? picture;
+  bool picture = false;
 
   factory UserSession.fromRawJson(String str) =>
       UserSession.fromJson(json.decode(str));
@@ -32,7 +31,6 @@ class UserSession {
         username: json["username"],
         role: json["role"],
         interests: List<String>.from(json["interests"].map((x) => x)),
-        picture: json["picture"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -42,23 +40,23 @@ class UserSession {
         "interests": interests == null
             ? null
             : List<dynamic>.from(interests!.map((x) => x)),
-        "picture": picture,
       };
 
-  Uint8List? userPictureInBytes() {
-    if (picture != null) {
-      return Uint8List.fromList(picture!.codeUnits);
-    }
-    return null;
-  }
-
-  bool login(UserSession user) {
+  Future<bool> login(UserSession user) async {
     if (user.id != null && user.role != null) {
       id = user.id;
       role = user.role;
       interests = user.interests;
       username = user.username;
-      picture = user.picture;
+      await http
+          .get(Uri.parse(HttpService.getProfilePictureRoute(id!)))
+          .then((value) {
+        if (value.statusCode == 200) {
+          picture = true;
+        } else {
+          picture = false;
+        }
+      });
       return true;
     } else {
       return false;
@@ -70,6 +68,6 @@ class UserSession {
     role = null;
     interests = null;
     username = null;
-    picture = null;
+    picture = false;
   }
 }
