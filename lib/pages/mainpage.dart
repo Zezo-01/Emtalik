@@ -1,11 +1,8 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, annotate_overrides, prefer_const_constructors_in_immutables
 
 import 'package:emtalik/Widgets/CustomDrawer.dart';
-import 'package:emtalik/etc/enums.dart';
-import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/pages/search.dart';
 import 'package:emtalik/providers/locale_provider.dart';
-import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:localization/localization.dart';
