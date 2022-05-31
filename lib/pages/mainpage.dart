@@ -4,6 +4,7 @@ import 'package:emtalik/Widgets/CustomDrawer.dart';
 import 'package:emtalik/pages/search.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 
@@ -14,50 +15,66 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePage extends State<MyHomePage> {
+  DateTime pressed = DateTime.now();
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) => SafeArea(
-        child: Scaffold(
-          // UNCOMMENT THOSE TO DISALLOW THE GUEST FROM HAVING A DRAWER
-          drawer:
-              // Provider.of<UserSession>(context).role != null
-              // ?
-              CustomDrawer()
-          // : null
-          ,
-          appBar: AppBar(
-            title: Text(
-              "search".i18n(),
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () {
-                  showSearch(
-                    context: context,
-                    delegate: MySearch(),
-                  );
-                },
-              ),
-            ],
-          ),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: currentIndex,
-            onTap: (index) => setState(() => currentIndex = index),
-            type: BottomNavigationBarType.fixed,
-            items: [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.report_problem),
-                label: "Someshit",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.one_k),
-                label: "idk",
-              ),
-            ],
-          ),
-          body: Column(children: <Widget>[]),
-        ),
+        child: Builder(builder: (context) {
+          return WillPopScope(
+              onWillPop: () async {
+                final timepress = DateTime.now().difference(pressed);
+                final exitall = timepress >= Duration(seconds: 2);
+                pressed = DateTime.now();
+                if (exitall && Provider.of<UserSession>(context).role != null) {
+                  Navigator.of(context).pushNamed('/exit');
+                } else {
+                  Navigator.of(context).pushNamed('/');
+                  return true;
+                }
+                return false;
+              },
+              child: Scaffold(
+                // UNCOMMENT THOSE TO DISALLOW THE GUEST FROM HAVING A DRAWER
+                drawer:
+                    // Provider.of<UserSession>(context).role != null
+                    // ?
+                    CustomDrawer()
+                // : null
+                ,
+                appBar: AppBar(
+                  title: Text(
+                    "search".i18n(),
+                  ),
+                  actions: [
+                    IconButton(
+                      icon: Icon(Icons.search),
+                      onPressed: () {
+                        showSearch(
+                          context: context,
+                          delegate: MySearch(),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+                bottomNavigationBar: BottomNavigationBar(
+                  currentIndex: currentIndex,
+                  onTap: (index) => setState(() => currentIndex = index),
+                  type: BottomNavigationBarType.fixed,
+                  items: [
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.report_problem),
+                      label: "Someshit",
+                    ),
+                    BottomNavigationBarItem(
+                      icon: Icon(Icons.one_k),
+                      label: "idk",
+                    ),
+                  ],
+                ),
+                body: Column(children: <Widget>[]),
+              ));
+        }),
       );
 
   Widget bulidCard() => Card(
