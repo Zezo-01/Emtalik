@@ -59,5 +59,8 @@
     "add-estate":"Add an estate",
     "add-offer":"Add an offer",
     "no-privileges-for-selling":"Please update you're info to get the seller privileges",
-    "no-privileges-for-guest":"Please login to continue"
+    "no-privileges-for-guest":"Please login to continue",
+    "estate-name":"Estate name",
+    "too-long":"The entered text is too big",
+    "general":"General"
 }

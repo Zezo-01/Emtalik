@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'dart:io';
+import 'package:emtalik/pages/mainpage.dart';
 import 'package:http/http.dart' as http;
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
@@ -577,7 +578,11 @@ class _Signup extends State<Signup> {
                               .login(
                             UserSession.fromRawJson(json),
                           );
-                          Navigator.of(context).pushNamed('/mainpage');
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: ((context) => MyHomePage())));
+                          // Navigator.of(context).pushNamed('/mainpage');
                         } else {
                           ToastFactory.makeToast(
                               context,

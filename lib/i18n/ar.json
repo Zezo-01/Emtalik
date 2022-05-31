@@ -59,5 +59,9 @@
     "add-estate":"إضافة عقار",
     "add-offer":"إضافة عرض",
     "no-privileges-for-selling":"الرجاء تحديث بياناتك للحصول على صلاحيات البائع",
-    "no-privileges-for-guest":"الرجاء تسجيل الدخول"
+    "no-privileges-for-guest":"الرجاء تسجيل الدخول",
+    "estate-name":"إسم العقار",
+    "too-long":"النص المدخل كبير جداً",
+    "general":"عام"
+
 }

@@ -22,9 +22,9 @@ class _MyHomePage extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
-          // UNCOMMENT THOSE TO DISALLOW THE GUEST FROM HAVING A DRAWER
+          // TODO: UNCOMMENT FOR FULL PRIVILEGES
           drawer:
-              // Provider.of<UserSession>(context).role != null
+              // Provider.of<UserSession>(context,listen: false).role != null
               // ?
               CustomDrawer()
           // : null
@@ -37,10 +37,17 @@ class _MyHomePage extends State<MyHomePage> {
               IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () {
+                  // TODO: UNCOMMENT FOR FULL PRIVILEGES
+                  // if (Provider.of<UserSession>(context, listen: false).role !=
+                  //     null) {
                   showSearch(
                     context: context,
                     delegate: MySearch(),
                   );
+                  // } else {
+                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                  //       "no-privileges-for-guest".i18n(), false, () {});
+                  // }
                 },
               ),
             ],

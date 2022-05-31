@@ -1,5 +1,6 @@
 // ignore_for_file: unused_local_variable, prefer_const_constructors, duplicate_ignore
 
+import 'package:emtalik/pages/estate_create.dart';
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/pages/login.dart';
 import 'package:emtalik/sandbox/sanboxtext.dart';
@@ -24,6 +25,8 @@ class RouteGeneration {
         return MaterialPageRoute(builder: (_) => SandBox());
       case '/sandboxui':
         return MaterialPageRoute(builder: (_) => SandBoxUi());
+      case '/estate_create':
+        return MaterialPageRoute(builder: (_) => EstateCreate());
     }
     return errorRoute();
   }

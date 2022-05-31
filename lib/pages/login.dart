@@ -3,6 +3,7 @@ import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/error.dart';
+import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/theme_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -128,8 +129,13 @@ class _LoginPage extends State<LoginPage> {
                                               listen: false)
                                           .login(UserSession.fromRawJson(
                                               request.body));
-                                      Navigator.of(context)
-                                          .pushNamed('/mainpage');
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  MyHomePage())));
+                                      // Navigator.of(context)
+                                      //     .pushNamed('/mainpage');
                                     } else {
                                       // ERROR HANDLING
                                       ToastFactory.makeToast(
@@ -160,13 +166,6 @@ class _LoginPage extends State<LoginPage> {
                         TextButton(
                           onPressed: () {
                             Navigator.of(context).pushNamed('/mainpage');
-                            ToastFactory.makeToast(
-                                context,
-                                TOAST_TYPE.info,
-                                "Guest Functionality",
-                                "Implement Guest Functionality",
-                                false,
-                                () {});
                           },
                           child: Text("login-as-guest".i18n()),
                         ),
