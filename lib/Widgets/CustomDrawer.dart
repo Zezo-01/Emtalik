@@ -33,7 +33,6 @@ class CustomDrawer extends StatelessWidget {
                         height: MediaQuery.of(context).size.height / 3,
                         width: MediaQuery.of(context).size.width,
                       )
-                    // HERE SHOULD BE THE DEFAULT ASSET IMAGE
                     : Image.asset(
                         "assets/user/default_pfp.png",
                         fit: BoxFit.cover,

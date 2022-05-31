@@ -108,6 +108,10 @@ abstract class AppEnv {
           selectedIconTheme: const IconThemeData(size: 35),
           backgroundColor: Colors.transparent,
         ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+        ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(
             fontSize: 20,
@@ -253,6 +257,10 @@ abstract class AppEnv {
           selectedItemColor: _defaultDarkColorScheme.primary,
           selectedIconTheme: const IconThemeData(size: 35),
           backgroundColor: Colors.transparent,
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.grey,
         ),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(

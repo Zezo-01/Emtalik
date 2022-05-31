@@ -53,5 +53,11 @@
     "light-theme":"Light Mode",
     "dark-theme":"Dark Mode",
     "logout":"Logout",
-    "unreviewed-states":"Unreviewed states"
+    "unreviewed-states":"Unreviewed states",
+    "estates":"Estates",
+    "offers":"Offers",
+    "add-estate":"Add an estate",
+    "add-offer":"Add an offer",
+    "no-privileges-for-selling":"Please update you're info to get the seller privileges",
+    "no-privileges-for-guest":"Please login to continue"
 }

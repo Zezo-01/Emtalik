@@ -20,6 +20,7 @@ dependencies:
   http: ^0.13.4
   image_picker: ^0.8.5+3
   mime: ^1.0.2
+  flutter_speed_dial: ^6.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -42,7 +43,7 @@ flutter:
 
   assets:
     - lib/i18n/
-    - assets/
+    - assets/user/default_pfp.png
 
 
       
