@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, annotate_overrides, prefer_const_constructors_in_immutables
 
 import 'package:emtalik/Widgets/CustomDrawer.dart';
+import 'package:emtalik/etc/enums.dart';
+import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/pages/search.dart';
+import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 
@@ -19,62 +22,107 @@ class _MyHomePage extends State<MyHomePage> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) => SafeArea(
-        child: Builder(builder: (context) {
-          return WillPopScope(
-              onWillPop: () async {
-                final timepress = DateTime.now().difference(pressed);
-                final exitall = timepress >= Duration(seconds: 2);
-                pressed = DateTime.now();
-                if (exitall && Provider.of<UserSession>(context).role != null) {
-                  Navigator.of(context).pushNamed('/exit');
-                } else {
-                  Navigator.of(context).pushNamed('/');
-                  return true;
-                }
-                return false;
-              },
-              child: Scaffold(
-                // UNCOMMENT THOSE TO DISALLOW THE GUEST FROM HAVING A DRAWER
-                drawer:
-                    // Provider.of<UserSession>(context).role != null
-                    // ?
-                    CustomDrawer()
-                // : null
-                ,
-                appBar: AppBar(
-                  title: Text(
-                    "search".i18n(),
-                  ),
-                  actions: [
-                    IconButton(
-                      icon: Icon(Icons.search),
-                      onPressed: () {
-                        showSearch(
-                          context: context,
-                          delegate: MySearch(),
-                        );
-                      },
-                    ),
-                  ],
+        child: Scaffold(
+          // UNCOMMENT THOSE TO DISALLOW THE GUEST FROM HAVING A DRAWER
+          drawer:
+              // Provider.of<UserSession>(context).role != null
+              // ?
+              CustomDrawer()
+          // : null
+          ,
+          appBar: AppBar(
+            title: Text(
+              "search".i18n(),
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  showSearch(
+                    context: context,
+                    delegate: MySearch(),
+                  );
+                },
+              ),
+            ],
+          ),
+
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: currentIndex,
+            onTap: (index) => setState(() => currentIndex = index),
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.house),
+                label: "estates".i18n(),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.local_offer),
+                label: "offers".i18n(),
+              ),
+            ],
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+          floatingActionButton: SpeedDial(
+            direction:
+                Provider.of<LocaleProvider>(context, listen: false).locale ==
+                        const Locale('en')
+                    ? SpeedDialDirection.right
+                    : SpeedDialDirection.left,
+            switchLabelPosition: true,
+            animatedIcon: AnimatedIcons.menu_close,
+            buttonSize: const Size(60, 60),
+            children: [
+              SpeedDialChild(
+                label: "add-estate".i18n(),
+                labelStyle: Theme.of(context).textTheme.labelSmall,
+                child: Icon(
+                  Icons.real_estate_agent_sharp,
                 ),
-                bottomNavigationBar: BottomNavigationBar(
-                  currentIndex: currentIndex,
-                  onTap: (index) => setState(() => currentIndex = index),
-                  type: BottomNavigationBarType.fixed,
-                  items: [
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.report_problem),
-                      label: "Someshit",
-                    ),
-                    BottomNavigationBarItem(
-                      icon: Icon(Icons.one_k),
-                      label: "idk",
-                    ),
-                  ],
+                onTap: () {
+                  // TODO: UNCOMMENT FOR FULL FUNCTIONALITY
+                  // if (Provider.of<UserSession>(context, listen: false).role ==
+                  //     "Seller") {
+                  // TODO: WORK HERE
+
+                  // } else if (Provider.of<UserSession>(context, listen: false)
+                  //         .role ==
+                  //     "Buyer") {
+                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                  //       "no-privileges-for-selling".i18n(), false, () {});
+                  // } else {
+                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                  //       "no-privileges-for-guest".i18n(), false, () {});
+                  // }
+                },
+              ),
+              SpeedDialChild(
+                label: "add-offer".i18n(),
+                labelStyle: Theme.of(context).textTheme.labelSmall,
+                child: Icon(
+                  Icons.local_offer_sharp,
                 ),
-                body: Column(children: <Widget>[]),
-              ));
-        }),
+                onTap: () {
+                  // TODO: UNCOMMENT FOR FULL FUNCTIONALITY
+                  // if (Provider.of<UserSession>(context, listen: false).role ==
+                  //     "Seller") {
+                  // TODO: WORK HERE
+
+                  // } else if (Provider.of<UserSession>(context, listen: false)
+                  //         .role ==
+                  //     "Buyer") {
+                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                  //       "no-privileges-for-selling".i18n(), false, () {});
+                  // } else {
+                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                  //       "no-privileges-for-guest".i18n(), false, () {});
+                  // }
+                },
+              ),
+            ],
+          ),
+          body: Column(children: <Widget>[]),
+        ),
       );
 
   Widget bulidCard() => Card(

@@ -53,5 +53,11 @@
     "light-theme":"الوضع الفاتح",
     "dark-theme":"الوضع الداكن",
     "logout":"تسجيل الخروج",
-    "unreviewed-states":"عقارات يجب مراجعتها"
+    "unreviewed-states":"عقارات يجب مراجعتها",
+    "estates":"عقارات",
+    "offers":"عروض",
+    "add-estate":"إضافة عقار",
+    "add-offer":"إضافة عرض",
+    "no-privileges-for-selling":"الرجاء تحديث بياناتك للحصول على صلاحيات البائع",
+    "no-privileges-for-guest":"الرجاء تسجيل الدخول"
 }

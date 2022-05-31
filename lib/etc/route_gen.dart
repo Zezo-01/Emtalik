@@ -1,7 +1,5 @@
 // ignore_for_file: unused_local_variable, prefer_const_constructors, duplicate_ignore
 
-import 'package:emtalik/pages/changepassword.dart';
-import 'package:emtalik/pages/guestmainpage.dart';
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/pages/login.dart';
 import 'package:emtalik/sandbox/sanboxtext.dart';
@@ -20,10 +18,6 @@ class RouteGeneration {
         return MaterialPageRoute(builder: (_) => MyHomePage());
       case '/signup':
         return MaterialPageRoute(builder: (_) => Signup());
-      case '/changepassword':
-        return MaterialPageRoute(builder: (_) => ChangePassword());
-        case '/guestpage':
-        return MaterialPageRoute(builder: (_) => GuestPage());
       case '/sandboxtext':
         return MaterialPageRoute(builder: (_) => SandBoxText());
       case '/sandbox':
