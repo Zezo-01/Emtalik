@@ -65,6 +65,12 @@
     "too-long":"النص المدخل كبير جداً",
     "general":"عام",
     "estate-name-constraint":"35 حرف",
-    "pick-estate-type":"نوع العقار..."
-
+    "pick-estate-type":"نوع العقار...",
+    "extra-details":"تفاصيل إضافية",
+    "details-on":"تفاصيل عن ",
+    "address-constraint":"45 حرف",
+    "address":"العنوان",
+    "description":"وصف",
+    "size-in-square-meters":" الحجم ب م²",
+    "must-be-number":"يجب ان يحتوي هذا الحقل على أرقام فقط"
 }

@@ -65,5 +65,12 @@
     "too-long":"The entered text is too big",
     "general":"General",
     "estate-name-constraint":"35 Charecters",
-    "pick-estate-type":"Estate type..."
+    "pick-estate-type":"Estate type...",
+    "extra-details":"Extra Details",
+    "details-on":"Details on ",
+    "address-constraint":"45 Charecters",
+    "address":"Address",
+    "description":"Description",
+    "size-in-square-meters":"Size in m²",
+    "must-be-number":"This field must be only numbers"
 }

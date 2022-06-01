@@ -8,15 +8,33 @@ class EstateCreate extends StatefulWidget {
 }
 
 class _EstateCreate extends State<EstateCreate> {
-  final firstForm = GlobalKey<FormState>();
+  final _generalForm = GlobalKey<FormState>();
+  final _detailsOnForm = GlobalKey<FormState>();
+  final _detailsForm = GlobalKey<FormState>();
 
-  final estateNameController = TextEditingController();
+  final _estateNameController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _sizeController = TextEditingController();
 
-  var estateType = null;
+  final _addressNode = FocusNode();
+  final _descriptionNode = FocusNode();
+  final _sizeNode = FocusNode();
 
-  final estateNameNode = FocusNode();
-
-  int currentStep = 0;
+  late String estateType;
+  late int currentStep;
+  late List<GlobalKey<FormState>> formKeys;
+  @override
+  void initState() {
+    currentStep = 0;
+    estateType = "";
+    formKeys = [
+      _generalForm,
+      _detailsOnForm,
+      _detailsForm,
+    ];
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +47,8 @@ class _EstateCreate extends State<EstateCreate> {
             currentStep: currentStep,
             steps: <Step>[
               Step(
+                state: currentStep > 0 ? StepState.complete : StepState.indexed,
+                isActive: currentStep >= 0,
                 title: Text(
                   "general".i18n(),
                   style: Theme.of(context)
@@ -42,7 +62,7 @@ class _EstateCreate extends State<EstateCreate> {
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Form(
-                      key: firstForm,
+                      key: _generalForm,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
@@ -59,10 +79,9 @@ class _EstateCreate extends State<EstateCreate> {
                           ),
                           const SizedBox(height: 10),
                           CustomFormField(
-                            focusNode: estateNameNode,
                             labelText: "estate-name",
                             icon: const Icon(Icons.other_houses),
-                            controller: estateNameController,
+                            controller: _estateNameController,
                             type: TextInputType.name,
                             enterKeyAction: TextInputAction.done,
                             onValidation: (value) {
@@ -83,7 +102,7 @@ class _EstateCreate extends State<EstateCreate> {
                             },
                             onChanged: (value) {
                               setState(() {
-                                estateType = value;
+                                estateType = value!;
                               });
                             },
                             items: <DropdownMenuItem<String>>[
@@ -150,24 +169,152 @@ class _EstateCreate extends State<EstateCreate> {
                   ),
                 ),
               ),
+              Step(
+                title: Text(
+                  "details-on".i18n() + _estateNameController.value.text,
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall!
+                      .copyWith(fontSize: 12),
+                ),
+                content: SingleChildScrollView(
+                  // padding: EdgeInsets.only(
+                  //     bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: Form(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          if (estateType == "apartment")
+                            Text("apartment".i18n())
+                          else if (estateType == "house")
+                            Text("house".i18n())
+                          else if (estateType == "store")
+                            Text("store".i18n())
+                          else if (estateType == "parking")
+                            Text("parking".i18n())
+                          else if (estateType == "land")
+                            Text("land".i18n())
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              Step(
+                title: Text(
+                  "extra-details".i18n(),
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelSmall!
+                      .copyWith(fontSize: 12),
+                ),
+                content: SingleChildScrollView(
+                  // padding: EdgeInsets.only(
+                  //     bottom: MediaQuery.of(context).viewInsets.bottom),
+                  child: Container(
+                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                    child: Form(
+                      key: _detailsForm,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "address-constraint".i18n(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall!
+                                .copyWith(
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                          ),
+                          const SizedBox(height: 10),
+                          CustomFormField(
+                            focusNode: _addressNode,
+                            onComplete: () {
+                              FocusScope.of(context)
+                                  .requestFocus(_descriptionNode);
+                            },
+                            labelText: "address".i18n(),
+                            icon: const Icon(Icons.location_on),
+                            controller: _addressController,
+                            type: TextInputType.name,
+                            enterKeyAction: TextInputAction.done,
+                            onValidation: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "required-field".i18n();
+                              } else if (value.length > 45) {
+                                return "too-long".i18n();
+                              }
+                            },
+                          ),
+                          CustomFormField(
+                            focusNode: _descriptionNode,
+                            onComplete: () {
+                              FocusScope.of(context).requestFocus(_sizeNode);
+                            },
+                            labelText: "description".i18n(),
+                            icon: const Icon(Icons.description),
+                            controller: _descriptionController,
+                            type: TextInputType.name,
+                            enterKeyAction: TextInputAction.done,
+                            onValidation: (value) {
+                              if (value == null ||
+                                  value.trim().isNotEmpty &&
+                                      value.length > 255) {
+                                return "too-long".i18n();
+                              }
+                            },
+                          ),
+                          CustomFormField(
+                            focusNode: _sizeNode,
+                            labelText: "size-in-square-meters".i18n(),
+                            icon: const Icon(Icons.height),
+                            controller: _sizeController,
+                            type: TextInputType.number,
+                            enterKeyAction: TextInputAction.done,
+                            onValidation: (value) {
+                              if (estateType == "land" && value == null ||
+                                  value!.isEmpty) {
+                                return "required-field".i18n();
+                              } else {
+                                try {
+                                  int.parse(value);
+                                } catch (e) {
+                                  return "must-be-number".i18n();
+                                }
+                              }
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ],
             onStepCancel: () {
               Navigator.of(context).pushNamed('/mainpage');
             },
             onStepContinue: () {
-              if (currentStep == 0) {
-                if (firstForm.currentState!.validate()) {
-                  setState(() {
-                    currentStep++;
-                  });
-                }
+              if (formKeys[currentStep].currentState!.validate()) {
+                setState(() {
+                  currentStep++;
+                });
               }
             },
             onStepTapped: (step) {
               // TODO: REQUIRED VALIDATION
-              setState(() {
-                currentStep = step;
-              });
+              if (formKeys[currentStep].currentState!.validate()) {
+                setState(() {
+                  currentStep = step;
+                });
+              }
             },
           ),
         ),
