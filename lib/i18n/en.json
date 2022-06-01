@@ -20,7 +20,7 @@
     "id-types": "Email, Username or Phone Number",
     "finish": "Final touches",
     "parking": "Parkings",
-    "appartment": "Appartments",
+    "apartment": "Apartments",
     "store": "Stores",
     "land": "Lands",
     "username": "Username",
@@ -45,6 +45,7 @@
     "phone": "Phone Number",
     "pick-up-your-image": "Pick Up Your Image",
     "search": "Search",
+    "house":"Houses",
     "already-taken":"These fields are taken",
     "not-supported-file":"Not Supported file",
     "something-went-wrong":"An Error Occured",
@@ -62,5 +63,7 @@
     "no-privileges-for-guest":"Please login to continue",
     "estate-name":"Estate name",
     "too-long":"The entered text is too big",
-    "general":"General"
+    "general":"General",
+    "estate-name-constraint":"35 Charecters",
+    "pick-estate-type":"Estate type..."
 }

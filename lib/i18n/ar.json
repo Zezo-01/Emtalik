@@ -20,9 +20,10 @@
     "id-types": "بريد إلكتروني ، إسم المستخدم أو رقم الهاتف",
     "finish": "انهاء",
     "parking": "موقف سيارات",
-    "appartment-houses": "شقق و منازل",
+    "apartment": "شقق",
     "store": "محلات تجاريه",
     "land": "أراضي",
+    "house":"منازل",
     "username": "إسم المستخدم",
     "chose-interests": "مهتم بـ",
     "first-name": "الاسم الأول",
@@ -62,6 +63,8 @@
     "no-privileges-for-guest":"الرجاء تسجيل الدخول",
     "estate-name":"إسم العقار",
     "too-long":"النص المدخل كبير جداً",
-    "general":"عام"
+    "general":"عام",
+    "estate-name-constraint":"35 حرف",
+    "pick-estate-type":"نوع العقار..."
 
 }

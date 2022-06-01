@@ -66,6 +66,7 @@ class _Signup extends State<Signup> {
   bool _store = false;
   bool _appartment = false;
   bool _parking = false;
+  bool _house = false;
   late int currentStep;
   bool isCompleted = false;
   final TextEditingController _userNameId = TextEditingController();
@@ -408,7 +409,7 @@ class _Signup extends State<Signup> {
                           Text("chose-interests".i18n()),
                           CheckboxListTile(
                             title: Text("land".i18n()),
-                            secondary: Icon(Icons.landscape),
+                            secondary: const Icon(Icons.landscape),
                             controlAffinity: ListTileControlAffinity.platform,
                             value: _land,
                             onChanged: (value) {
@@ -429,8 +430,8 @@ class _Signup extends State<Signup> {
                             },
                           ),
                           CheckboxListTile(
-                            title: Text("appartment-houses".i18n()),
-                            secondary: Icon(Icons.home),
+                            title: Text("apartment".i18n()),
+                            secondary: const Icon(Icons.home),
                             controlAffinity: ListTileControlAffinity.platform,
                             value: _appartment,
                             onChanged: (value) {
@@ -440,8 +441,19 @@ class _Signup extends State<Signup> {
                             },
                           ),
                           CheckboxListTile(
+                            title: Text("house".i18n()),
+                            secondary: const Icon(Icons.apartment),
+                            controlAffinity: ListTileControlAffinity.platform,
+                            value: _house,
+                            onChanged: (value) {
+                              setState(() {
+                                _house = value!;
+                              });
+                            },
+                          ),
+                          CheckboxListTile(
                             title: Text("parking".i18n()),
-                            secondary: Icon(Icons.local_parking),
+                            secondary: const Icon(Icons.local_parking),
                             controlAffinity: ListTileControlAffinity.platform,
                             value: _parking,
                             onChanged: (value) {
@@ -459,7 +471,7 @@ class _Signup extends State<Signup> {
                           ),
                           IconButton(
                             iconSize: 50,
-                            icon: Icon(Icons.image_search),
+                            icon: const Icon(Icons.image_search),
                             onPressed: pickYourImage,
                           ),
                           if (image != null)
@@ -546,6 +558,9 @@ class _Signup extends State<Signup> {
                       }
                       if (_parking == true) {
                         interests.add("parking");
+                      }
+                      if (_house == true) {
+                        interests.add("house");
                       }
                       var user = UserRegister(
                         username: _userNameId.value.text,
