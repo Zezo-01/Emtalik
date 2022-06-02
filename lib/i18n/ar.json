@@ -72,5 +72,16 @@
     "address":"العنوان",
     "description":"وصف",
     "size-in-square-meters":" الحجم ب م²",
-    "must-be-number":"يجب ان يحتوي هذا الحقل على أرقام فقط"
+    "must-be-number":"يجب ان يحتوي هذا الحقل على أرقام فقط",
+    "apartment-floor-number":"رقم الطابق للشقة",
+    "apartment-number":"رقم الشقة",
+    "house-number-floors":"عدد الطوابق",
+    "house-number-rooms":"عدد الغرف",
+    "swimming-pool":"بركة سباحة",
+    "number-fridges":"عدد الثلاجات",
+    "storage-room":"غرفة تخزين",
+    "vehicle-capacity":"عدد السيارات التي يمكن ركنها",
+    "automobile":"سيارة عادية",
+    "bus":"حافلة",
+    "truck":"شاحنة"
 }

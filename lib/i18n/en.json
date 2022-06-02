@@ -72,5 +72,16 @@
     "address":"Address",
     "description":"Description",
     "size-in-square-meters":"Size in m²",
-    "must-be-number":"This field must be only numbers"
+    "must-be-number":"This field must be only numbers",
+    "apartment-floor-number":"Apartment floor number",
+    "apartment-number":"Apartment Number",
+    "house-number-floors":"House floors",
+    "house-number-rooms":"Rooms number",
+    "swimming-pool":"Swimming pool",
+    "number-fridges":"Number of fridges",
+    "storage-room":"Storage room",
+    "vehicle-capacity":"Vehicle Capacity",
+    "automobile":"Automobile",
+    "bus":"Bus",
+    "truck":"Truck"
 }

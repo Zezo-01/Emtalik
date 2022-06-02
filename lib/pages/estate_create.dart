@@ -9,30 +9,45 @@ class EstateCreate extends StatefulWidget {
 
 class _EstateCreate extends State<EstateCreate> {
   final _generalForm = GlobalKey<FormState>();
-  final _detailsOnForm = GlobalKey<FormState>();
+  GlobalKey<FormState> _detailsOnForm = GlobalKey<FormState>();
+  final _apartmentForm = GlobalKey<FormState>();
+  final _houseForm = GlobalKey<FormState>();
+  final _landForm = GlobalKey<FormState>();
+  final _parkingForm = GlobalKey<FormState>();
+  final _storeForm = GlobalKey<FormState>();
   final _detailsForm = GlobalKey<FormState>();
 
   final _estateNameController = TextEditingController();
   final _addressController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _sizeController = TextEditingController();
+  final _apartmentFloorNumberController = TextEditingController();
+  final _apartmentNumberController = TextEditingController();
+  final _houseNumberOfFloorsController = TextEditingController();
+  final _houseNumberOfRoomsController = TextEditingController();
+  final _numberOfFridgesController = TextEditingController();
+  final _vehicleCapacityController = TextEditingController();
 
+  final _apartmentFloorNumber = FocusNode();
+  final _apartmentNumber = FocusNode();
   final _addressNode = FocusNode();
   final _descriptionNode = FocusNode();
   final _sizeNode = FocusNode();
+  final _houseNumberOfFloors = FocusNode();
+  final _houseNumberOfRooms = FocusNode();
+  bool swimmingPoolIncluded = false;
+  bool storageRoomIncluded = false;
+  bool cityHallElectricitySupport = false;
+  bool _automobile = false;
+  bool _bus = false;
+  bool _truck = false;
 
   late String estateType;
   late int currentStep;
-  late List<GlobalKey<FormState>> formKeys;
   @override
   void initState() {
     currentStep = 0;
     estateType = "";
-    formKeys = [
-      _generalForm,
-      _detailsOnForm,
-      _detailsForm,
-    ];
     super.initState();
   }
 
@@ -92,7 +107,6 @@ class _EstateCreate extends State<EstateCreate> {
                               }
                             },
                           ),
-                          // TODO: IMPLEMETNT DROP DOWN MENU
                           DropdownButtonFormField<String>(
                             hint: Text("pick-estate-type".i18n()),
                             validator: (value) {
@@ -103,6 +117,33 @@ class _EstateCreate extends State<EstateCreate> {
                             onChanged: (value) {
                               setState(() {
                                 estateType = value!;
+                                switch (value) {
+                                  case "apartment":
+                                    {
+                                      _detailsOnForm = _apartmentForm;
+                                      break;
+                                    }
+                                  case "house":
+                                    {
+                                      _detailsOnForm = _houseForm;
+                                      break;
+                                    }
+                                  case "parking":
+                                    {
+                                      _detailsOnForm = _parkingForm;
+                                      break;
+                                    }
+                                  case "store":
+                                    {
+                                      _detailsOnForm = _storeForm;
+                                      break;
+                                    }
+                                  case "land":
+                                    {
+                                      _detailsOnForm = _landForm;
+                                      break;
+                                    }
+                                }
                               });
                             },
                             items: <DropdownMenuItem<String>>[
@@ -181,27 +222,342 @@ class _EstateCreate extends State<EstateCreate> {
                   // padding: EdgeInsets.only(
                   //     bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: Container(
-                    margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
-                    child: Form(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          if (estateType == "apartment")
-                            Text("apartment".i18n())
-                          else if (estateType == "house")
-                            Text("house".i18n())
-                          else if (estateType == "store")
-                            Text("store".i18n())
-                          else if (estateType == "parking")
-                            Text("parking".i18n())
-                          else if (estateType == "land")
-                            Text("land".i18n())
-                        ],
-                      ),
-                    ),
-                  ),
+                      margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
+                      child: estateType == "apartment"
+                          ? Form(
+                              key: _apartmentForm,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  CustomFormField(
+                                    focusNode: _apartmentFloorNumber,
+                                    onComplete: () {
+                                      FocusScope.of(context)
+                                          .requestFocus(_apartmentNumber);
+                                    },
+                                    labelText: "apartment-floor-number".i18n(),
+                                    icon: const Icon(Icons.elevator),
+                                    controller: _apartmentFloorNumberController,
+                                    type: TextInputType.number,
+                                    enterKeyAction: TextInputAction.done,
+                                    onValidation: (value) {
+                                      if (value == null ||
+                                          value.trim().isEmpty) {
+                                        return "required-field".i18n();
+                                      }
+                                      try {
+                                        int.parse(value);
+                                      } catch (e) {
+                                        return "must-be-number".i18n();
+                                      }
+                                    },
+                                  ),
+                                  CustomFormField(
+                                    focusNode: _apartmentNumber,
+                                    labelText: "apartment-number".i18n(),
+                                    icon: const Icon(Icons.door_back_door),
+                                    controller: _apartmentNumberController,
+                                    type: TextInputType.number,
+                                    enterKeyAction: TextInputAction.done,
+                                    onValidation: (value) {
+                                      if (value == null ||
+                                          value.trim().isEmpty) {
+                                        return "required-field".i18n();
+                                      }
+                                      try {
+                                        int.parse(value);
+                                      } catch (e) {
+                                        return "must-be-number".i18n();
+                                      }
+                                    },
+                                  ),
+                                ],
+                              ),
+                            )
+                          : estateType == "house"
+                              ? Form(
+                                  key: _houseForm,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CustomFormField(
+                                        focusNode: _houseNumberOfFloors,
+                                        onComplete: () {
+                                          FocusScope.of(context).requestFocus(
+                                              _houseNumberOfRooms);
+                                        },
+                                        labelText: "house-number-floors".i18n(),
+                                        icon: const Icon(
+                                            Icons.format_list_numbered),
+                                        controller:
+                                            _houseNumberOfFloorsController,
+                                        type: TextInputType.number,
+                                        enterKeyAction: TextInputAction.done,
+                                        onValidation: (value) {
+                                          if (value == null ||
+                                              value.trim().isEmpty) {
+                                            return "required-field".i18n();
+                                          }
+                                          try {
+                                            int.parse(value);
+                                          } catch (e) {
+                                            return "must-be-number".i18n();
+                                          }
+                                        },
+                                      ),
+                                      CustomFormField(
+                                        focusNode: _houseNumberOfRooms,
+                                        labelText: "house-number-rooms".i18n(),
+                                        icon: const Icon(Icons.meeting_room),
+                                        controller:
+                                            _houseNumberOfRoomsController,
+                                        type: TextInputType.number,
+                                        enterKeyAction: TextInputAction.done,
+                                        onValidation: (value) {
+                                          if (value == null ||
+                                              value.trim().isEmpty) {
+                                            return "required-field".i18n();
+                                          }
+                                          try {
+                                            int.parse(value);
+                                          } catch (e) {
+                                            return "must-be-number".i18n();
+                                          }
+                                        },
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Switch(
+                                            value: swimmingPoolIncluded,
+                                            onChanged: (value) {
+                                              setState(() {
+                                                swimmingPoolIncluded = value;
+                                              });
+                                            },
+                                          ),
+                                          Wrap(
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: [
+                                              Icon(swimmingPoolIncluded
+                                                  ? Icons.pool
+                                                  : Icons
+                                                      .not_interested_outlined),
+                                              const SizedBox(width: 2),
+                                              Text(
+                                                "swimming-pool".i18n(),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                )
+                              : estateType == "store"
+                                  ? Form(
+                                      key: _storeForm,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          CustomFormField(
+                                            labelText: "number-fridges".i18n(),
+                                            icon: const Icon(Icons.ac_unit),
+                                            controller:
+                                                _numberOfFridgesController,
+                                            type: TextInputType.number,
+                                            enterKeyAction:
+                                                TextInputAction.done,
+                                            onValidation: (value) {
+                                              if (value == null ||
+                                                  value.trim().isEmpty) {
+                                                return "required-field".i18n();
+                                              }
+                                              try {
+                                                int.parse(value);
+                                              } catch (e) {
+                                                return "must-be-number".i18n();
+                                              }
+                                            },
+                                          ),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Switch(
+                                                value: storageRoomIncluded,
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    storageRoomIncluded = value;
+                                                  });
+                                                },
+                                              ),
+                                              Wrap(
+                                                crossAxisAlignment:
+                                                    WrapCrossAlignment.center,
+                                                children: [
+                                                  Icon(storageRoomIncluded
+                                                      ? Icons
+                                                          .door_sliding_rounded
+                                                      : Icons
+                                                          .not_interested_outlined),
+                                                  const SizedBox(width: 2),
+                                                  Text(
+                                                    "storage-room".i18n(),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                  // TODO: THIS IS LEFT NEEDS CHECK BOXES
+                                  : estateType == "parking"
+                                      ? Form(
+                                          key: _parkingForm,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              CheckboxListTile(
+                                                title:
+                                                    Text("automobile".i18n()),
+                                                secondary: const Icon(
+                                                    Icons.car_repair),
+                                                controlAffinity:
+                                                    ListTileControlAffinity
+                                                        .platform,
+                                                value: _automobile,
+                                                onChanged: (value) {
+                                                  setState(
+                                                    () {
+                                                      _automobile = value!;
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                              CheckboxListTile(
+                                                title: Text("bus".i18n()),
+                                                secondary:
+                                                    const Icon(Icons.bus_alert),
+                                                controlAffinity:
+                                                    ListTileControlAffinity
+                                                        .platform,
+                                                value: _bus,
+                                                onChanged: (value) {
+                                                  setState(
+                                                    () {
+                                                      _bus = value!;
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                              CheckboxListTile(
+                                                title: Text("truck".i18n()),
+                                                secondary: const Icon(
+                                                    Icons.car_repair),
+                                                controlAffinity:
+                                                    ListTileControlAffinity
+                                                        .platform,
+                                                value: _truck,
+                                                onChanged: (value) {
+                                                  setState(
+                                                    () {
+                                                      _truck = value!;
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                              CustomFormField(
+                                                labelText:
+                                                    "vehicle-capacity".i18n(),
+                                                icon: const Icon(
+                                                    Icons.car_repair_rounded),
+                                                controller:
+                                                    _vehicleCapacityController,
+                                                type: TextInputType.number,
+                                                enterKeyAction:
+                                                    TextInputAction.done,
+                                                onValidation: (value) {
+                                                  if (value == null ||
+                                                      value.trim().isEmpty) {
+                                                    return "required-field"
+                                                        .i18n();
+                                                  }
+                                                  try {
+                                                    int.parse(value);
+                                                  } catch (e) {
+                                                    return "must-be-number"
+                                                        .i18n();
+                                                  }
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : estateType == "land"
+                                          ? Form(
+                                              key: _landForm,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Switch(
+                                                        value:
+                                                            cityHallElectricitySupport,
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            cityHallElectricitySupport =
+                                                                value;
+                                                          });
+                                                        },
+                                                      ),
+                                                      Wrap(
+                                                        crossAxisAlignment:
+                                                            WrapCrossAlignment
+                                                                .center,
+                                                        children: [
+                                                          Icon(cityHallElectricitySupport
+                                                              ? Icons.power
+                                                              : Icons
+                                                                  .power_off),
+                                                          const SizedBox(
+                                                              width: 2),
+                                                          Text(
+                                                            "storage-room"
+                                                                .i18n(),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          : null),
                 ),
               ),
               Step(
@@ -302,18 +658,47 @@ class _EstateCreate extends State<EstateCreate> {
               Navigator.of(context).pushNamed('/mainpage');
             },
             onStepContinue: () {
-              if (formKeys[currentStep].currentState!.validate()) {
-                setState(() {
-                  currentStep++;
-                });
+              if (currentStep == 0) {
+                if (_generalForm.currentState!.validate()) {
+                  setState(() {
+                    currentStep++;
+                  });
+                }
+              } else if (currentStep == 1) {
+                if (_detailsOnForm.currentState!.validate()) {
+                  setState(() {
+                    currentStep++;
+                  });
+                }
+              } else if (currentStep == 1) {
+                if (_detailsForm.currentState!.validate()) {
+                  setState(() {
+                    currentStep++;
+                  });
+                }
               }
             },
             onStepTapped: (step) {
-              // TODO: REQUIRED VALIDATION
-              if (formKeys[currentStep].currentState!.validate()) {
-                setState(() {
-                  currentStep = step;
-                });
+              if (currentStep == 0) {
+                if (_generalForm.currentState!.validate()) {
+                  setState(() {
+                    currentStep = step;
+                  });
+                } else if (currentStep == 1 && step != 0) {
+                  if (_detailsOnForm.currentState!.validate()) {
+                    setState(() {
+                      currentStep = step;
+                    });
+                  } else {
+                    setState(() {
+                      currentStep = step;
+                    });
+                  }
+                } else if (currentStep == 2) {
+                  setState(() {
+                    currentStep = step;
+                  });
+                }
               }
             },
           ),
