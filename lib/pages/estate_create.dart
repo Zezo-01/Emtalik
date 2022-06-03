@@ -5,10 +5,12 @@ import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:localization/localization.dart';
+import 'package:open_file/open_file.dart';
 
 class EstateCreate extends StatefulWidget {
   @override
@@ -578,9 +580,9 @@ class _EstateCreate extends State<EstateCreate> {
                     child: Form(
                       key: _detailsForm,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        // crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Text(
                             "address-constraint".i18n(),
@@ -748,9 +750,17 @@ class _EstateCreate extends State<EstateCreate> {
                             icon: const Icon(Icons.perm_media),
                             iconSize: 50,
                             onPressed: () async {
-                              FilePickerResult? pickedMedia = await FilePicker
-                                  .platform
-                                  .pickFiles(allowMultiple: true);
+                              FilePickerResult? pickedMedia =
+                                  await FilePicker.platform.pickFiles(
+                                allowMultiple: true,
+                                allowedExtensions: [
+                                  'mp4',
+                                  'jpg',
+                                  'jpeg',
+                                  'png'
+                                ],
+                                type: FileType.custom,
+                              );
 
                               if (pickedMedia == null) {
                                 return;
@@ -768,18 +778,10 @@ class _EstateCreate extends State<EstateCreate> {
                                 int maxSize = 0;
 
                                 pickedMedia.files.forEach((file) {
-                                  if (file.extension == "mp4" ||
-                                      file.extension == "jpg" ||
-                                      file.extension == "png" ||
-                                      file.extension == "webp" ||
-                                      file.extension == "jpeg") {
-                                    allMediaSizes += file.size;
-                                    file.size > maxSize
-                                        ? maxSize = file.size
-                                        : maxSize = maxSize;
-                                  } else {
-                                    pickedMedia.files.remove(file);
-                                  }
+                                  allMediaSizes += file.size;
+                                  file.size > maxSize
+                                      ? maxSize = file.size
+                                      : maxSize = maxSize;
                                 });
                                 debugPrint("1 : " +
                                     (allMediaSizes / 1000000).toString() +
@@ -856,9 +858,81 @@ class _EstateCreate extends State<EstateCreate> {
                             },
                           ),
                           // TODO: IMPLEMENT HORIZONTOL SCROLL WIDGET
-                          Wrap(
-                            children: [],
+                          GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 25,
+                            ),
+                            shrinkWrap: true,
+                            itemCount: media == null ? 0 : media!.length,
+                            itemBuilder: (context, index) => Wrap(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      media!.removeAt(index);
+                                    });
+                                  },
+                                  icon: const Icon(Icons.cancel),
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    OpenFile.open(media![index].path);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          alignment: Alignment.center,
+                                          width: double.infinity,
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .primary,
+                                            borderRadius:
+                                                BorderRadius.circular(20),
+                                          ),
+                                          child: Text(
+                                            media![index].extension == "mp4"
+                                                ? "video".i18n()
+                                                : "image".i18n(),
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .labelMedium,
+                                          ),
+                                        ),
+                                        const SizedBox(height: 20),
+                                        Text(
+                                          media![index].name,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                        Text(
+                                          (media![index].size > 1024 * 1000)
+                                              ? (media![index].size / 1000000)
+                                                      .toString() +
+                                                  " MB"
+                                              : (media![index].size / 1000)
+                                                      .toString() +
+                                                  " KB",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
+                          const SizedBox(height: 20),
                           Text(
                             "estate-media-constraint".i18n(),
                             style: Theme.of(context)
@@ -895,6 +969,12 @@ class _EstateCreate extends State<EstateCreate> {
                   if (estateMainImage == null) {
                     ToastFactory.makeToast(context, TOAST_TYPE.error, null,
                         "image-required".i18n(), false, () {});
+                  }
+                  if (media == null || media!.length < 3) {
+                    ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+                        "atleast-3".i18n(), false, () {});
+                  } else {
+                    // SEND REQUEST TO SERVER
                   }
                 }
               }

@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, annotate_overrides, prefer_const_constructors_in_immutables
 
-import 'package:emtalik/Widgets/CustomDrawer.dart';
+import 'package:emtalik/Widgets/customdrawer.dart';
 import 'package:emtalik/pages/search.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';

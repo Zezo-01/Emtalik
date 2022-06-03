@@ -89,5 +89,7 @@
     "estate-media-constraint":"أكبر حجم لجميع الصور و الفيدوهات هو 250 ميجا بايت، اختر على الأقل 3 من الصور أو الفيدوهات",
     "atleast-3":"اختر على الأقل 3 صور و فيدوهات",
     "files-removed":"تم حذف ملفات",
-    "unsupported-files-selected":"لقد اخترت ملفات غير مدعومة"
+    "unsupported-files-selected":"لقد اخترت ملفات غير مدعومة",
+    "video":"فيديو",
+    "image":"صورة"
 }
