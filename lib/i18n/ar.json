@@ -71,7 +71,7 @@
     "address-constraint":"45 حرف",
     "address":"العنوان",
     "description":"وصف",
-    "size-in-square-meters":" الحجم ب م²",
+    "size-in-square-meters":" الحجم بـ م²",
     "must-be-number":"يجب ان يحتوي هذا الحقل على أرقام فقط",
     "apartment-floor-number":"رقم الطابق للشقة",
     "apartment-number":"رقم الشقة",
@@ -83,5 +83,11 @@
     "vehicle-capacity":"عدد السيارات التي يمكن ركنها",
     "automobile":"سيارة عادية",
     "bus":"حافلة",
-    "truck":"شاحنة"
+    "truck":"شاحنة",
+    "pick-estate-main-image":"إختر الصورة الرئيسية للعقار",
+    "pick-estate-media":"إختر صور وفيديوهات للعقار",
+    "estate-media-constraint":"أكبر حجم لجميع الصور و الفيدوهات هو 250 ميجا بايت، اختر على الأقل 3 من الصور أو الفيدوهات",
+    "atleast-3":"اختر على الأقل 3 صور و فيدوهات",
+    "files-removed":"تم حذف ملفات",
+    "unsupported-files-selected":"لقد اخترت ملفات غير مدعومة"
 }

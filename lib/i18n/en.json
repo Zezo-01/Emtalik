@@ -83,5 +83,11 @@
     "vehicle-capacity":"Vehicle Capacity",
     "automobile":"Automobile",
     "bus":"Bus",
-    "truck":"Truck"
+    "truck":"Truck",
+    "pick-estate-main-image":"Pick the estate's main picture",
+    "pick-estate-media":"Pick media for the estate",
+    "estate-media-constraint":"All of the media sizes shouldn't pass 250 MB, pick at least 3 files",
+    "atleast-3":"Pick at least 3 files",
+    "files-removed":"Files has been removed",
+    "unsupported-files-selected":"You've selected unsupported files"
 }

@@ -1,5 +1,13 @@
+import 'dart:io';
+
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
+import 'package:emtalik/etc/enums.dart';
+import 'package:emtalik/etc/toastfactory.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:localization/localization.dart';
 
 class EstateCreate extends StatefulWidget {
@@ -41,12 +49,14 @@ class _EstateCreate extends State<EstateCreate> {
   bool _automobile = false;
   bool _bus = false;
   bool _truck = false;
+  XFile? estateMainImage;
+  List<PlatformFile>? media;
 
   late String estateType;
   late int currentStep;
   @override
   void initState() {
-    currentStep = 0;
+    currentStep = 2;
     estateType = "";
     super.initState();
   }
@@ -72,8 +82,6 @@ class _EstateCreate extends State<EstateCreate> {
                       .copyWith(fontSize: 14),
                 ),
                 content: SingleChildScrollView(
-                  // padding: EdgeInsets.only(
-                  //     bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Form(
@@ -219,8 +227,6 @@ class _EstateCreate extends State<EstateCreate> {
                       .copyWith(fontSize: 12),
                 ),
                 content: SingleChildScrollView(
-                  // padding: EdgeInsets.only(
-                  //     bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: Container(
                       margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                       child: estateType == "apartment"
@@ -408,8 +414,7 @@ class _EstateCreate extends State<EstateCreate> {
                                                     WrapCrossAlignment.center,
                                                 children: [
                                                   Icon(storageRoomIncluded
-                                                      ? Icons
-                                                          .door_sliding_rounded
+                                                      ? Icons.warehouse
                                                       : Icons
                                                           .not_interested_outlined),
                                                   const SizedBox(width: 2),
@@ -423,7 +428,6 @@ class _EstateCreate extends State<EstateCreate> {
                                         ],
                                       ),
                                     )
-                                  // TODO: THIS IS LEFT NEEDS CHECK BOXES
                                   : estateType == "parking"
                                       ? Form(
                                           key: _parkingForm,
@@ -438,7 +442,7 @@ class _EstateCreate extends State<EstateCreate> {
                                                 title:
                                                     Text("automobile".i18n()),
                                                 secondary: const Icon(
-                                                    Icons.car_repair),
+                                                    FontAwesomeIcons.car),
                                                 controlAffinity:
                                                     ListTileControlAffinity
                                                         .platform,
@@ -453,8 +457,8 @@ class _EstateCreate extends State<EstateCreate> {
                                               ),
                                               CheckboxListTile(
                                                 title: Text("bus".i18n()),
-                                                secondary:
-                                                    const Icon(Icons.bus_alert),
+                                                secondary: const Icon(
+                                                    FontAwesomeIcons.bus),
                                                 controlAffinity:
                                                     ListTileControlAffinity
                                                         .platform,
@@ -470,7 +474,7 @@ class _EstateCreate extends State<EstateCreate> {
                                               CheckboxListTile(
                                                 title: Text("truck".i18n()),
                                                 secondary: const Icon(
-                                                    Icons.car_repair),
+                                                    FontAwesomeIcons.truck),
                                                 controlAffinity:
                                                     ListTileControlAffinity
                                                         .platform,
@@ -569,8 +573,6 @@ class _EstateCreate extends State<EstateCreate> {
                       .copyWith(fontSize: 12),
                 ),
                 content: SingleChildScrollView(
-                  // padding: EdgeInsets.only(
-                  //     bottom: MediaQuery.of(context).viewInsets.bottom),
                   child: Container(
                     margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
                     child: Form(
@@ -610,24 +612,6 @@ class _EstateCreate extends State<EstateCreate> {
                             },
                           ),
                           CustomFormField(
-                            focusNode: _descriptionNode,
-                            onComplete: () {
-                              FocusScope.of(context).requestFocus(_sizeNode);
-                            },
-                            labelText: "description".i18n(),
-                            icon: const Icon(Icons.description),
-                            controller: _descriptionController,
-                            type: TextInputType.name,
-                            enterKeyAction: TextInputAction.done,
-                            onValidation: (value) {
-                              if (value == null ||
-                                  value.trim().isNotEmpty &&
-                                      value.length > 255) {
-                                return "too-long".i18n();
-                              }
-                            },
-                          ),
-                          CustomFormField(
                             focusNode: _sizeNode,
                             labelText: "size-in-square-meters".i18n(),
                             icon: const Icon(Icons.height),
@@ -646,6 +630,242 @@ class _EstateCreate extends State<EstateCreate> {
                                 }
                               }
                             },
+                          ),
+                          CustomFormField(
+                            minLines: 3,
+                            maxLines: 5,
+                            focusNode: _descriptionNode,
+                            onComplete: () {
+                              FocusScope.of(context).requestFocus(_sizeNode);
+                            },
+                            labelText: "description".i18n(),
+                            icon: const Icon(Icons.description),
+                            controller: _descriptionController,
+                            type: TextInputType.multiline,
+                            enterKeyAction: TextInputAction.done,
+                            onValidation: (value) {
+                              if (value == null ||
+                                  value.trim().isNotEmpty &&
+                                      value.length > 255) {
+                                return "too-long".i18n();
+                              }
+                            },
+                          ),
+                          Text(
+                            "pick-estate-main-image".i18n(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(fontSize: 12),
+                          ),
+                          IconButton(
+                            iconSize: 50,
+                            icon: const Icon(Icons.image_search),
+                            onPressed: () async {
+                              try {
+                                final userImage = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
+                                if (userImage != null &&
+                                    (userImage.name.split('.')[1] == "jpeg" ||
+                                        userImage.name.split('.')[1] == "jpg" ||
+                                        userImage.name.split('.')[1] == "png" ||
+                                        userImage.name.split('.')[1] ==
+                                            "webp")) {
+                                  if (await userImage.length() < 5 * 1000000) {
+                                    setState(() {
+                                      estateMainImage = userImage;
+                                    });
+                                  } else {
+                                    ToastFactory.makeToast(
+                                        context,
+                                        TOAST_TYPE.error,
+                                        "file-size-error".i18n(),
+                                        "profile-picture-constraint".i18n(),
+                                        false,
+                                        () {});
+                                    setState(() {
+                                      estateMainImage = null;
+                                    });
+                                  }
+                                } else {
+                                  ToastFactory.makeToast(
+                                      context,
+                                      TOAST_TYPE.error,
+                                      null,
+                                      "not-supported-file".i18n(),
+                                      false,
+                                      () {});
+                                  setState(() {
+                                    estateMainImage = null;
+                                  });
+                                }
+                              } on PlatformException catch (e) {
+                                estateMainImage = null;
+                                ToastFactory.makeToast(
+                                    context,
+                                    TOAST_TYPE.error,
+                                    "Error",
+                                    "Cant Pick Up Image",
+                                    false,
+                                    () {});
+                              }
+                            },
+                          ),
+                          if (estateMainImage != null)
+                            Wrap(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      estateMainImage = null;
+                                    });
+                                  },
+                                  icon: const Icon(Icons.cancel),
+                                ),
+                                CircleAvatar(
+                                  child: ClipOval(
+                                    child: Image.file(
+                                      File(estateMainImage!.path),
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      width: MediaQuery.of(context).size.width,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  radius: 120,
+                                ),
+                              ],
+                            ),
+                          // TODO: MEDIA HERE
+                          Text(
+                            "pick-estate-media".i18n(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText1!
+                                .copyWith(fontSize: 12),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.perm_media),
+                            iconSize: 50,
+                            onPressed: () async {
+                              FilePickerResult? pickedMedia = await FilePicker
+                                  .platform
+                                  .pickFiles(allowMultiple: true);
+
+                              if (pickedMedia == null) {
+                                return;
+                              } else if (pickedMedia.count < 3) {
+                                ToastFactory.makeToast(
+                                    context,
+                                    TOAST_TYPE.warning,
+                                    null,
+                                    "atleast-3".i18n(),
+                                    false,
+                                    () {});
+                                return;
+                              } else {
+                                int allMediaSizes = 0;
+                                int maxSize = 0;
+
+                                pickedMedia.files.forEach((file) {
+                                  if (file.extension == "mp4" ||
+                                      file.extension == "jpg" ||
+                                      file.extension == "png" ||
+                                      file.extension == "webp" ||
+                                      file.extension == "jpeg") {
+                                    allMediaSizes += file.size;
+                                    file.size > maxSize
+                                        ? maxSize = file.size
+                                        : maxSize = maxSize;
+                                  } else {
+                                    pickedMedia.files.remove(file);
+                                  }
+                                });
+                                debugPrint("1 : " +
+                                    (allMediaSizes / 1000000).toString() +
+                                    " MB");
+                                try {
+                                  while (allMediaSizes > (250 * 1000000)) {
+                                    pickedMedia.files.removeWhere(
+                                      (file) {
+                                        if (file.size == maxSize ||
+                                            file.size >= (250 * 1000000)) {
+                                          allMediaSizes -= file.size;
+                                          debugPrint(
+                                              "DECREASING ALL MEDIA SIZES");
+                                          maxSize = 0;
+                                          pickedMedia.files.forEach((file) {
+                                            file.size > maxSize
+                                                ? maxSize = file.size
+                                                : maxSize = maxSize;
+                                          });
+                                          debugPrint("FILE REMOVED");
+                                          return true;
+                                        } else {
+                                          debugPrint("FILE NOT REMOVED");
+                                          return false;
+                                        }
+                                      },
+                                    );
+                                  }
+                                } catch (e) {
+                                  ToastFactory.makeToast(
+                                      context,
+                                      TOAST_TYPE.warning,
+                                      "files-removed".i18n(),
+                                      "unsupported-files-selected".i18n(),
+                                      false,
+                                      () {});
+                                }
+                                debugPrint("2 : " +
+                                    (allMediaSizes / 1000000).toString() +
+                                    " MB");
+                                if (pickedMedia.files.length < 3) {
+                                  debugPrint("NOT ENOUGH MEDIA" +
+                                      pickedMedia.count.toString());
+                                  ToastFactory.makeToast(
+                                    context,
+                                    TOAST_TYPE.warning,
+                                    "files-removed".i18n(),
+                                    "unsupported-files-selected".i18n(),
+                                    false,
+                                    () {},
+                                  );
+                                } else {
+                                  debugPrint("WINNING STATE ALLHAMDUALLAH");
+                                  setState(() {
+                                    media = pickedMedia.files;
+                                  });
+                                  debugPrint("3 : " +
+                                      (allMediaSizes / 1000000).toString() +
+                                      " MB");
+
+                                  var maxmediasize = 0;
+                                  media!.forEach((file) {
+                                    debugPrint(file.name +
+                                        " " +
+                                        (file.size / 1000000).toString() +
+                                        " MB");
+                                    maxmediasize += file.size;
+                                  });
+                                  debugPrint("FINAL SIZE : " +
+                                      (maxmediasize / 1000000).toString() +
+                                      " MB");
+                                }
+                              }
+                            },
+                          ),
+                          // TODO: IMPLEMENT HORIZONTOL SCROLL WIDGET
+                          Wrap(
+                            children: [],
+                          ),
+                          Text(
+                            "estate-media-constraint".i18n(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(
+                                    fontSize: 10, fontWeight: FontWeight.w900),
                           ),
                         ],
                       ),
@@ -670,11 +890,12 @@ class _EstateCreate extends State<EstateCreate> {
                     currentStep++;
                   });
                 }
-              } else if (currentStep == 1) {
+              } else if (currentStep == 2) {
                 if (_detailsForm.currentState!.validate()) {
-                  setState(() {
-                    currentStep++;
-                  });
+                  if (estateMainImage == null) {
+                    ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+                        "image-required".i18n(), false, () {});
+                  }
                 }
               }
             },

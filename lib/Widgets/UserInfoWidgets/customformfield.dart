@@ -16,7 +16,9 @@ class CustomFormField extends StatefulWidget {
       this.enterKeyAction,
       required this.labelText,
       this.onSave,
-      this.onComplete})
+      this.onComplete,
+      this.minLines,
+      this.maxLines})
       : super(key: key);
   // INFO: Optional parameter to pass a function that will be excuted when ever the value of the textfield's change
   void Function(String value)? onChange;
@@ -38,7 +40,11 @@ class CustomFormField extends StatefulWidget {
   TextInputAction? enterKeyAction;
   // INFO: The label's text
   String labelText;
-  //INFO : Calls onSaved
+  // INFO: MINIMUM LINES
+  int? minLines;
+  // INFO: MAXIMUM LINES
+  int? maxLines;
+  //INFO: Calls onSaved
   void Function(String? name)? onSave;
   //INFO: WHEN DONE EDITING
   void Function()? onComplete;
@@ -56,7 +62,9 @@ class CustomFormField extends StatefulWidget {
       enterKeyAction: enterKeyAction,
       labelText: labelText,
       onSave: onSave,
-      onComplete: onComplete);
+      onComplete: onComplete,
+      minLines: minLines,
+      maxLines: maxLines);
 }
 
 class _CustomFormField extends State<CustomFormField> {
@@ -70,6 +78,8 @@ class _CustomFormField extends State<CustomFormField> {
   TextInputType? type;
   TextInputAction? enterKeyAction;
   String labelText;
+  int? minLines;
+  int? maxLines;
   void Function(String? name)? onSave;
   void Function()? onComplete;
   _CustomFormField(
@@ -84,7 +94,9 @@ class _CustomFormField extends State<CustomFormField> {
       this.enterKeyAction,
       required this.labelText,
       this.onSave,
-      this.onComplete});
+      this.onComplete,
+      this.minLines,
+      this.maxLines});
   @override
   void initState() {
     controller ??= TextEditingController();
@@ -95,6 +107,8 @@ class _CustomFormField extends State<CustomFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      minLines: minLines,
+      maxLines: maxLines,
       onEditingComplete: onComplete,
       onSaved: onSave,
       validator: onValidation,

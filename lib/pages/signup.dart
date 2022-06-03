@@ -50,7 +50,7 @@ class _Signup extends State<Signup> {
         }
       } else {
         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
-            "not-supported-file", false, () {});
+            "not-supported-file".i18n(), false, () {});
         setState(() {
           image = null;
         });
@@ -475,16 +475,29 @@ class _Signup extends State<Signup> {
                             onPressed: pickYourImage,
                           ),
                           if (image != null)
-                            CircleAvatar(
-                              child: ClipOval(
-                                child: Image.file(
-                                  File(image!.path),
-                                  height: MediaQuery.of(context).size.height,
-                                  width: MediaQuery.of(context).size.width,
-                                  fit: BoxFit.cover,
+                            Wrap(
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      image = null;
+                                    });
+                                  },
+                                  icon: const Icon(Icons.cancel),
                                 ),
-                              ),
-                              radius: 120,
+                                CircleAvatar(
+                                  child: ClipOval(
+                                    child: Image.file(
+                                      File(image!.path),
+                                      height:
+                                          MediaQuery.of(context).size.height,
+                                      width: MediaQuery.of(context).size.width,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  radius: 120,
+                                ),
+                              ],
                             ),
                         ],
                       ),
