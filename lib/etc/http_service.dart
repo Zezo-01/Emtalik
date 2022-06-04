@@ -2,14 +2,16 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:emtalik/models/user_register.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/src/media_type.dart';
 import 'package:mime/mime.dart';
 
 abstract class HttpService {
-  static String get target => 'http://192.168.0.109:8080';
+  static String get target => 'http://192.168.1.109:8080';
   static String get adminTarget => target + '/admin';
+  static String get estateTarget => target + '/estate';
   static String getProfilePictureRoute(int id) =>
       target + '/user/picture/' + id.toString();
   static Future<http.Response> validateUser(String id, String password) async {
@@ -72,6 +74,27 @@ abstract class HttpService {
       request.files.add(picture);
     }
 
+    return await request.send();
+  }
+
+  // ESTATE JSON
+  static Future<http.StreamedResponse> createEstate(dynamic estate, String type,
+      int id, XFile? estateMainPicture, List<PlatformFile>? media) async {
+    var request =
+        http.MultipartRequest("POST", Uri.parse(estateTarget + "/create"));
+
+    var mainPic = await http.MultipartFile.fromPath(
+      "estateMainPicture",
+      estateMainPicture!.path,
+      filename: estateMainPicture.name,
+      contentType: MediaType.parse(
+          lookupMimeType(estateMainPicture.name) ?? 'application/octet-stream'),
+    );
+
+    request.fields['estateJson'] = jsonEncode(estate);
+    request.fields['type'] = type;
+    request.fields['id'] = id.toString();
+    request.files.add(mainPic);
     return await request.send();
   }
 }

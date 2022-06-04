@@ -279,6 +279,7 @@ class _Signup extends State<Signup> {
                                           .colorScheme
                                           .primary),
                             ),
+                            const SizedBox(height: 10),
                             CustomFormField(
                               onComplete: () {
                                 FocusScope.of(context)
@@ -308,6 +309,7 @@ class _Signup extends State<Signup> {
                                           .colorScheme
                                           .primary),
                             ),
+                            const SizedBox(height: 10),
                             CustomFormField(
                               onComplete: () {
                                 FocusScope.of(context)
@@ -337,6 +339,7 @@ class _Signup extends State<Signup> {
                                           .colorScheme
                                           .primary),
                             ),
+                            const SizedBox(height: 10),
                             CustomFormField(
                               onComplete: () {
                                 FocusScope.of(context)
@@ -366,6 +369,7 @@ class _Signup extends State<Signup> {
                                           .colorScheme
                                           .primary),
                             ),
+                            const SizedBox(height: 10),
                             CustomFormField(
                               onComplete: () {
                                 //FocusScope.of(context).requestFocus();
@@ -556,6 +560,11 @@ class _Signup extends State<Signup> {
                         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
                             "no-connection".i18n(), false, () {});
                       }
+                    } else if (currentStep == 1) {
+                      setState(() {
+                        currentStep++;
+                      });
+                      currentStep++;
                     } else if (currentStep == 2) {
                       // SEND REGISTER REQUEST
 
@@ -606,11 +615,11 @@ class _Signup extends State<Signup> {
                               .login(
                             UserSession.fromRawJson(json),
                           );
+
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: ((context) => MyHomePage())));
-                          // Navigator.of(context).pushNamed('/mainpage');
                         } else {
                           ToastFactory.makeToast(
                               context,

@@ -2,15 +2,18 @@ import 'dart:io';
 
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/etc/enums.dart';
+import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/models/house_register.dart';
+import 'package:emtalik/providers/user_session.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:localization/localization.dart';
 import 'package:open_file/open_file.dart';
+import 'package:provider/provider.dart';
 
 class EstateCreate extends StatefulWidget {
   @override
@@ -51,6 +54,7 @@ class _EstateCreate extends State<EstateCreate> {
   bool _automobile = false;
   bool _bus = false;
   bool _truck = false;
+  bool _bike = false;
   XFile? estateMainImage;
   List<PlatformFile>? media;
 
@@ -58,7 +62,7 @@ class _EstateCreate extends State<EstateCreate> {
   late int currentStep;
   @override
   void initState() {
-    currentStep = 2;
+    currentStep = 0;
     estateType = "";
     super.initState();
   }
@@ -485,6 +489,22 @@ class _EstateCreate extends State<EstateCreate> {
                                                   setState(
                                                     () {
                                                       _truck = value!;
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                              CheckboxListTile(
+                                                title: Text("bike".i18n()),
+                                                secondary: const Icon(
+                                                    FontAwesomeIcons.bicycle),
+                                                controlAffinity:
+                                                    ListTileControlAffinity
+                                                        .platform,
+                                                value: _bike,
+                                                onChanged: (value) {
+                                                  setState(
+                                                    () {
+                                                      _bike = value!;
                                                     },
                                                   );
                                                 },
@@ -951,7 +971,7 @@ class _EstateCreate extends State<EstateCreate> {
             onStepCancel: () {
               Navigator.of(context).pushNamed('/mainpage');
             },
-            onStepContinue: () {
+            onStepContinue: () async {
               if (currentStep == 0) {
                 if (_generalForm.currentState!.validate()) {
                   setState(() {
@@ -974,7 +994,62 @@ class _EstateCreate extends State<EstateCreate> {
                     ToastFactory.makeToast(context, TOAST_TYPE.error, null,
                         "atleast-3".i18n(), false, () {});
                   } else {
+                    var estate;
                     // SEND REQUEST TO SERVER
+                    switch (estateType) {
+                      case 'house':
+                        {
+                          estate = HouseRegister(
+                            name: _estateNameController.text,
+                            address: _addressController.text,
+                            type: estateType,
+                            description: _descriptionController.text.isEmpty
+                                ? null
+                                : _descriptionController.text,
+                            size: int.parse(_sizeController.text),
+                            numberOfFloors:
+                                int.parse(_houseNumberOfFloorsController.text),
+                            rooms:
+                                int.parse(_houseNumberOfRoomsController.text),
+                            swimmingPool: swimmingPoolIncluded,
+                          );
+                          break;
+                        }
+                      case 'apartment':
+                        {
+                          break;
+                        }
+                      case 'parking':
+                        {
+                          break;
+                        }
+                      case 'land':
+                        {
+                          break;
+                        }
+                      case 'store':
+                        {
+                          break;
+                        }
+                    }
+                    try {
+                      var request = await HttpService.createEstate(
+                          estate,
+                          estateType,
+                          Provider.of<UserSession>(context, listen: false).id ??
+                              0,
+                          estateMainImage,
+                          media);
+                      if (request.statusCode == 200) {
+                        debugPrint("smooth mashallah");
+                      } else {
+                        debugPrint("Not smooth, but allhamduallah");
+                      }
+                    } catch (e, s) {
+                      debugPrint(s.toString());
+                      ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+                          "no-connection".i18n(), false, () {});
+                    }
                   }
                 }
               }
