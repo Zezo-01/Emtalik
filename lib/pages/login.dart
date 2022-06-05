@@ -4,6 +4,7 @@ import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/error.dart';
 import 'package:emtalik/pages/mainpage.dart';
+import 'package:emtalik/pages/signup.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/theme_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -155,7 +156,9 @@ class _LoginPage extends State<LoginPage> {
                             ),
                             TextButton(
                               onPressed: () {
-                                Navigator.of(context).pushNamed('/signup');
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: ((context) => Signup())));
                               },
                               child: Text("no-account?".i18n()),
                             ),

@@ -1,5 +1,6 @@
 import 'dart:ffi';
 import 'dart:io';
+import 'package:emtalik/pages/login.dart';
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:http/http.dart' as http;
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
@@ -615,7 +616,6 @@ class _Signup extends State<Signup> {
                               .login(
                             UserSession.fromRawJson(json),
                           );
-                          // TODO: POP ALL after login
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
@@ -640,7 +640,10 @@ class _Signup extends State<Signup> {
                   }
                 },
                 onStepCancel: () {
-                  Navigator.of(context).pushNamed('/');
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: ((context) => const LoginPage())));
                 },
                 onStepTapped: (step) {
                   if (keys[currentStep].currentState!.validate() &&

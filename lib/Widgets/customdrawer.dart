@@ -1,8 +1,7 @@
-import 'dart:convert';
-
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/pages/login.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/theme_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -125,7 +124,7 @@ class CustomDrawer extends StatelessWidget {
                     ],
                   ),
                 ),
-                if (Provider.of<UserSession>(context).role != "admin")
+                if (Provider.of<UserSession>(context).role == "admin")
                   //  ADMIN WORK HERE MUST SET IT TO == "admin"
                   Column(
                     children: [
@@ -177,7 +176,10 @@ class CustomDrawer extends StatelessWidget {
               ),
               onPressed: () {
                 Provider.of<UserSession>(context, listen: false).logout();
-                Navigator.of(context).pushNamed('/');
+                Navigator.of(context).popUntil(
+                  (route) => false,
+                );
+                Navigator.of(context).pushNamed("/");
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

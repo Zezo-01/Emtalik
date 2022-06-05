@@ -1,13 +1,18 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, prefer_const_literals_to_create_immutables, annotate_overrides, prefer_const_constructors_in_immutables
 
+import 'dart:convert';
+
 import 'package:emtalik/Widgets/customdrawer.dart';
 import 'package:emtalik/etc/enums.dart';
+import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/pages/search.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:http/http.dart' as http;
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 
@@ -18,18 +23,44 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePage extends State<MyHomePage> {
-  DateTime pressed = DateTime.now();
-  int currentIndex = 0;
+  List<EstateResponse>? estates = List.empty(growable: true);
+
+  late int currentIndex;
+
+  void getEstates() async {
+    try {
+      http.Response estateResponse = await HttpService.getEstates();
+      if (estateResponse.statusCode == 200) {
+        var estatesList = jsonDecode(estateResponse.body);
+        for (var estate in estatesList) {
+          estates!.add(EstateResponse.fromJson(estate));
+        }
+        debugPrint(estates!.first.address);
+      } else {
+        ToastFactory.makeToast(
+            context, TOAST_TYPE.error, null, "error".i18n(), false, () {});
+      }
+    } catch (e, s) {
+      debugPrint(s.toString());
+      ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+          "no-connection".i18n(), false, () {});
+    }
+  }
+
+  @override
+  void initState() {
+    currentIndex = 0;
+    super.initState();
+    getEstates();
+  }
+
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
           // TODO: UNCOMMENT FOR FULL PRIVILEGES
-          drawer:
-              // Provider.of<UserSession>(context,listen: false).role != null
-              // ?
-              CustomDrawer()
-          // : null
-          ,
+          drawer: Provider.of<UserSession>(context, listen: false).role != null
+              ? CustomDrawer()
+              : null,
           appBar: AppBar(
             title: Text(
               "search".i18n(),
@@ -39,16 +70,16 @@ class _MyHomePage extends State<MyHomePage> {
                 icon: Icon(Icons.search),
                 onPressed: () {
                   // TODO: UNCOMMENT FOR FULL PRIVILEGES
-                  // if (Provider.of<UserSession>(context, listen: false).role !=
-                  //     null) {
-                  showSearch(
-                    context: context,
-                    delegate: MySearch(),
-                  );
-                  // } else {
-                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
-                  //       "no-privileges-for-guest".i18n(), false, () {});
-                  // }
+                  if (Provider.of<UserSession>(context, listen: false).role !=
+                      null) {
+                    showSearch(
+                      context: context,
+                      delegate: MySearch(),
+                    );
+                  } else {
+                    ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                        "no-privileges-for-guest".i18n(), false, () {});
+                  }
                 },
               ),
             ],
@@ -88,20 +119,22 @@ class _MyHomePage extends State<MyHomePage> {
                 ),
                 onTap: () {
                   // // TODO: UNCOMMENT FOR FULL FUNCTIONALITY
-                  // if (Provider.of<UserSession>(context, listen: false).role ==
-                  //     "Seller") {
-                  Navigator.of(context).pushNamed('/estate_create');
-                  // // TODO: WORK HERE
+                  if (Provider.of<UserSession>(context, listen: false).role ==
+                          "seller" ||
+                      Provider.of<UserSession>(context, listen: false).role ==
+                          "admin") {
+                    Navigator.of(context).pushNamed('/estate_create');
+                    // // TODO: WORK HERE
 
-                  // } else if (Provider.of<UserSession>(context, listen: false)
-                  //         .role ==
-                  //     "Buyer") {
-                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
-                  //       "no-privileges-for-selling".i18n(), false, () {});
-                  // } else {
-                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
-                  //       "no-privileges-for-guest".i18n(), false, () {});
-                  // }
+                  } else if (Provider.of<UserSession>(context, listen: false)
+                          .role ==
+                      "buyer") {
+                    ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                        "no-privileges-for-selling".i18n(), false, () {});
+                  } else {
+                    ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                        "no-privileges-for-guest".i18n(), false, () {});
+                  }
                 },
               ),
               SpeedDialChild(
@@ -113,12 +146,12 @@ class _MyHomePage extends State<MyHomePage> {
                 onTap: () {
                   // TODO: UNCOMMENT FOR FULL FUNCTIONALITY
                   // if (Provider.of<UserSession>(context, listen: false).role ==
-                  //     "Seller") {
+                  //     "seller" || Provider.of<UserSession>(context, listen: false).role == "admin") {
                   // TODO: WORK HERE
 
                   // } else if (Provider.of<UserSession>(context, listen: false)
                   //         .role ==
-                  //     "Buyer") {
+                  //     "buyer") {
                   //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
                   //       "no-privileges-for-selling".i18n(), false, () {});
                   // } else {
@@ -129,80 +162,17 @@ class _MyHomePage extends State<MyHomePage> {
               ),
             ],
           ),
-          body: Column(children: <Widget>[]),
-        ),
-      );
-
-  Widget bulidCard() => Card(
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24),
-        ),
-        child: SingleChildScrollView(
-          padding:
-              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
-          child: Column(
-            children: [
-              Stack(
-                children: [
-                  Ink.image(
-                    image: NetworkImage(
-                      'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1327&q=80',
-                    ),
-                    child: InkWell(
-                      onTap: () {},
-                    ),
-                    height: 200,
-                    width: 500,
-                    fit: BoxFit.cover,
-                  ),
-                  // ignore: prefer_const_constructors
-                  Positioned(
-                    bottom: 16,
-                    right: 16,
-                    left: 16,
-                    // ignore: prefer_const_constructors
-                    child: Text(
-                      "land".i18n(),
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Theme.of(context).colorScheme.primary,
-                        fontSize: 24,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Padding(
-                  padding: EdgeInsets.all(16).copyWith(bottom: 0),
-                  child: Column(
-                    children: [
-                      Text(
-                        "location".i18n(),
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      Text(
-                        "estate".i18n(),
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                      Text(
-                        "name-estate".i18n(),
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
-                    ],
-                  )),
-              ButtonBar()
-            ],
-          ),
+          body: currentIndex == 0
+              ? Column(
+                  children: [
+                    Text("Estate"),
+                  ],
+                )
+              : Column(
+                  children: [
+                    Text("Offer"),
+                  ],
+                ),
         ),
       );
 }

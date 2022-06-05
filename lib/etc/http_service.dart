@@ -117,4 +117,12 @@ abstract class HttpService {
     request.files.add(mainPic);
     return await request.send();
   }
+
+  static Future<http.Response> getEstates() async {
+    return await http.get(Uri.parse(estateTarget));
+  }
+
+  static Future<http.Response> getApprovedEstates() async {
+    return await http.get(Uri.parse(estateTarget + "/approved"));
+  }
 }
