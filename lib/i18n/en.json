@@ -84,6 +84,8 @@
     "automobile":"Automobile",
     "bus":"Bus",
     "truck":"Truck",
+    "bike":"Bike",
+    "electric-support":"City hall electric support",
     "pick-estate-main-image":"Pick the estate's main picture",
     "pick-estate-media":"Pick media for the estate",
     "estate-media-constraint":"All of the media sizes shouldn't pass 250 MB, pick at least 3 files",
@@ -91,5 +93,6 @@
     "files-removed":"Files has been removed",
     "unsupported-files-selected":"You've selected unsupported files",
     "video":"Video",
-    "image":"Image"
+    "image":"Image",
+    "operation-success":"Done succesfully"
 }

@@ -84,6 +84,8 @@
     "automobile":"سيارة عادية",
     "bus":"حافلة",
     "truck":"شاحنة",
+    "bike":"دراجة",
+    "electric-support":"دعم الكهرباء من البلدية",
     "pick-estate-main-image":"إختر الصورة الرئيسية للعقار",
     "pick-estate-media":"إختر صور وفيديوهات للعقار",
     "estate-media-constraint":"أكبر حجم لجميع الصور و الفيدوهات هو 250 ميجا بايت، اختر على الأقل 3 من الصور أو الفيدوهات",
@@ -91,5 +93,6 @@
     "files-removed":"تم حذف ملفات",
     "unsupported-files-selected":"لقد اخترت ملفات غير مدعومة",
     "video":"فيديو",
-    "image":"صورة"
+    "image":"صورة",
+    "operation-success":"تمت العملية بنجاح"
 }

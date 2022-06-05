@@ -109,12 +109,6 @@ abstract class HttpService {
       },
     );
 
-    estateMedia.forEach((file) {
-      debugPrint("Field name : " +
-          file.field +
-          "\n Content type  : " +
-          file.contentType.mimeType);
-    });
     request.files.addAll(estateMedia);
 
     request.fields['estateJson'] = jsonEncode(estate);

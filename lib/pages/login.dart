@@ -134,8 +134,6 @@ class _LoginPage extends State<LoginPage> {
                                           MaterialPageRoute(
                                               builder: ((context) =>
                                                   MyHomePage())));
-                                      // Navigator.of(context)
-                                      //     .pushNamed('/mainpage');
                                     } else {
                                       // ERROR HANDLING
                                       ToastFactory.makeToast(

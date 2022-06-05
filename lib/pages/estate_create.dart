@@ -4,12 +4,18 @@ import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/models/apartment_register.dart';
 import 'package:emtalik/models/house_register.dart';
+import 'package:emtalik/models/land_register.dart';
+import 'package:emtalik/models/parking_register.dart';
+import 'package:emtalik/models/store_register.dart';
+import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:localization/localization.dart';
 import 'package:open_file/open_file.dart';
@@ -226,7 +232,10 @@ class _EstateCreate extends State<EstateCreate> {
               ),
               Step(
                 title: Text(
-                  "details-on".i18n() + _estateNameController.value.text,
+                  "details-on".i18n() +
+                      (_estateNameController.text.length > 12
+                          ? ""
+                          : _estateNameController.text),
                   style: Theme.of(context)
                       .textTheme
                       .labelSmall!
@@ -573,7 +582,7 @@ class _EstateCreate extends State<EstateCreate> {
                                                           const SizedBox(
                                                               width: 2),
                                                           Text(
-                                                            "storage-room"
+                                                            "electric-support"
                                                                 .i18n(),
                                                           ),
                                                         ],
@@ -758,7 +767,6 @@ class _EstateCreate extends State<EstateCreate> {
                                 ),
                               ],
                             ),
-                          // TODO: MEDIA HERE
                           Text(
                             "pick-estate-media".i18n(),
                             style: Theme.of(context)
@@ -803,9 +811,7 @@ class _EstateCreate extends State<EstateCreate> {
                                       ? maxSize = file.size
                                       : maxSize = maxSize;
                                 });
-                                debugPrint("1 : " +
-                                    (allMediaSizes / 1000000).toString() +
-                                    " MB");
+
                                 try {
                                   while (allMediaSizes > (250 * 1000000)) {
                                     pickedMedia.files.removeWhere(
@@ -839,9 +845,7 @@ class _EstateCreate extends State<EstateCreate> {
                                       false,
                                       () {});
                                 }
-                                debugPrint("2 : " +
-                                    (allMediaSizes / 1000000).toString() +
-                                    " MB");
+
                                 if (pickedMedia.files.length < 3) {
                                   debugPrint("NOT ENOUGH MEDIA" +
                                       pickedMedia.count.toString());
@@ -854,30 +858,13 @@ class _EstateCreate extends State<EstateCreate> {
                                     () {},
                                   );
                                 } else {
-                                  debugPrint("WINNING STATE ALLHAMDUALLAH");
                                   setState(() {
                                     media = pickedMedia.files;
                                   });
-                                  debugPrint("3 : " +
-                                      (allMediaSizes / 1000000).toString() +
-                                      " MB");
-
-                                  var maxmediasize = 0;
-                                  media!.forEach((file) {
-                                    debugPrint(file.name +
-                                        " " +
-                                        (file.size / 1000000).toString() +
-                                        " MB");
-                                    maxmediasize += file.size;
-                                  });
-                                  debugPrint("FINAL SIZE : " +
-                                      (maxmediasize / 1000000).toString() +
-                                      " MB");
                                 }
                               }
                             },
                           ),
-                          // TODO: IMPLEMENT HORIZONTOL SCROLL WIDGET
                           GridView.builder(
                             gridDelegate:
                                 const SliverGridDelegateWithFixedCrossAxisCount(
@@ -969,7 +956,8 @@ class _EstateCreate extends State<EstateCreate> {
               ),
             ],
             onStepCancel: () {
-              Navigator.of(context).pushNamed('/mainpage');
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => MyHomePage())));
             },
             onStepContinue: () async {
               if (currentStep == 0) {
@@ -1017,18 +1005,72 @@ class _EstateCreate extends State<EstateCreate> {
                         }
                       case 'apartment':
                         {
+                          estate = ApartmentRegister(
+                            name: _estateNameController.text,
+                            address: _addressController.text,
+                            type: estateType,
+                            description: _descriptionController.text.isEmpty
+                                ? null
+                                : _descriptionController.text,
+                            size: int.parse(_sizeController.text),
+                            apartmentFloorNumber:
+                                int.parse(_apartmentFloorNumberController.text),
+                            apartmentNumber:
+                                int.parse(_apartmentNumberController.text),
+                          );
                           break;
                         }
                       case 'parking':
                         {
+                          List<String> carsAllowed = List.empty(growable: true);
+                          if (_automobile) {
+                            carsAllowed.add("automobile");
+                          }
+                          if (_bike) {
+                            carsAllowed.add("bike");
+                          }
+                          if (_bus) {
+                            carsAllowed.add("bus");
+                          }
+                          if (_truck) {
+                            carsAllowed.add("truck");
+                          }
+                          estate = ParkingRegister(
+                            name: _estateNameController.text,
+                            address: _addressController.text,
+                            type: estateType,
+                            size: int.parse(_sizeController.text),
+                            description: _descriptionController.text,
+                            vehicleCapacity:
+                                int.parse(_vehicleCapacityController.text),
+                            carsAllowed: carsAllowed,
+                          );
                           break;
                         }
                       case 'land':
                         {
+                          estate = LandRegister(
+                            name: _estateNameController.text,
+                            address: _addressController.text,
+                            type: estateType,
+                            size: int.parse(_sizeController.text),
+                            description: _descriptionController.text,
+                            cityHallElectricitySupport:
+                                cityHallElectricitySupport,
+                          );
                           break;
                         }
                       case 'store':
                         {
+                          estate = StoreRegister(
+                            name: _estateNameController.text,
+                            address: _addressController.text,
+                            type: estateType,
+                            size: int.parse(_sizeController.text),
+                            description: _descriptionController.text,
+                            fridges: int.parse(_numberOfFridgesController.text),
+                            storageRoom: storageRoomIncluded,
+                          );
                           break;
                         }
                     }
@@ -1041,9 +1083,11 @@ class _EstateCreate extends State<EstateCreate> {
                           estateMainImage,
                           media);
                       if (request.statusCode == 200) {
-                        debugPrint("smooth mashallah");
+                        Navigator.of(context).pushReplacement(MaterialPageRoute(
+                            builder: ((context) => MyHomePage())));
                       } else {
-                        debugPrint("Not smooth, but allhamduallah");
+                        ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+                            "operation-success".i18n(), false, () {});
                       }
                     } catch (e, s) {
                       debugPrint(s.toString());
@@ -1060,21 +1104,17 @@ class _EstateCreate extends State<EstateCreate> {
                   setState(() {
                     currentStep = step;
                   });
-                } else if (currentStep == 1 && step != 0) {
-                  if (_detailsOnForm.currentState!.validate()) {
-                    setState(() {
-                      currentStep = step;
-                    });
-                  } else {
-                    setState(() {
-                      currentStep = step;
-                    });
-                  }
-                } else if (currentStep == 2) {
+                }
+              } else if (currentStep == 1) {
+                if (_detailsOnForm.currentState!.validate()) {
                   setState(() {
                     currentStep = step;
                   });
                 }
+              } else if (currentStep == 2) {
+                setState(() {
+                  currentStep = step;
+                });
               }
             },
           ),

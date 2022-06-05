@@ -615,7 +615,7 @@ class _Signup extends State<Signup> {
                               .login(
                             UserSession.fromRawJson(json),
                           );
-
+                          // TODO: POP ALL after login
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(

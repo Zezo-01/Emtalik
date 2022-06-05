@@ -1,0 +1,51 @@
+// To parse this JSON data, do
+//
+//     final apartmentRegister = apartmentRegisterFromJson(jsonString);
+
+import 'dart:convert';
+
+class ApartmentRegister {
+  ApartmentRegister({
+    required this.name,
+    required this.address,
+    required this.type,
+    this.description,
+    required this.size,
+    this.apartmentFloorNumber,
+    this.apartmentNumber,
+  });
+
+  String name;
+  String address;
+  String type;
+  String? description;
+  int size;
+  int? apartmentFloorNumber;
+  int? apartmentNumber;
+
+  factory ApartmentRegister.fromRawJson(String str) =>
+      ApartmentRegister.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory ApartmentRegister.fromJson(Map<String, dynamic> json) =>
+      ApartmentRegister(
+        name: json["name"],
+        address: json["address"],
+        type: json["type"],
+        description: json["description"],
+        size: json["size"],
+        apartmentFloorNumber: json["apartmentFloorNumber"],
+        apartmentNumber: json["apartmentNumber"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "name": name,
+        "address": address,
+        "type": type,
+        "description": description,
+        "size": size,
+        "apartmentFloorNumber": apartmentFloorNumber,
+        "apartmentNumber": apartmentNumber,
+      };
+}
