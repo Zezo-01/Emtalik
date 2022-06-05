@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:emtalik/models/user_register.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/src/media_type.dart';
@@ -88,12 +89,37 @@ abstract class HttpService {
       estateMainPicture!.path,
       filename: estateMainPicture.name,
       contentType: MediaType.parse(
-          lookupMimeType(estateMainPicture.name) ?? 'application/octet-stream'),
+        lookupMimeType(estateMainPicture.name) ?? 'application/octet-stream',
+      ),
     );
+
+    List<http.MultipartFile> estateMedia = List.empty(growable: true);
+    media!.forEach(
+      (file) async {
+        var multifile = await http.MultipartFile.fromPath(
+          "estateMedia",
+          file.path ?? "",
+          filename: file.name,
+          contentType: MediaType.parse(
+            lookupMimeType(file.name) ?? 'application/octet-stream',
+          ),
+        );
+        request.files.add(multifile);
+        // estateMedia.add(multifile);
+      },
+    );
+
+    estateMedia.forEach((file) {
+      debugPrint("Field name : " +
+          file.field +
+          "\n Content type  : " +
+          file.contentType.mimeType);
+    });
+    request.files.addAll(estateMedia);
 
     request.fields['estateJson'] = jsonEncode(estate);
     request.fields['type'] = type;
-    request.fields['id'] = id.toString();
+    request.fields['userId'] = id.toString();
     request.files.add(mainPic);
     return await request.send();
   }
