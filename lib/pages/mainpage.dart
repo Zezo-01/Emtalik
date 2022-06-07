@@ -35,7 +35,11 @@ class _MyHomePage extends State<MyHomePage> {
         for (var estate in estatesList) {
           estates!.add(EstateResponse.fromJson(estate));
         }
-        debugPrint(estates!.first.address);
+        if (estates!.length != 0) {
+          debugPrint(estates!.first.address);
+        } else {
+          debugPrint("THE LIST IS NULL");
+        }
       } else {
         ToastFactory.makeToast(
             context, TOAST_TYPE.error, null, "error".i18n(), false, () {});
