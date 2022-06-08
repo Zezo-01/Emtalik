@@ -5,41 +5,40 @@ import 'package:localization/localization.dart';
 class DisplayCard extends StatefulWidget {
   DisplayCard({
     Key? key,
-    this.header1,
-    this.header2,
-    this.footer,
+    this.header,
+    this.footer1,
+    this.footer2,
     this.onPress,
     this.imageNetworkPath,
   }) : super(key: key);
 
-  String? header1;
-  String? header2;
-  String? footer;
+  String? header;
+  String? footer1;
+  String? footer2;
   String? imageNetworkPath;
   void Function()? onPress;
   @override
   // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _DisplayCard(
-        header1: header1,
-        header2: header2,
-        footer: footer,
+        header: header,
+        footer1: footer1,
+        footer2: footer2,
         imageNetworkPath: imageNetworkPath,
         onPress: onPress,
       );
 }
 
 class _DisplayCard extends State<DisplayCard> {
-  final items = List.generate(10, (index) => '$index');
-  String? header1;
-  String? header2;
-  String? footer;
+  String? header;
+  String? footer1;
+  String? footer2;
   String? imageNetworkPath;
   void Function()? onPress;
 
   _DisplayCard({
-    this.header1,
-    this.header2,
-    this.footer,
+    this.header,
+    this.footer1,
+    this.footer2,
     this.imageNetworkPath,
     this.onPress,
   });
@@ -60,7 +59,7 @@ class _DisplayCard extends State<DisplayCard> {
                 Container(
                   margin: EdgeInsets.only(left: 10),
                   alignment: Alignment.centerLeft,
-                  child: Text('$header1'),
+                  child: header == null ? null : Text(header ?? ""),
                 ),
                 InkWell(
                   onTap: () => onPress,
@@ -79,11 +78,11 @@ class _DisplayCard extends State<DisplayCard> {
                 Container(
                     margin: EdgeInsets.only(left: 10),
                     alignment: Alignment.centerLeft,
-                    child: header2 == null ? null : Text(header2 ?? "")),
+                    child: footer1 == null ? null : Text(footer1 ?? "")),
                 Container(
                     margin: EdgeInsets.only(left: 10),
                     alignment: Alignment.centerLeft,
-                    child: footer == null ? null : Text(footer ?? "")),
+                    child: footer2 == null ? null : Text(footer2 ?? "")),
               ],
             ),
           ),
