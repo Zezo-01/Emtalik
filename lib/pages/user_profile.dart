@@ -40,8 +40,19 @@ class _UserProfile extends State<UserProfile> {
       appBar: buildAppBar(context),
       body: ListView(
         physics: BouncingScrollPhysics(),
-        children: [ProfileWidget(pfpimg: "", onClicked: () async {})],
+        children: [
+          ProfileWidget(pfpimg: "", onClicked: () async {}),
+          const SizedBox(height: 28),
+          buildUsername(),
+        ],
       ),
     );
   }
+
+  Widget buildUsername() => Column(children: [
+        Text(
+          "",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        )
+      ]);
 }
