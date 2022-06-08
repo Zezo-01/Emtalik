@@ -94,5 +94,17 @@
     "unsupported-files-selected":"لقد اخترت ملفات غير مدعومة",
     "video":"فيديو",
     "image":"صورة",
-    "operation-success":"تمت العملية بنجاح"
+    "operation-success":"تمت العملية بنجاح",
+    "pick-province":"إختر محافظة العقار",
+    "Nablus":"نابلس",
+    "Tubas":"طوباس",
+    "Jericho":"أريحا",
+    "Tulkarem":"طولكرم",
+    "Jerusalem":"القدس",
+    "Jenin":"جنين",
+    "Ramallah":"رام الله",
+    "Hebrone":"الخليل",
+    "Selfeet":"سلفيت",
+    "Bethleem":"بيت لحم",
+    "Qalqilya":"قلقيلية"
 }

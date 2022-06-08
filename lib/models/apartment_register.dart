@@ -5,20 +5,21 @@
 import 'dart:convert';
 
 class ApartmentRegister {
-  ApartmentRegister({
-    required this.name,
-    required this.address,
-    required this.type,
-    this.description,
-    required this.size,
-    this.apartmentFloorNumber,
-    this.apartmentNumber,
-  });
+  ApartmentRegister(
+      {required this.name,
+      required this.address,
+      required this.type,
+      this.description,
+      required this.size,
+      this.apartmentFloorNumber,
+      this.apartmentNumber,
+      required this.province});
 
   String name;
   String address;
   String type;
   String? description;
+  String province;
   int size;
   int? apartmentFloorNumber;
   int? apartmentNumber;
@@ -37,6 +38,7 @@ class ApartmentRegister {
         size: json["size"],
         apartmentFloorNumber: json["apartmentFloorNumber"],
         apartmentNumber: json["apartmentNumber"],
+        province: json["province"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,5 +49,6 @@ class ApartmentRegister {
         "size": size,
         "apartmentFloorNumber": apartmentFloorNumber,
         "apartmentNumber": apartmentNumber,
+        "province": province
       };
 }

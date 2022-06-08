@@ -565,7 +565,6 @@ class _Signup extends State<Signup> {
                       setState(() {
                         currentStep++;
                       });
-                      
                     } else if (currentStep == 2) {
                       // SEND REGISTER REQUEST
 
@@ -629,7 +628,6 @@ class _Signup extends State<Signup> {
                               false,
                               () {});
                         }
-                        
                       } catch (ex) {
                         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
                             "no-connection".i18n(), false, () {});

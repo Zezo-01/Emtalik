@@ -94,5 +94,17 @@
     "unsupported-files-selected":"You've selected unsupported files",
     "video":"Video",
     "image":"Image",
-    "operation-success":"Done succesfully"
+    "operation-success":"Done succesfully",
+    "pick-province":"Pick the estate's province",
+    "Nablus":"Nablus",
+    "Tubas":"Tubas",
+    "Jericho":"Jericho",
+    "Tulkarem":"Tulkarem",
+    "Jerusalem":"Jerusalem",
+    "Jenin":"Jenin",
+    "Ramallah":"Ramallah",
+    "Hebrone":"Hebrone",
+    "Selfeet":"Selfeet",
+    "Bethleem":"Bethleem",
+    "Qalqilya":"Qalqilya"
 }
