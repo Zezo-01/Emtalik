@@ -28,8 +28,6 @@ class RouteGeneration {
         return MaterialPageRoute(builder: (_) => SandBoxUi());
       case '/estate_create':
         return MaterialPageRoute(builder: (_) => EstateCreate());
-      case '/grid':
-        return MaterialPageRoute(builder: (_) => DisplayCard());
     }
     return errorRoute();
   }

@@ -49,7 +49,7 @@ class _DisplayCard extends State<DisplayCard> {
 
   @override
   Widget build(BuildContext context) => TextButton(
-        onPressed: onPress,
+        onPressed: onPress == null ? null : onPress,
         child: Container(
             child: Container(
           margin: new EdgeInsets.all(1.0),
@@ -61,19 +61,16 @@ class _DisplayCard extends State<DisplayCard> {
                   alignment: Alignment.centerLeft,
                   child: header == null ? null : Text(header ?? ""),
                 ),
-                InkWell(
-                  onTap: () => onPress,
-                  child: Container(
-                    margin: EdgeInsets.only(left: 10),
-                    child: imageNetworkPath == null
-                        ? null
-                        : Image.network(
-                            imageNetworkPath ?? "",
-                            fit: BoxFit.cover,
-                            height: 250,
-                            width: MediaQuery.of(context).size.width,
-                          ),
-                  ),
+                Container(
+                  margin: EdgeInsets.only(left: 10),
+                  child: imageNetworkPath == null
+                      ? null
+                      : Image.network(
+                          imageNetworkPath ?? "",
+                          fit: BoxFit.cover,
+                          height: 250,
+                          width: MediaQuery.of(context).size.width,
+                        ),
                 ),
                 Container(
                     margin: EdgeInsets.only(left: 10),
