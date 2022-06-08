@@ -13,12 +13,14 @@ class StoreRegister {
     required this.size,
     this.fridges,
     this.storageRoom,
+    required this.province,
   });
 
   String name;
   String address;
   String type;
   String? description;
+  String province;
   int size;
   int? fridges;
   bool? storageRoom;
@@ -36,6 +38,7 @@ class StoreRegister {
         size: json["size"],
         fridges: json["fridges"],
         storageRoom: json["storageRoom"],
+        province: json["province"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,5 +49,6 @@ class StoreRegister {
         "size": size,
         "fridges": fridges,
         "storageRoom": storageRoom,
+        "province": province,
       };
 }

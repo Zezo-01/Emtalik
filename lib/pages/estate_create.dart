@@ -64,10 +64,12 @@ class _EstateCreate extends State<EstateCreate> {
   XFile? estateMainImage;
   List<PlatformFile>? media;
 
+  late String province;
   late String estateType;
   late int currentStep;
   @override
   void initState() {
+    province = "";
     currentStep = 0;
     estateType = "";
     super.initState();
@@ -609,10 +611,67 @@ class _EstateCreate extends State<EstateCreate> {
                     child: Form(
                       key: _detailsForm,
                       child: Column(
-                        // crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
-                        // mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          DropdownButtonFormField<String>(
+                            onChanged: (value) {
+                              setState(() {
+                                province = value!;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "required-field".i18n();
+                              }
+                            },
+                            hint: Text("pick-province".i18n()),
+                            items: [
+                              DropdownMenuItem(
+                                child: Text("Nablus".i18n()),
+                                value: "nablus",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Ramallah".i18n()),
+                                value: "ramallah",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Selfeet".i18n()),
+                                value: "selfeet",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Hebrone".i18n()),
+                                value: "hebrone",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Tubas".i18n()),
+                                value: "tubas",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Bethleem".i18n()),
+                                value: "bethleem",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Jenin".i18n()),
+                                value: "jenin",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Jericho".i18n()),
+                                value: "jericho",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Tulkarem".i18n()),
+                                value: "tulkarem",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Qalqilya".i18n()),
+                                value: "qalqilya",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("Jerusalem".i18n()),
+                                value: "jerusalem",
+                              ),
+                            ],
+                          ),
                           Text(
                             "address-constraint".i18n(),
                             style: Theme.of(context)
@@ -988,19 +1047,19 @@ class _EstateCreate extends State<EstateCreate> {
                       case 'house':
                         {
                           estate = HouseRegister(
-                            name: _estateNameController.text,
-                            address: _addressController.text,
-                            type: estateType,
-                            description: _descriptionController.text.isEmpty
-                                ? null
-                                : _descriptionController.text,
-                            size: int.parse(_sizeController.text),
-                            numberOfFloors:
-                                int.parse(_houseNumberOfFloorsController.text),
-                            rooms:
-                                int.parse(_houseNumberOfRoomsController.text),
-                            swimmingPool: swimmingPoolIncluded,
-                          );
+                              name: _estateNameController.text,
+                              address: _addressController.text,
+                              type: estateType,
+                              description: _descriptionController.text.isEmpty
+                                  ? null
+                                  : _descriptionController.text,
+                              size: int.parse(_sizeController.text),
+                              numberOfFloors: int.parse(
+                                  _houseNumberOfFloorsController.text),
+                              rooms:
+                                  int.parse(_houseNumberOfRoomsController.text),
+                              swimmingPool: swimmingPoolIncluded,
+                              province: province);
                           break;
                         }
                       case 'apartment':
@@ -1017,6 +1076,7 @@ class _EstateCreate extends State<EstateCreate> {
                                 int.parse(_apartmentFloorNumberController.text),
                             apartmentNumber:
                                 int.parse(_apartmentNumberController.text),
+                            province: province,
                           );
                           break;
                         }
@@ -1044,6 +1104,7 @@ class _EstateCreate extends State<EstateCreate> {
                             vehicleCapacity:
                                 int.parse(_vehicleCapacityController.text),
                             carsAllowed: carsAllowed,
+                            province: province,
                           );
                           break;
                         }
@@ -1057,6 +1118,7 @@ class _EstateCreate extends State<EstateCreate> {
                             description: _descriptionController.text,
                             cityHallElectricitySupport:
                                 cityHallElectricitySupport,
+                            province: province,
                           );
                           break;
                         }
@@ -1070,6 +1132,7 @@ class _EstateCreate extends State<EstateCreate> {
                             description: _descriptionController.text,
                             fridges: int.parse(_numberOfFridgesController.text),
                             storageRoom: storageRoomIncluded,
+                            province: province,
                           );
                           break;
                         }

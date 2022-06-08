@@ -12,12 +12,14 @@ class LandRegister {
     this.description,
     required this.size,
     this.cityHallElectricitySupport,
+    required this.province,
   });
 
   String name;
   String address;
   String type;
   String? description;
+  String province;
   int size;
   bool? cityHallElectricitySupport;
 
@@ -27,13 +29,13 @@ class LandRegister {
   String toRawJson() => json.encode(toJson());
 
   factory LandRegister.fromJson(Map<String, dynamic> json) => LandRegister(
-        name: json["name"],
-        address: json["address"],
-        type: json["type"],
-        description: json["description"],
-        size: json["size"],
-        cityHallElectricitySupport: json["cityHallElectricitySupport"],
-      );
+      name: json["name"],
+      address: json["address"],
+      type: json["type"],
+      description: json["description"],
+      size: json["size"],
+      cityHallElectricitySupport: json["cityHallElectricitySupport"],
+      province: json["province"]);
 
   Map<String, dynamic> toJson() => {
         "name": name,
@@ -42,5 +44,6 @@ class LandRegister {
         "description": description,
         "size": size,
         "cityHallElectricitySupport": cityHallElectricitySupport,
+        "province": province
       };
 }

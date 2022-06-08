@@ -14,12 +14,14 @@ class HouseRegister {
     this.numberOfFloors,
     this.rooms,
     this.swimmingPool = false,
+    required this.province,
   });
 
   String name;
   String address;
   String type;
   String? description;
+  String province;
   int size;
   int? numberOfFloors;
   int? rooms;
@@ -39,6 +41,7 @@ class HouseRegister {
         numberOfFloors: json["numberOfFloors"],
         rooms: json["rooms"],
         swimmingPool: json["swimmingPool"],
+        province: json["province"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -50,5 +53,6 @@ class HouseRegister {
         "numberOfFloors": numberOfFloors,
         "rooms": rooms,
         "swimmingPool": swimmingPool,
+        "province": province
       };
 }

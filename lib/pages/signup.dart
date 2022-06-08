@@ -565,7 +565,6 @@ class _Signup extends State<Signup> {
                       setState(() {
                         currentStep++;
                       });
-                      currentStep++;
                     } else if (currentStep == 2) {
                       // SEND REGISTER REQUEST
 
@@ -628,9 +627,6 @@ class _Signup extends State<Signup> {
                               "something-went-wrong".i18n(),
                               false,
                               () {});
-                        }
-                        if (currentStep == 1) {
-                          setState((() => currentStep++));
                         }
                       } catch (ex) {
                         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
