@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:emtalik/models/user_register.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/src/media_type.dart';
@@ -15,6 +14,12 @@ abstract class HttpService {
   static String get estateTarget => target + '/estate';
   static String getProfilePictureRoute(int id) =>
       target + '/user/picture/' + id.toString();
+  static String getEstateMainPicture(int id) =>
+      target + '/estate/mainpicture/' + id.toString();
+  static String getEstateMedia(int estateId, int mediaId) =>
+      target + '/estate/media/' + estateId.toString() + mediaId.toString();
+  static String getEstateMediaInfo(int estateId) =>
+      target + '/estate/media/' + estateId.toString();
   static Future<http.Response> validateUser(String id, String password) async {
     return await http.post(
       Uri.parse(adminTarget + "/validate"),

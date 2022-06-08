@@ -23,39 +23,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePage extends State<MyHomePage> {
-  List<EstateResponse>? estates = List.empty(growable: true);
-
   late int currentIndex;
 
-  void getEstates() async {
-    try {
-      http.Response estateResponse = await HttpService.getEstates();
-      if (estateResponse.statusCode == 200) {
-        var estatesList = jsonDecode(estateResponse.body);
-        for (var estate in estatesList) {
-          estates!.add(EstateResponse.fromJson(estate));
-        }
-        if (estates!.length != 0) {
-          debugPrint(estates!.first.address);
-        } else {
-          debugPrint("THE LIST IS NULL");
-        }
-      } else {
-        ToastFactory.makeToast(
-            context, TOAST_TYPE.error, null, "error".i18n(), false, () {});
-      }
-    } catch (e, s) {
-      debugPrint(s.toString());
-      ToastFactory.makeToast(context, TOAST_TYPE.error, null,
-          "no-connection".i18n(), false, () {});
-    }
-  }
+  // void getEstates() async {
+  //   try {
+  //     http.Response estateResponse = await HttpService.getEstates();
+  //     if (estateResponse.statusCode == 200) {
+  //       var estatesList = jsonDecode(estateResponse.body);
+  //       for (var estate in estatesList) {
+  //         estates!.add(EstateResponse.fromJson(estate));
+  //       }
+  //       if (estates!.length != 0) {
+  //         debugPrint(estates!.first.address);
+  //       } else {
+  //         debugPrint("THE LIST IS NULL");
+  //       }
+  //     } else {
+  //       ToastFactory.makeToast(
+  //           context, TOAST_TYPE.error, null, "error".i18n(), false, () {});
+  //     }
+  //   } catch (e, s) {
+  //     debugPrint(s.toString());
+  //     ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+  //         "no-connection".i18n(), false, () {});
+  //   }
+  // }
 
   @override
   void initState() {
     currentIndex = 0;
     super.initState();
-    getEstates();
   }
 
   @override
