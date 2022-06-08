@@ -10,7 +10,7 @@ import 'package:http_parser/src/media_type.dart';
 import 'package:mime/mime.dart';
 
 abstract class HttpService {
-  static String get target => 'http://192.168.188.217:8080';
+  static String get target => 'http://192.168.1.109:8080';
   static String get adminTarget => target + '/admin';
   static String get estateTarget => target + '/estate';
   static String getProfilePictureRoute(int id) =>

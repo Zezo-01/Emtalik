@@ -672,6 +672,7 @@ class _EstateCreate extends State<EstateCreate> {
                               ),
                             ],
                           ),
+                          const SizedBox(height: 10),
                           Text(
                             "address-constraint".i18n(),
                             style: Theme.of(context)
@@ -878,18 +879,16 @@ class _EstateCreate extends State<EstateCreate> {
                                         if (file.size == maxSize ||
                                             file.size >= (250 * 1000000)) {
                                           allMediaSizes -= file.size;
-                                          debugPrint(
-                                              "DECREASING ALL MEDIA SIZES");
+
                                           maxSize = 0;
                                           pickedMedia.files.forEach((file) {
                                             file.size > maxSize
                                                 ? maxSize = file.size
                                                 : maxSize = maxSize;
                                           });
-                                          debugPrint("FILE REMOVED");
+
                                           return true;
                                         } else {
-                                          debugPrint("FILE NOT REMOVED");
                                           return false;
                                         }
                                       },
@@ -906,8 +905,6 @@ class _EstateCreate extends State<EstateCreate> {
                                 }
 
                                 if (pickedMedia.files.length < 3) {
-                                  debugPrint("NOT ENOUGH MEDIA" +
-                                      pickedMedia.count.toString());
                                   ToastFactory.makeToast(
                                     context,
                                     TOAST_TYPE.warning,
@@ -998,7 +995,7 @@ class _EstateCreate extends State<EstateCreate> {
                               ],
                             ),
                           ),
-                          const SizedBox(height: 20),
+                          const SizedBox(height: 50),
                           Text(
                             "estate-media-constraint".i18n(),
                             style: Theme.of(context)
@@ -1150,10 +1147,9 @@ class _EstateCreate extends State<EstateCreate> {
                             builder: ((context) => MyHomePage())));
                       } else {
                         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
-                            "operation-success".i18n(), false, () {});
+                            "error".i18n(), false, () {});
                       }
                     } catch (e, s) {
-                      debugPrint(s.toString());
                       ToastFactory.makeToast(context, TOAST_TYPE.error, null,
                           "no-connection".i18n(), false, () {});
                     }
