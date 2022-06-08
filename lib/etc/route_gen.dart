@@ -1,6 +1,6 @@
 // ignore_for_file: unused_local_variable, prefer_const_constructors, duplicate_ignore
 
-import 'package:emtalik/Widgets/UserInfoWidgets/displaycard.dart';
+import 'package:emtalik/Widgets/displaycard.dart';
 import 'package:emtalik/pages/estate_create.dart';
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/pages/login.dart';
@@ -28,7 +28,7 @@ class RouteGeneration {
         return MaterialPageRoute(builder: (_) => SandBoxUi());
       case '/estate_create':
         return MaterialPageRoute(builder: (_) => EstateCreate());
-        case '/grid':
+      case '/grid':
         return MaterialPageRoute(builder: (_) => DisplayCard());
     }
     return errorRoute();

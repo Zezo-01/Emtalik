@@ -7,22 +7,23 @@ class DisplayCard extends StatefulWidget {
     Key? key,
     this.header1,
     this.header2,
-    this.header3,
+    this.footer,
     this.onPress,
-    this.image,
+    this.imageNetworkPath,
   }) : super(key: key);
 
   String? header1;
   String? header2;
-  int? header3;
-  Widget? image;
-  void Function(String value)? onPress;
+  String? footer;
+  String? imageNetworkPath;
+  void Function()? onPress;
   @override
   // ignore: no_logic_in_create_state
   State<StatefulWidget> createState() => _DisplayCard(
         header1: header1,
         header2: header2,
-        header3: header3,
+        footer: footer,
+        imageNetworkPath: imageNetworkPath,
         onPress: onPress,
       );
 }
@@ -31,15 +32,15 @@ class _DisplayCard extends State<DisplayCard> {
   final items = List.generate(10, (index) => '$index');
   String? header1;
   String? header2;
-  int? header3;
-  Widget? image;
-  void Function(String value)? onPress;
+  String? footer;
+  String? imageNetworkPath;
+  void Function()? onPress;
 
   _DisplayCard({
     this.header1,
     this.header2,
-    this.header3,
-    this.image,
+    this.footer,
+    this.imageNetworkPath,
     this.onPress,
   });
   @override
@@ -48,38 +49,41 @@ class _DisplayCard extends State<DisplayCard> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Container(
+  Widget build(BuildContext context) => TextButton(
+        onPressed: onPress,
+        child: Container(
             child: Container(
           margin: new EdgeInsets.all(1.0),
           child: Card(
             child: Column(
               children: <Widget>[
                 Container(
-                    margin: EdgeInsets.only(left: 10),
-                    alignment: Alignment.centerLeft,
-                    child: Text('$header1')),
+                  margin: EdgeInsets.only(left: 10),
+                  alignment: Alignment.centerLeft,
+                  child: Text('$header1'),
+                ),
                 InkWell(
                   onTap: () => onPress,
-                  splashColor: Colors.blue,
                   child: Container(
                     margin: EdgeInsets.only(left: 10),
-                    child: Image.asset(
-                      "assets/user/default_pfp.png",
-                      fit: BoxFit.cover,
-                      height: 250,
-                      width: MediaQuery.of(context).size.width,
-                    ),
+                    child: imageNetworkPath == null
+                        ? null
+                        : Image.network(
+                            imageNetworkPath ?? "",
+                            fit: BoxFit.cover,
+                            height: 250,
+                            width: MediaQuery.of(context).size.width,
+                          ),
                   ),
                 ),
                 Container(
                     margin: EdgeInsets.only(left: 10),
                     alignment: Alignment.centerLeft,
-                    child: Text('$header2')),
+                    child: header2 == null ? null : Text(header2 ?? "")),
                 Container(
                     margin: EdgeInsets.only(left: 10),
                     alignment: Alignment.centerLeft,
-                    child: Text('$header3')),
+                    child: footer == null ? null : Text(footer ?? "")),
               ],
             ),
           ),
