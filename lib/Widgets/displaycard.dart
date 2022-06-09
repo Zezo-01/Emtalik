@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_const_constructors, unused_local_variable, prefer_const_declarations, unused_import, unnecessary_new, sized_box_for_whitespace, avoid_unnecessary_containers
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_const_constructors, unused_local_variable, prefer_const_declarations, unused_import, unnecessary_new, sized_box_for_whitespace, avoid_unnecessary_containers, prefer_if_null_operators
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 
@@ -8,11 +8,13 @@ class DisplayCard extends StatefulWidget {
     this.header,
     this.footer1,
     this.footer2,
+    this.borderColor,
     this.onPress,
     this.imageNetworkPath,
   }) : super(key: key);
 
   String? header;
+  Color? borderColor;
   String? footer1;
   String? footer2;
   String? imageNetworkPath;
@@ -23,6 +25,7 @@ class DisplayCard extends StatefulWidget {
         header: header,
         footer1: footer1,
         footer2: footer2,
+        borderColor: borderColor,
         imageNetworkPath: imageNetworkPath,
         onPress: onPress,
       );
@@ -32,6 +35,7 @@ class _DisplayCard extends State<DisplayCard> {
   String? header;
   String? footer1;
   String? footer2;
+  Color? borderColor;
   String? imageNetworkPath;
   void Function()? onPress;
 
@@ -39,6 +43,7 @@ class _DisplayCard extends State<DisplayCard> {
     this.header,
     this.footer1,
     this.footer2,
+    this.borderColor,
     this.imageNetworkPath,
     this.onPress,
   });
@@ -54,6 +59,9 @@ class _DisplayCard extends State<DisplayCard> {
             child: Container(
           margin: new EdgeInsets.all(1.0),
           child: Card(
+            shape: RoundedRectangleBorder(
+                side: BorderSide(color:borderColor??Colors.transparent, width: 3),
+                borderRadius: BorderRadius.circular(25)),
             child: Column(
               children: <Widget>[
                 Container(
