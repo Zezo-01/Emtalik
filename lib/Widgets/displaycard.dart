@@ -56,7 +56,13 @@ class _DisplayCard extends State<DisplayCard> {
   Widget build(BuildContext context) => TextButton(
         onPressed: onPress == null ? null : onPress,
         child: Card(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25),side:BorderSide(color: borderColor?? Colors.transparent,width: 3)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(25),
+            side: BorderSide(
+              color: borderColor ?? Colors.transparent,
+              width: 3,
+            ),
+          ),
           child: Column(
             children: <Widget>[
               Container(
