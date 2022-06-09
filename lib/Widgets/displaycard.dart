@@ -55,42 +55,47 @@ class _DisplayCard extends State<DisplayCard> {
   @override
   Widget build(BuildContext context) => TextButton(
         onPressed: onPress == null ? null : onPress,
-        child: Container(
-            child: Container(
-          margin: new EdgeInsets.all(1.0),
-          child: Card(
-            shape: RoundedRectangleBorder(
-                side: BorderSide(color:borderColor??Colors.transparent, width: 3),
-                borderRadius: BorderRadius.circular(25)),
-            child: Column(
-              children: <Widget>[
-                Container(
+        child: Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(25),side:BorderSide(color: borderColor?? Colors.transparent,width: 3)),
+          child: Column(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                alignment: Alignment.centerLeft,
+                child: header == null
+                    ? null
+                    : Text(
+                        header ?? "",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+              ),
+              Container(
+                margin: EdgeInsets.only(left: 10),
+                child: imageNetworkPath == null
+                    ? null
+                    : Image.network(
+                        imageNetworkPath ?? "",
+                        fit: BoxFit.cover,
+                        height: 250,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+              ),
+              Container(
                   margin: EdgeInsets.only(left: 10),
                   alignment: Alignment.centerLeft,
-                  child: header == null ? null : Text(header ?? ""),
-                ),
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  child: imageNetworkPath == null
+                  child: footer1 == null
                       ? null
-                      : Image.network(
-                          imageNetworkPath ?? "",
-                          fit: BoxFit.cover,
-                          height: 250,
-                          width: MediaQuery.of(context).size.width,
-                        ),
-                ),
-                Container(
-                    margin: EdgeInsets.only(left: 10),
-                    alignment: Alignment.centerLeft,
-                    child: footer1 == null ? null : Text(footer1 ?? "")),
-                Container(
-                    margin: EdgeInsets.only(left: 10),
-                    alignment: Alignment.centerLeft,
-                    child: footer2 == null ? null : Text(footer2 ?? "")),
-              ],
-            ),
+                      : Text(footer1 ?? "",
+                          style: Theme.of(context).textTheme.bodySmall)),
+              Container(
+                  margin: EdgeInsets.only(left: 10),
+                  alignment: Alignment.centerLeft,
+                  child: footer2 == null
+                      ? null
+                      : Text(footer2 ?? "",
+                          style: Theme.of(context).textTheme.bodySmall)),
+            ],
           ),
-        )),
+        ),
       );
 }

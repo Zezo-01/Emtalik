@@ -18,7 +18,7 @@ class SandBoxUi extends StatelessWidget {
             footer1: "Footer1",
             footer2: "Footer2",
             imageNetworkPath:
-                "https://scontent.fhfa1-1.fna.fbcdn.net/v/t39.30808-6/274877468_3067008553564509_5413850692613915992_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=ggRuW5-c4gQAX-5s9f1&_nc_ht=scontent.fhfa1-1.fna&oh=00_AT-PROsrCtW_3pIuTJhMpoODtgn4sD4E8fPMIxYMA-kl0A&oe=62A59854",
+                "https://images.unsplash.com/photo-1453728013993-6d66e9c9123a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dmlld3xlbnwwfHwwfHw%3D&w=1000&q=80",
           ),
         )));
   }
