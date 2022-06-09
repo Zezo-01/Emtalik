@@ -13,7 +13,14 @@ class ProfileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.primary;
     return Center(
-      child: buildImage(),
+      child: Stack(children: [
+        buildImage(),
+        Positioned(
+          child: buildEditIcon(color),
+          bottom: 0,
+          right: 4,
+        )
+      ]),
     );
   }
 
@@ -32,4 +39,26 @@ class ProfileWidget extends StatelessWidget {
               ),
             )));
   }
+
+  Widget buildEditIcon(Color color) => buildCircle(
+        color: Colors.white,
+        all: 3,
+        child: buildCircle(
+            color: color,
+            all: 8,
+            child: Icon(
+              Icons.edit,
+              size: 20,
+              color: Colors.white,
+            )),
+      );
+
+  Widget buildCircle(
+          {required Color color, required double all, required Widget child}) =>
+      ClipOval(
+          child: Container(
+        color: color,
+        child: child,
+        padding: EdgeInsets.all(all),
+      ));
 }

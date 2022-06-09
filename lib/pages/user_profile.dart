@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:emtalik/Widgets/UserInfoWidgets/profile_estate_numbers.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/profile_widget.dart';
 import 'package:emtalik/Widgets/UserInfoWidgets/user_appbar.dart';
 import 'package:emtalik/Widgets/customdrawer.dart';
@@ -41,9 +42,14 @@ class _UserProfile extends State<UserProfile> {
       body: ListView(
         physics: BouncingScrollPhysics(),
         children: [
-          ProfileWidget(pfpimg: "", onClicked: () async {}),
-          const SizedBox(height: 28),
+          ProfileWidget(
+              pfpimg: "", onClicked: () async {}), //FETCH USERPFP HERE
+          const SizedBox(height: 24),
           buildUsername(),
+          const SizedBox(height: 24),
+          EstateNumbers(),
+          const SizedBox(height: 48),
+          buildContactInfo(),
         ],
       ),
     );
@@ -51,8 +57,31 @@ class _UserProfile extends State<UserProfile> {
 
   Widget buildUsername() => Column(children: [
         Text(
-          "",
+          "USERNAME", //FETCH USERNAME FROM USERSESSION HERE
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          "EMAIL",
+          style: TextStyle(color: Colors.grey),
         )
       ]);
+
+  Widget buildContactInfo() => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Contact Info",
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            "USER CONTACT INFO HERE",
+            style: TextStyle(fontSize: 16, height: 1.4),
+          )
+        ],
+      );
 }
