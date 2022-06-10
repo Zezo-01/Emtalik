@@ -627,47 +627,47 @@ class _EstateCreate extends State<EstateCreate> {
                             hint: Text("pick-province".i18n()),
                             items: [
                               DropdownMenuItem(
-                                child: Text("Nablus".i18n()),
+                                child: Text("nablus".i18n()),
                                 value: "nablus",
                               ),
                               DropdownMenuItem(
-                                child: Text("Ramallah".i18n()),
+                                child: Text("ramallah".i18n()),
                                 value: "ramallah",
                               ),
                               DropdownMenuItem(
-                                child: Text("Selfeet".i18n()),
+                                child: Text("selfeet".i18n()),
                                 value: "selfeet",
                               ),
                               DropdownMenuItem(
-                                child: Text("Hebrone".i18n()),
+                                child: Text("hebrone".i18n()),
                                 value: "hebrone",
                               ),
                               DropdownMenuItem(
-                                child: Text("Tubas".i18n()),
+                                child: Text("tubas".i18n()),
                                 value: "tubas",
                               ),
                               DropdownMenuItem(
-                                child: Text("Bethleem".i18n()),
+                                child: Text("bethleem".i18n()),
                                 value: "bethleem",
                               ),
                               DropdownMenuItem(
-                                child: Text("Jenin".i18n()),
+                                child: Text("jenin".i18n()),
                                 value: "jenin",
                               ),
                               DropdownMenuItem(
-                                child: Text("Jericho".i18n()),
+                                child: Text("jericho".i18n()),
                                 value: "jericho",
                               ),
                               DropdownMenuItem(
-                                child: Text("Tulkarem".i18n()),
+                                child: Text("tulkarem".i18n()),
                                 value: "tulkarem",
                               ),
                               DropdownMenuItem(
-                                child: Text("Qalqilya".i18n()),
+                                child: Text("qalqilya".i18n()),
                                 value: "qalqilya",
                               ),
                               DropdownMenuItem(
-                                child: Text("Jerusalem".i18n()),
+                                child: Text("jerusalem".i18n()),
                                 value: "jerusalem",
                               ),
                             ],

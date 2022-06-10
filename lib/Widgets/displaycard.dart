@@ -1,6 +1,8 @@
 // ignore_for_file: must_be_immutable, non_constant_identifier_names, prefer_const_constructors, unused_local_variable, prefer_const_declarations, unused_import, unnecessary_new, sized_box_for_whitespace, avoid_unnecessary_containers, prefer_if_null_operators
+import 'package:emtalik/providers/locale_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 
 class DisplayCard extends StatefulWidget {
   DisplayCard({
@@ -57,7 +59,7 @@ class _DisplayCard extends State<DisplayCard> {
         onPressed: onPress == null ? null : onPress,
         child: Card(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(25),
+            borderRadius: BorderRadius.circular(15),
             side: BorderSide(
               color: borderColor ?? Colors.transparent,
               width: 3,
@@ -66,8 +68,8 @@ class _DisplayCard extends State<DisplayCard> {
           child: Column(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 10),
-                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.all(10),
+                alignment: Alignment.centerRight,
                 child: header == null
                     ? null
                     : Text(
@@ -76,7 +78,7 @@ class _DisplayCard extends State<DisplayCard> {
                       ),
               ),
               Container(
-                margin: EdgeInsets.only(left: 10),
+                margin: EdgeInsets.all(5),
                 child: imageNetworkPath == null
                     ? null
                     : Image.network(
@@ -87,15 +89,15 @@ class _DisplayCard extends State<DisplayCard> {
                       ),
               ),
               Container(
-                  margin: EdgeInsets.only(left: 10),
-                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(right: 10),
+                  alignment: Alignment.centerRight,
                   child: footer1 == null
                       ? null
                       : Text(footer1 ?? "",
                           style: Theme.of(context).textTheme.bodySmall)),
               Container(
-                  margin: EdgeInsets.only(left: 10),
-                  alignment: Alignment.centerLeft,
+                  margin: EdgeInsets.only(right: 10),
+                  alignment: Alignment.centerRight,
                   child: footer2 == null
                       ? null
                       : Text(footer2 ?? "",

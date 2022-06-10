@@ -1,6 +1,7 @@
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/pages/login.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/theme_provider.dart';
@@ -58,9 +59,10 @@ class CustomDrawer extends StatelessWidget {
                     children: [
                       const Icon(Icons.settings),
                       Text(
-                        Provider.of<UserSession>(context, listen: false)
-                                .username ??
-                            "Username",
+                        decodeUtf8ToString(
+                            Provider.of<UserSession>(context, listen: false)
+                                    .username ??
+                                "Username"),
                         style: Theme.of(context).textTheme.labelMedium,
                       )
                     ],

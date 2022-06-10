@@ -10,12 +10,14 @@ class EstateResponse {
     required this.name,
     required this.type,
     required this.address,
+    required this.province,
   });
 
   int id;
   String name;
   String type;
   String address;
+  String province;
 
   factory EstateResponse.fromRawJson(String str) =>
       EstateResponse.fromJson(json.decode(str));
@@ -24,9 +26,10 @@ class EstateResponse {
 
   factory EstateResponse.fromJson(Map<String, dynamic> json) => EstateResponse(
         id: json["id"],
-        name: json["name"],
+        name: json['name'],
         type: json["type"],
         address: json["address"],
+        province: json["province"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -34,5 +37,6 @@ class EstateResponse {
         "name": name,
         "type": type,
         "address": address,
+        "province": province,
       };
 }

@@ -3,6 +3,8 @@
 import 'dart:convert';
 
 import 'package:emtalik/Widgets/customdrawer.dart';
+import 'package:emtalik/Widgets/displaycard.dart';
+import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
@@ -24,35 +26,26 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePage extends State<MyHomePage> {
   late int currentIndex;
+  late Future<List<EstateResponse>> estates;
 
-  // void getEstates() async {
-  //   try {
-  //     http.Response estateResponse = await HttpService.getEstates();
-  //     if (estateResponse.statusCode == 200) {
-  //       var estatesList = jsonDecode(estateResponse.body);
-  //       for (var estate in estatesList) {
-  //         estates!.add(EstateResponse.fromJson(estate));
-  //       }
-  //       if (estates!.length != 0) {
-  //         debugPrint(estates!.first.address);
-  //       } else {
-  //         debugPrint("THE LIST IS NULL");
-  //       }
-  //     } else {
-  //       ToastFactory.makeToast(
-  //           context, TOAST_TYPE.error, null, "error".i18n(), false, () {});
-  //     }
-  //   } catch (e, s) {
-  //     debugPrint(s.toString());
-  //     ToastFactory.makeToast(context, TOAST_TYPE.error, null,
-  //         "no-connection".i18n(), false, () {});
-  //   }
-  // }
+  Future<List<EstateResponse>> getEstates() async {
+    List<EstateResponse> estates = List.empty(growable: true);
+    http.Response estateResponse = await HttpService.getEstates();
+    var estatesList = jsonDecode(estateResponse.body);
+    if (estatesList.isNotEmpty) {
+      for (var estate in estatesList) {
+        estates.add(EstateResponse.fromJson(estate));
+      }
+    }
+
+    return estates;
+  }
 
   @override
   void initState() {
     currentIndex = 0;
     super.initState();
+    estates = getEstates();
   }
 
   @override
@@ -164,10 +157,84 @@ class _MyHomePage extends State<MyHomePage> {
             ],
           ),
           body: currentIndex == 0
-              ? Column(
-                  children: [
-                    Text("Estate"),
-                  ],
+              ? FutureBuilder(
+                  future: estates,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Center(child: CircularProgressIndicator());
+                    } else {
+                      if (snapshot.hasData) {
+                        final estates = snapshot.data as List<EstateResponse>;
+
+                        if (estates.isEmpty) {
+                          return Center(
+                            child: Text(
+                              "no-estates".i18n(),
+                              style: Theme.of(context).textTheme.displaySmall,
+                            ),
+                          );
+                        } else {
+                          return GridView.builder(
+                            itemCount: estates.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              childAspectRatio: 2 / 4,
+                              mainAxisSpacing: 2,
+                              crossAxisSpacing: 2,
+                              crossAxisCount: 2,
+                            ),
+                            itemBuilder: (context, index) {
+                              return DisplayCard(
+                                onPress: () {
+                                  if (Provider.of<UserSession>(context,
+                                              listen: false)
+                                          .role ==
+                                      null) {
+                                    ToastFactory.makeToast(
+                                        context,
+                                        TOAST_TYPE.info,
+                                        null,
+                                        "no-privileges-for-guest".i18n(),
+                                        false,
+                                        () {});
+                                  } else {
+                                    // TODO: OPEN ESTATE PAGE
+                                    ToastFactory.makeToast(
+                                        context,
+                                        TOAST_TYPE.info,
+                                        null,
+                                        "implement estate view functionality",
+                                        false,
+                                        () {});
+                                  }
+                                },
+                                borderColor:
+                                    Theme.of(context).colorScheme.primary,
+                                header: decodeUtf8ToString(
+                                    estates.elementAt(index).name),
+                                imageNetworkPath:
+                                    HttpService.getEstateMainPicture(
+                                        estates.elementAt(index).id),
+                                footer1:
+                                    estates.elementAt(index).province.i18n(),
+                                footer2: decodeUtf8ToString(
+                                        estates.elementAt(index).type)
+                                    .i18n(),
+                              );
+                            },
+                          );
+                        }
+                      } else {
+                        debugPrint("Error : " + snapshot.error.toString());
+                        return Center(
+                          child: Text(
+                            "no-connection".i18n(),
+                            style: Theme.of(context).textTheme.displaySmall,
+                          ),
+                        );
+                      }
+                    }
+                  },
                 )
               : Column(
                   children: [
