@@ -7,7 +7,7 @@
     "password": "الرقم السري",
     "password-constraint": "من 8 إلى 25 حروف وأرقام، يحتوي على حرف إنجليزي كبير و صغير على الأقل",
     "username-constraint": "من 4 الى 25 حرف ورقم",
-    "name-constraint": "من 4 إلى 15 حروف",
+    "name-constraint": "من 3 إلى 15 حروف",
     "invalid-name": "الإسم لا يوافق الشروط",
     "invalid-email": "عنوان البريد غير صحيح",
     "required-field": "هذا الحقل مطلوب",

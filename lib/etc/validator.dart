@@ -13,9 +13,7 @@ abstract class Validator {
   }
 
   static bool nameValidator(String name) {
-    if (RegExp(
-      r'^[A-z]{4,15}$',
-    ).hasMatch(name)) return true;
+    if (RegExp(r'^[A-z ؀-ۿ]{3,15}$', unicode: true).hasMatch(name)) return true;
     return false;
   }
 

@@ -7,7 +7,7 @@
     "password": "Password",
     "password-constraint": " 8 to 25 characters, 1 upper case and 1 lower case letter",
     "username-constraint": "4 to 25 characters with numbers",
-    "name-constraint": "4 to 15 characters",
+    "name-constraint": "3 to 15 characters",
     "invalid-name": "Name doesn't match constraints",
     "invalid-email": "Invalid Email",
     "required-field": "this field is required",
