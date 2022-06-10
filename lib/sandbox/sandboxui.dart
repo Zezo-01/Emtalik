@@ -12,6 +12,7 @@ class SandBoxUi extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+<<<<<<< HEAD
       child: UserProfile(),
       // child: Scaffold(
       //   body: SingleChildScrollView(
@@ -28,6 +29,21 @@ class SandBoxUi extends StatelessWidget {
       //     ),
       //   ),
       // ),
+=======
+      child: GridView.count(
+        crossAxisCount: 2,
+        mainAxisSpacing: 10,
+        childAspectRatio: 2/4,
+        children: List.generate(10, (index){
+         return Card(
+           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+           child: DisplayCard(borderColor: Colors.blue,footer1: 'Abo Sator',footer2: 'ابو ساطور',header: 'Bab Al7ara',imageNetworkPath: 'https://al-arrab.com/wp-content/uploads/2022/01/Doc-P-907467-637778562956208455.jpg'),
+         );
+        },
+      ),
+      
+    )
+>>>>>>> 983d59b933ffd13f76810a769b61ddecbdd4940a
     );
   }
 }

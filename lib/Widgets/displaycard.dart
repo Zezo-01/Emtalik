@@ -82,7 +82,7 @@ class _DisplayCard extends State<DisplayCard> {
                     : Image.network(
                         imageNetworkPath ?? "",
                         fit: BoxFit.cover,
-                        height: 250,
+                        height: 200,
                         width: MediaQuery.of(context).size.width,
                       ),
               ),
