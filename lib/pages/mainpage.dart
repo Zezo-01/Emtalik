@@ -37,7 +37,6 @@ class _MyHomePage extends State<MyHomePage> {
         estates.add(EstateResponse.fromJson(estate));
       }
     }
-
     return estates;
   }
 
@@ -157,84 +156,91 @@ class _MyHomePage extends State<MyHomePage> {
             ],
           ),
           body: currentIndex == 0
-              ? FutureBuilder(
-                  future: estates,
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return Center(child: CircularProgressIndicator());
-                    } else {
-                      if (snapshot.hasData) {
-                        final estates = snapshot.data as List<EstateResponse>;
+              ? RefreshIndicator(
+                  onRefresh: () async {
+                    setState(() {
+                      estates = getEstates();
+                    });
+                  },
+                  child: FutureBuilder(
+                    future: estates,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else {
+                        if (snapshot.hasData) {
+                          final estates = snapshot.data as List<EstateResponse>;
 
-                        if (estates.isEmpty) {
+                          if (estates.isEmpty) {
+                            return Center(
+                              child: Text(
+                                "no-estates".i18n(),
+                                style: Theme.of(context).textTheme.displaySmall,
+                              ),
+                            );
+                          } else {
+                            return GridView.builder(
+                              itemCount: estates.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: 2 / 4,
+                                mainAxisSpacing: 2,
+                                crossAxisSpacing: 2,
+                                crossAxisCount: 2,
+                              ),
+                              itemBuilder: (context, index) {
+                                return DisplayCard(
+                                  onPress: () {
+                                    if (Provider.of<UserSession>(context,
+                                                listen: false)
+                                            .role ==
+                                        null) {
+                                      ToastFactory.makeToast(
+                                          context,
+                                          TOAST_TYPE.info,
+                                          null,
+                                          "no-privileges-for-guest".i18n(),
+                                          false,
+                                          () {});
+                                    } else {
+                                      // TODO: OPEN ESTATE PAGE
+                                      ToastFactory.makeToast(
+                                          context,
+                                          TOAST_TYPE.info,
+                                          null,
+                                          "implement estate view functionality",
+                                          false,
+                                          () {});
+                                    }
+                                  },
+                                  borderColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  header: decodeUtf8ToString(
+                                      estates.elementAt(index).name),
+                                  imageNetworkPath:
+                                      HttpService.getEstateMainPicture(
+                                          estates.elementAt(index).id),
+                                  footer1:
+                                      estates.elementAt(index).province.i18n(),
+                                  footer2: decodeUtf8ToString(
+                                          estates.elementAt(index).type)
+                                      .i18n(),
+                                );
+                              },
+                            );
+                          }
+                        } else {
+                          debugPrint("Error : " + snapshot.error.toString());
                           return Center(
                             child: Text(
-                              "no-estates".i18n(),
+                              "no-connection".i18n(),
                               style: Theme.of(context).textTheme.displaySmall,
                             ),
                           );
-                        } else {
-                          return GridView.builder(
-                            itemCount: estates.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 2 / 4,
-                              mainAxisSpacing: 2,
-                              crossAxisSpacing: 2,
-                              crossAxisCount: 2,
-                            ),
-                            itemBuilder: (context, index) {
-                              return DisplayCard(
-                                onPress: () {
-                                  if (Provider.of<UserSession>(context,
-                                              listen: false)
-                                          .role ==
-                                      null) {
-                                    ToastFactory.makeToast(
-                                        context,
-                                        TOAST_TYPE.info,
-                                        null,
-                                        "no-privileges-for-guest".i18n(),
-                                        false,
-                                        () {});
-                                  } else {
-                                    // TODO: OPEN ESTATE PAGE
-                                    ToastFactory.makeToast(
-                                        context,
-                                        TOAST_TYPE.info,
-                                        null,
-                                        "implement estate view functionality",
-                                        false,
-                                        () {});
-                                  }
-                                },
-                                borderColor:
-                                    Theme.of(context).colorScheme.primary,
-                                header: decodeUtf8ToString(
-                                    estates.elementAt(index).name),
-                                imageNetworkPath:
-                                    HttpService.getEstateMainPicture(
-                                        estates.elementAt(index).id),
-                                footer1:
-                                    estates.elementAt(index).province.i18n(),
-                                footer2: decodeUtf8ToString(
-                                        estates.elementAt(index).type)
-                                    .i18n(),
-                              );
-                            },
-                          );
                         }
-                      } else {
-                        debugPrint("Error : " + snapshot.error.toString());
-                        return Center(
-                          child: Text(
-                            "no-connection".i18n(),
-                            style: Theme.of(context).textTheme.displaySmall,
-                          ),
-                        );
                       }
-                    }
-                  },
+                    },
+                  ),
                 )
               : Column(
                   children: [
