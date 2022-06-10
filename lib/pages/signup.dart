@@ -179,6 +179,7 @@ class _Signup extends State<Signup> {
                                     return "required-field".i18n();
                                   } else if (!Validator.usernameValidator(
                                       value)) {
+                                    debugPrint("Not valid : " + value);
                                     return "username-constraint".i18n();
                                   }
                                 },

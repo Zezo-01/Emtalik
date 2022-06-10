@@ -1,15 +1,14 @@
 abstract class Validator {
   static bool passwordValidator(String password) {
-    if (RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$',
-    ).hasMatch(password)) return true;
+    if (RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$',
+            unicode: true)
+        .hasMatch(password)) return true;
     return false;
   }
 
   static bool usernameValidator(String username) {
-    if (RegExp(
-      r'^[0-9A-z]{4,25}$',
-    ).hasMatch(username)) return true;
+    if (RegExp(r'^[0-9 A-z ؀-ۿ]{4,25}$', unicode: true).hasMatch(username))
+      return true;
     return false;
   }
 
