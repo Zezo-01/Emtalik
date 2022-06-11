@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'package:emtalik/pages/login.dart';
 import 'package:emtalik/pages/mainpage.dart';
