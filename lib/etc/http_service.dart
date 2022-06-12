@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/models/user_register.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,7 @@ abstract class HttpService {
   static String get adminTarget => target + '/admin';
   static String get estateTarget => target + '/estate';
   static String get userTarget => target + '/user';
+  static String get offerTarget => target + '/offer';
   static String getProfilePictureRoute(int id) =>
       target + '/user/picture/' + id.toString();
   static String getEstateMainPicture(int id) =>
@@ -128,6 +130,10 @@ abstract class HttpService {
     return await http.get(Uri.parse(estateTarget));
   }
 
+  static Future<http.Response> getOffers() async {
+    return await http.get(Uri.parse(offerTarget));
+  }
+
   static Future<http.Response> getApprovedEstates() async {
     return await http.get(Uri.parse(estateTarget + "/approved"));
   }
@@ -139,5 +145,15 @@ abstract class HttpService {
 
   static Future<http.Response> getUserEstates(int id) async {
     return await http.get(Uri.parse(userTarget + "/estates/" + id.toString()));
+  }
+
+  static Future<http.Response> getUserApprovedEstates(int id) async {
+    return await http
+        .get(Uri.parse(userTarget + "/estates/approved/" + id.toString()));
+  }
+
+  static Future<http.Response> createOffer(Offer offer, int estateId) {
+    return http.post(Uri.parse(offerTarget + "/save"),
+        body: {"offer": offer, "estateId": estateId});
   }
 }

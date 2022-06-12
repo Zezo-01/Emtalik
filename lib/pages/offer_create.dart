@@ -6,6 +6,7 @@ import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/estate_response.dart';
+import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
@@ -34,7 +35,7 @@ class _OfferCreateState extends State<OfferCreate> {
   final _rentPerSeassonController = TextEditingController();
 
   void getCurrentUserEstates() async {
-    var response = await HttpService.getUserEstates(
+    var response = await HttpService.getUserApprovedEstates(
         Provider.of<UserSession>(context, listen: false).id ?? 0);
     if (response.statusCode == 200) {
       var lists = jsonDecode(response.body);
@@ -54,7 +55,7 @@ class _OfferCreateState extends State<OfferCreate> {
   @override
   void initState() {
     _negotiable = 0;
-    _offerType = 2;
+    _offerType = 1;
     super.initState();
     getCurrentUserEstates();
   }
@@ -245,9 +246,28 @@ class _OfferCreateState extends State<OfferCreate> {
                         ),
                   const SizedBox(height: 10),
                   ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        // TODO: SEND REQUEST TO ADD OFFER
+                        var response = await HttpService.createOffer(
+                            Offer(
+                              name: _offerNameController.text,
+                              type: _offerType == 1 ? "rent" : "sell",
+                              negotiable: _negotiable == 0 ? false : true,
+                              sellPrice: int.parse(_priceController.text),
+                              rentPricePerMonth:
+                                  int.parse(_rentPerMonthController.text),
+                              rentPricePerYear:
+                                  int.parse(_rentPerYearController.text),
+                              rentPricePerSeasson:
+                                  int.parse(_rentPerSeassonController.text),
+                            ),
+                            estateId ?? 0);
+                        if (response.statusCode == 200) {
+                          Navigator.of(context).pop();
+                        } else {
+                          ToastFactory.makeToast(context, TOAST_TYPE.error,
+                              null, "error".i18n(), false, () {});
+                        }
                       }
                     },
                     child: Text(
