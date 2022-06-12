@@ -107,5 +107,18 @@
     "selfeet":"Selfeet",
     "bethleem":"Bethleem",
     "qalqilya":"Qalqilya",
-    "no-estates":"No estates found"
+    "no-estates":"No estates found",
+    "you-dont-have-estates":"You dont have estates to offer",
+    "add-esates-to-add-offers":"Add an estate to add an offer",
+    "offer-name":"Offer's name",
+    "offer-name-constraint":"25 Charecters",
+    "pick-estate":"Pick an estate for the offer",
+    "rent":"Rent",
+    "sell":"Sell",
+    "rent-per-month":"Rent per month",
+    "rent-per-year":"Rent per month",
+    "rent-per-seasson":"Rent per month",
+    "negotiable":"Negotiable price",
+    "price":"Price",
+    "submit":"Submit"
 }

@@ -107,5 +107,18 @@
     "selfeet":"سلفيت",
     "bethleem":"بيت لحم",
     "qalqilya":"قلقيلية",
-    "no-estates":"لا يوجد عقارات"
+    "no-estates":"لا يوجد عقارات",
+    "you-dont-have-estates":"ليس لديك عقارات",
+    "add-esates-to-add-offers":"اضف عقاراً لعمل عرض",
+    "offer-name":"إسم العرض",
+    "offer-name-constraint":"25 حرف",
+    "pick-estate":"إختر عقار للعرض",
+    "rent":"إستإجار",
+    "sell":"بيع",
+    "rent-per-month":"الإستإجار الشهري",
+    "rent-per-year":"الإستإجار السنوي",
+    "rent-per-seasson":"الإستإجار للموسم",
+    "negotiable":"السعر قابل للنقاش",
+    "price":"السعر",
+    "submit":"إرسال"
 }
