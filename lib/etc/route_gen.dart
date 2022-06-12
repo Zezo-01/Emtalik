@@ -1,6 +1,7 @@
 // ignore_for_file: unused_local_variable, prefer_const_constructors, duplicate_ignore
 
 import 'package:emtalik/Widgets/displaycard.dart';
+import 'package:emtalik/pages/estate_display.dart';
 import 'package:emtalik/pages/estate_create.dart';
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/pages/login.dart';
