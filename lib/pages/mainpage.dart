@@ -117,8 +117,6 @@ class _MyHomePage extends State<MyHomePage> {
                       Provider.of<UserSession>(context, listen: false).role ==
                           "admin") {
                     Navigator.of(context).pushNamed('/estate_create');
-                    // // TODO: WORK HERE
-
                   } else if (Provider.of<UserSession>(context, listen: false)
                           .role ==
                       "buyer") {
@@ -136,21 +134,47 @@ class _MyHomePage extends State<MyHomePage> {
                 child: Icon(
                   Icons.local_offer_sharp,
                 ),
-                onTap: () {
+                onTap: () async {
                   // TODO: UNCOMMENT FOR FULL FUNCTIONALITY
                   // if (Provider.of<UserSession>(context, listen: false).role ==
-                  //     "seller" || Provider.of<UserSession>(context, listen: false).role == "admin") {
-                  // TODO: WORK HERE
-
-                  // } else if (Provider.of<UserSession>(context, listen: false)
-                  //         .role ==
-                  //     "buyer") {
-                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
-                  //       "no-privileges-for-selling".i18n(), false, () {});
-                  // } else {
-                  //   ToastFactory.makeToast(context, TOAST_TYPE.info, null,
-                  //       "no-privileges-for-guest".i18n(), false, () {});
-                  // }
+                  //         "seller" ||
+                  //     Provider.of<UserSession>(context, listen: false).role ==
+                  //         "admin") {
+                  //   // TODO: WORK HERE
+                  //   try {
+                  //     var response = await HttpService.userHasEstates(
+                  //         Provider.of<UserSession>(context, listen: false).id ??
+                  //             0);
+                  //     if (response.statusCode == 200) {
+                  //       if (response.body == "true") {
+                  //         //  HERE HE GOES TO THE offer route
+                  Navigator.of(context).pushNamed('/offer_create');
+                  //         } else {
+                  //           ToastFactory.makeToast(
+                  //               context,
+                  //               TOAST_TYPE.error,
+                  //               "you-dont-have-estates".i18n(),
+                  //               "add-esates-to-add-offers".i18n(),
+                  //               false,
+                  //               () {});
+                  //         }
+                  //       } else {
+                  //         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+                  //             "error".i18n(), false, () {});
+                  //       }
+                  //     } catch (e) {
+                  //       ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+                  //           "no-connection".i18n(), false, () {});
+                  //     }
+                  //   } else if (Provider.of<UserSession>(context, listen: false)
+                  //           .role ==
+                  //       "buyer") {
+                  //     ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                  //         "no-privileges-for-selling".i18n(), false, () {});
+                  //   } else {
+                  //     ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                  //         "no-privileges-for-guest".i18n(), false, () {});
+                  //   }
                 },
               ),
             ],

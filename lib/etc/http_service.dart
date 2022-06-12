@@ -12,6 +12,7 @@ abstract class HttpService {
   static String get target => 'http://192.168.0.109:8080';
   static String get adminTarget => target + '/admin';
   static String get estateTarget => target + '/estate';
+  static String get userTarget => target + '/user';
   static String getProfilePictureRoute(int id) =>
       target + '/user/picture/' + id.toString();
   static String getEstateMainPicture(int id) =>
@@ -129,5 +130,14 @@ abstract class HttpService {
 
   static Future<http.Response> getApprovedEstates() async {
     return await http.get(Uri.parse(estateTarget + "/approved"));
+  }
+
+  static Future<http.Response> userHasEstates(int id) async {
+    return await http
+        .get(Uri.parse(userTarget + "/hasestates/" + id.toString()));
+  }
+
+  static Future<http.Response> getUserEstates(int id) async {
+    return await http.get(Uri.parse(userTarget + "/estates/" + id.toString()));
   }
 }
