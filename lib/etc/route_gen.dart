@@ -4,6 +4,7 @@ import 'package:emtalik/Widgets/displaycard.dart';
 import 'package:emtalik/pages/estate_create.dart';
 import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/pages/login.dart';
+import 'package:emtalik/pages/offer_create.dart';
 import 'package:emtalik/sandbox/sanboxtext.dart';
 import 'package:emtalik/sandbox/sandbox.dart';
 import 'package:emtalik/sandbox/sandboxui.dart';
@@ -28,6 +29,8 @@ class RouteGeneration {
         return MaterialPageRoute(builder: (_) => SandBoxUi());
       case '/estate_create':
         return MaterialPageRoute(builder: (_) => EstateCreate());
+      case '/offer_create':
+        return MaterialPageRoute(builder: (_) => OfferCreate());
     }
     return errorRoute();
   }

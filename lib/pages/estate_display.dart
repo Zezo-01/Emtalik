@@ -85,9 +85,11 @@ class _DisplayEstate extends State<DisplayEstate> {
                 )),
             Row(
               children: [
-                Container(margin: EdgeInsets.only(left: 20),child: FaIcon(FontAwesomeIcons.expand)),
                 Container(
-                  margin: EdgeInsets.only(left: 20, bottom: 10,top: 10),
+                    margin: EdgeInsets.only(left: 20),
+                    child: FaIcon(FontAwesomeIcons.expand)),
+                Container(
+                  margin: EdgeInsets.only(left: 20, bottom: 10, top: 10),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Size :-",
@@ -98,9 +100,11 @@ class _DisplayEstate extends State<DisplayEstate> {
             ),
             Row(
               children: [
-                Container(margin: EdgeInsets.only(left: 20),child:FaIcon(FontAwesomeIcons.question)),
                 Container(
-                  margin: EdgeInsets.only(left: 20, bottom: 10,top: 10),
+                    margin: EdgeInsets.only(left: 20),
+                    child: FaIcon(FontAwesomeIcons.question)),
+                Container(
+                  margin: EdgeInsets.only(left: 20, bottom: 10, top: 10),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Type :-",
@@ -111,9 +115,11 @@ class _DisplayEstate extends State<DisplayEstate> {
             ),
             Row(
               children: [
-               Container(margin: EdgeInsets.only(left: 20),child: FaIcon(FontAwesomeIcons.city)),
                 Container(
-                  margin: EdgeInsets.only(left: 20, bottom: 10,top: 10),
+                    margin: EdgeInsets.only(left: 20),
+                    child: FaIcon(FontAwesomeIcons.city)),
+                Container(
+                  margin: EdgeInsets.only(left: 20, bottom: 10, top: 10),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Province :-",
@@ -124,9 +130,11 @@ class _DisplayEstate extends State<DisplayEstate> {
             ),
             Row(
               children: [
-               Container(margin: EdgeInsets.only(left: 20),child: FaIcon(FontAwesomeIcons.houseFlag)),
                 Container(
-                  margin: EdgeInsets.only(left: 20, bottom: 10,top: 10),
+                    margin: EdgeInsets.only(left: 20),
+                    child: FaIcon(FontAwesomeIcons.houseFlag)),
+                Container(
+                  margin: EdgeInsets.only(left: 20, bottom: 10, top: 10),
                   alignment: Alignment.centerLeft,
                   child: Text(
                     "Address :-",

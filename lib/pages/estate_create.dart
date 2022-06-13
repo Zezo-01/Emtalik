@@ -93,7 +93,7 @@ class _EstateCreate extends State<EstateCreate> {
                   style: Theme.of(context)
                       .textTheme
                       .labelSmall!
-                      .copyWith(fontSize: 14),
+                      .copyWith(fontSize: 12),
                 ),
                 content: SingleChildScrollView(
                   child: Container(
@@ -598,6 +598,7 @@ class _EstateCreate extends State<EstateCreate> {
                 ),
               ),
               Step(
+                
                 title: Text(
                   "extra-details".i18n(),
                   style: Theme.of(context)

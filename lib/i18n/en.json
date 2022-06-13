@@ -120,5 +120,7 @@
     "rent-per-seasson":"Rent per month",
     "negotiable":"Negotiable price",
     "price":"Price",
-    "submit":"Submit"
+    "submit":"Submit",
+    "no-offers":"No offers"
+
 }
