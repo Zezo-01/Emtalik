@@ -55,11 +55,7 @@ class _MyApp extends State<StatefulWidget> {
       theme: AppEnv.defaultLightTheme(context),
       darkTheme: AppEnv.defaultDarkTheme(context),
       themeMode: Provider.of<ThemeProvider>(context).theme,
-<<<<<<< HEAD
-      initialRoute: '/estate_dispaly',
-=======
       initialRoute: '/offer_create',
->>>>>>> 17ec0233bda835cb71260d6ec2acdf01f7e99d08
       onGenerateRoute: RouteGeneration.generateRoute,
     );
   }
