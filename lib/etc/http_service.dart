@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:emtalik/models/offer.dart';
+import 'package:emtalik/models/offer_registration.dart';
 import 'package:emtalik/models/user_register.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:http/http.dart' as http;
@@ -10,7 +11,7 @@ import 'package:http_parser/src/media_type.dart';
 import 'package:mime/mime.dart';
 
 abstract class HttpService {
-  static String get target => 'http://192.168.0.109:8080';
+  static String get target => 'http://192.168.1.101:8080';
   static String get adminTarget => target + '/admin';
   static String get estateTarget => target + '/estate';
   static String get userTarget => target + '/user';
@@ -152,8 +153,11 @@ abstract class HttpService {
         .get(Uri.parse(userTarget + "/estates/approved/" + id.toString()));
   }
 
-  static Future<http.Response> createOffer(Offer offer, int estateId) {
-    return http.post(Uri.parse(offerTarget + "/save"),
-        body: {"offer": offer, "estateId": estateId});
+  static Future<http.Response> createOffer(
+      OfferRegistration offer, int estateId) {
+    return http.post(Uri.parse(offerTarget + "/save"), body: {
+      "offerJson": offer.toRawJson(),
+      "estateId": estateId.toString()
+    });
   }
 }

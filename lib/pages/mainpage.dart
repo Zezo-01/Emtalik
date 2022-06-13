@@ -59,6 +59,7 @@ class _MyHomePage extends State<MyHomePage> {
     currentIndex = 0;
     super.initState();
     estates = getEstates();
+    offers = getOffers();
   }
 
   @override
