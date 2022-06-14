@@ -259,15 +259,17 @@ class _OfferCreateState extends State<OfferCreate> {
                                 negotiable: _negotiable == 0 ? false : true,
                                 sellPrice: _offerType == 1
                                     ? null
-                                    : int.parse(_priceController.text),
+                                    : double.parse(_priceController.text),
                                 rentPricePerMonth: _offerType == 1
-                                    ? int.tryParse(_rentPerMonthController.text)
+                                    ? double.tryParse(
+                                        _rentPerMonthController.text)
                                     : null,
                                 rentPricePerYear: _offerType == 1
-                                    ? int.tryParse(_rentPerYearController.text)
+                                    ? double.tryParse(
+                                        _rentPerYearController.text)
                                     : null,
                                 rentPricePerSeasson: _offerType == 1
-                                    ? int.tryParse(
+                                    ? double.tryParse(
                                         _rentPerSeassonController.text)
                                     : null,
                               ),

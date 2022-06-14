@@ -157,41 +157,42 @@ class _MyHomePage extends State<MyHomePage> {
                             "seller" ||
                         Provider.of<UserSession>(context, listen: false).role ==
                             "admin") {
-                    //   // TODO: WORK HERE
+                      //   // TODO: WORK HERE
                       try {
                         var response = await HttpService.userHasEstates(
-                            Provider.of<UserSession>(context, listen: false).id ??
+                            Provider.of<UserSession>(context, listen: false)
+                                    .id ??
                                 0);
                         if (response.statusCode == 200) {
                           if (response.body == "true") {
                             //  HERE HE GOES TO THE offer route
-                    Navigator.of(context).pushNamed('/offer_create');
-                            } else {
-                              ToastFactory.makeToast(
-                                  context,
-                                  TOAST_TYPE.error,
-                                  "you-dont-have-estates".i18n(),
-                                  "add-esates-to-add-offers".i18n(),
-                                  false,
-                                  () {});
-                            }
+                            Navigator.of(context).pushNamed('/offer_create');
                           } else {
-                            ToastFactory.makeToast(context, TOAST_TYPE.error, null,
-                                "error".i18n(), false, () {});
+                            ToastFactory.makeToast(
+                                context,
+                                TOAST_TYPE.error,
+                                "you-dont-have-estates".i18n(),
+                                "add-esates-to-add-offers".i18n(),
+                                false,
+                                () {});
                           }
-                        } catch (e) {
-                          ToastFactory.makeToast(context, TOAST_TYPE.error, null,
-                              "no-connection".i18n(), false, () {});
+                        } else {
+                          ToastFactory.makeToast(context, TOAST_TYPE.error,
+                              null, "error".i18n(), false, () {});
                         }
-                      } else if (Provider.of<UserSession>(context, listen: false)
-                              .role ==
-                          "buyer") {
-                        ToastFactory.makeToast(context, TOAST_TYPE.info, null,
-                            "no-privileges-for-selling".i18n(), false, () {});
-                      } else {
-                        ToastFactory.makeToast(context, TOAST_TYPE.info, null,
-                            "no-privileges-for-guest".i18n(), false, () {});
+                      } catch (e) {
+                        ToastFactory.makeToast(context, TOAST_TYPE.error, null,
+                            "no-connection".i18n(), false, () {});
                       }
+                    } else if (Provider.of<UserSession>(context, listen: false)
+                            .role ==
+                        "buyer") {
+                      ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                          "no-privileges-for-selling".i18n(), false, () {});
+                    } else {
+                      ToastFactory.makeToast(context, TOAST_TYPE.info, null,
+                          "no-privileges-for-guest".i18n(), false, () {});
+                    }
                   },
                 ),
               ],
@@ -276,7 +277,6 @@ class _MyHomePage extends State<MyHomePage> {
                               );
                             }
                           } else {
-                            debugPrint("Error : " + snapshot.error.toString());
                             return Center(
                               child: Text(
                                 "no-connection".i18n(),
@@ -357,12 +357,12 @@ class _MyHomePage extends State<MyHomePage> {
                                                 0),
                                     footer1:
                                         offers.elementAt(index).type.i18n(),
+                                        footer2: offers.elementAt(index).sellPrice ?? 
                                   );
                                 },
                               );
                             }
                           } else {
-                            debugPrint("Error : " + snapshot.error.toString());
                             return Center(
                               child: Text(
                                 "no-connection".i18n(),

@@ -18,10 +18,10 @@ class Offer {
 
   String name;
   String type;
-  int? sellPrice;
-  int? rentPricePerMonth;
-  int? rentPricePerYear;
-  int? rentPricePerSeasson;
+  double? sellPrice;
+  double? rentPricePerMonth;
+  double? rentPricePerYear;
+  double? rentPricePerSeasson;
   bool? negotiable;
   int? estateId;
 

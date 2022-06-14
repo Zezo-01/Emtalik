@@ -17,10 +17,10 @@ class OfferRegistration {
 
   String name;
   String type;
-  int? sellPrice;
-  int? rentPricePerMonth;
-  int? rentPricePerYear;
-  int? rentPricePerSeasson;
+  double? sellPrice;
+  double? rentPricePerMonth;
+  double? rentPricePerYear;
+  double? rentPricePerSeasson;
   bool? negotiable;
 
   factory OfferRegistration.fromRawJson(String str) =>
