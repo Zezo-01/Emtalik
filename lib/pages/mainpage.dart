@@ -10,6 +10,7 @@ import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/offer.dart';
+import 'package:emtalik/models/offer_registration.dart';
 import 'package:emtalik/pages/search.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -47,8 +48,8 @@ class _MyHomePage extends State<MyHomePage> {
     http.Response offerResponse = await HttpService.getOffers();
     var offersList = jsonDecode(offerResponse.body);
     if (offersList.isNotEmpty) {
-      for (var estate in offersList) {
-        offers.add(Offer.fromJson(estate));
+      for (var offer in offersList) {
+        offers.add(Offer.fromJson(offer));
       }
     }
     return offers;
