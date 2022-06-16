@@ -27,7 +27,7 @@ class Parking {
   String ownerUserName;
   int ownerId;
   String? description;
-  int size;
+  double size;
   String? madeOn;
   bool approved;
   String? carsAllowd;

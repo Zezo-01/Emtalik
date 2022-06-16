@@ -72,6 +72,7 @@
     "address":"العنوان",
     "description":"وصف",
     "size-in-square-meters":" الحجم بـ م²",
+    "square-meters":"م²",
     "must-be-number":"يجب ان يحتوي هذا الحقل على أرقام فقط",
     "apartment-floor-number":"رقم الطابق للشقة",
     "apartment-number":"رقم الشقة",

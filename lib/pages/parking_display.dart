@@ -1,0 +1,177 @@
+// ignore_for_file: no_logic_in_create_state, must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers
+
+import 'package:emtalik/etc/enums.dart';
+import 'package:emtalik/etc/http_service.dart';
+import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/etc/utils.dart';
+import 'package:emtalik/models/parking.dart';
+import 'package:emtalik/pages/mainpage.dart';
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:localization/localization.dart';
+
+class ParkingDisplay extends StatefulWidget {
+  ParkingDisplay({
+    Key? key,
+    required this.id,
+  }) : super(key: key);
+  int id;
+
+  @override
+  State<StatefulWidget> createState() => _ParkingDisplay(id: id);
+}
+
+class _ParkingDisplay extends State<ParkingDisplay> {
+  _ParkingDisplay({
+    required this.id,
+  });
+
+  int id;
+  late Future<Parking> parking;
+
+  Future<Parking> getParking() async {
+    var response = await HttpService.getEstateByTypeAndId("parking", id);
+    debugPrint(response.statusCode.toString());
+    debugPrint("Response body : \n" + response.body);
+    debugPrint(Parking.fromRawJson(response.body).name);
+    return Parking.fromRawJson(response.body);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    parking = getParking();
+  }
+
+  @override
+  Widget build(BuildContext context) => SafeArea(
+        child: FutureBuilder(
+          future: parking,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else {
+              var parking = snapshot.data as Parking;
+              return Scaffold(
+                appBar: AppBar(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(1000),
+                          bottomRight: Radius.circular(1000),
+                        ),
+                        side: BorderSide(width: 3, color: Colors.black)),
+                    bottom: PreferredSize(
+                        preferredSize: Size.fromHeight(40), child: SizedBox()),
+                    backgroundColor:
+                        Theme.of(context).appBarTheme.backgroundColor,
+                    centerTitle: true,
+                    shadowColor: Colors.black,
+                    title: Container(
+                        margin: EdgeInsets.only(top: 30),
+                        child: Text(
+                          decodeUtf8ToString(parking.name),
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        )),
+                    leading: IconButton(
+                        onPressed: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: ((context) => MyHomePage())));
+                        },
+                        icon: Icon(Icons.arrow_back))),
+                body: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(top: 10),
+                        child: Image.network(
+                          HttpService.getEstateMainPicture(parking.id),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 10, top: 10),
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: 20, left: 20),
+                                child: ClipOval(
+                                  child: Image.network(
+                                    HttpService.getProfilePictureRoute(
+                                        parking.ownerId),
+                                    width: 35,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              Text(
+                                decodeUtf8ToString(parking.ownerUserName),
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(left: 20, right: 20),
+                              child: FaIcon(FontAwesomeIcons.ruler)),
+                          Container(
+                            margin: EdgeInsets.only(
+                                left: 20, right: 20, bottom: 10, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              parking.size.toString() +
+                                  " " +
+                                  "square-meters".i18n(),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(left: 20),
+                              child: FaIcon(FontAwesomeIcons.city)),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 10, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              parking.province.i18n(),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(left: 20),
+                              child: FaIcon(FontAwesomeIcons.houseFlag)),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 10, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              decodeUtf8ToString(parking.address),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }
+          },
+        ),
+      );
+}

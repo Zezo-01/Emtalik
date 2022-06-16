@@ -12,6 +12,7 @@ import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/models/offer_registration.dart';
 import 'package:emtalik/pages/estate_display.dart';
+import 'package:emtalik/pages/parking_display.dart';
 import 'package:emtalik/pages/search.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -250,16 +251,33 @@ class _MyHomePage extends State<MyHomePage> {
                                             () {});
                                       } else {
                                         // TODO: OPEN ESTATE PAGE
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => DisplayEstate(
+                                        if (estates.elementAt(index).type ==
+                                            "parking") {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ParkingDisplay(
                                                 id: estates.elementAt(index).id,
-                                                type: estates
-                                                    .elementAt(index)
-                                                    .type),
-                                          ),
-                                        );
+                                              ),
+                                            ),
+                                          );
+                                        } else if (estates
+                                                .elementAt(index)
+                                                .type ==
+                                            "apartment") {
+                                        } else if (estates
+                                                .elementAt(index)
+                                                .type ==
+                                            "house") {
+                                        } else if (estates
+                                                .elementAt(index)
+                                                .type ==
+                                            "store") {
+                                        } else if (estates
+                                                .elementAt(index)
+                                                .type ==
+                                            "land") {}
                                       }
                                     },
                                     borderColor:

@@ -72,6 +72,7 @@
     "address":"Address",
     "description":"Description",
     "size-in-square-meters":"Size in m²",
+    "square-meters":"m²",
     "must-be-number":"This field must be only numbers",
     "apartment-floor-number":"Apartment floor number",
     "apartment-number":"Apartment Number",
