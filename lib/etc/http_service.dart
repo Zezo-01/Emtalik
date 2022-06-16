@@ -34,6 +34,10 @@ abstract class HttpService {
     );
   }
 
+  static Future<http.Response> getEstateByTypeAndId(String type, int id) {
+    return http.get(Uri.parse(estateTarget + "/" + type + "/" + id.toString()));
+  }
+
   static Future<http.Response> uniqueUsername(String username) async {
     return await http.post(
       Uri.parse(adminTarget + "/unique/username"),

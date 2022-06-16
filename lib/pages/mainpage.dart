@@ -11,6 +11,7 @@ import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/models/offer_registration.dart';
+import 'package:emtalik/pages/estate_display.dart';
 import 'package:emtalik/pages/search.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -249,13 +250,16 @@ class _MyHomePage extends State<MyHomePage> {
                                             () {});
                                       } else {
                                         // TODO: OPEN ESTATE PAGE
-                                        ToastFactory.makeToast(
-                                            context,
-                                            TOAST_TYPE.info,
-                                            null,
-                                            "implement estate view functionality",
-                                            false,
-                                            () {});
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DisplayEstate(
+                                                id: estates.elementAt(index).id,
+                                                type: estates
+                                                    .elementAt(index)
+                                                    .type),
+                                          ),
+                                        );
                                       }
                                     },
                                     borderColor:
@@ -357,7 +361,39 @@ class _MyHomePage extends State<MyHomePage> {
                                                 0),
                                     footer1:
                                         offers.elementAt(index).type.i18n(),
-                                        footer2: offers.elementAt(index).sellPrice ?? 
+                                    footer2: offers
+                                                .elementAt(index)
+                                                .sellPrice !=
+                                            null
+                                        ? offers
+                                            .elementAt(index)
+                                            .sellPrice
+                                            .toString()
+                                        : offers
+                                                    .elementAt(index)
+                                                    .rentPricePerMonth !=
+                                                null
+                                            ? offers
+                                                .elementAt(index)
+                                                .rentPricePerMonth
+                                                .toString()
+                                            : offers
+                                                        .elementAt(index)
+                                                        .rentPricePerYear !=
+                                                    null
+                                                ? offers
+                                                    .elementAt(index)
+                                                    .rentPricePerYear
+                                                    .toString()
+                                                : offers
+                                                            .elementAt(index)
+                                                            .rentPricePerSeasson !=
+                                                        null
+                                                    ? offers
+                                                        .elementAt(index)
+                                                        .rentPricePerSeasson
+                                                        .toString()
+                                                    : "",
                                   );
                                 },
                               );

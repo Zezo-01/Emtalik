@@ -8,19 +8,23 @@ class DisplayEstate extends StatefulWidget {
   DisplayEstate({
     Key? key,
     required this.id,
+    required this.type,
   }) : super(key: key);
   int id;
+  String type;
 
   @override
-  State<StatefulWidget> createState() => _DisplayEstate(id: id);
+  State<StatefulWidget> createState() => _DisplayEstate(id: id, type: type);
 }
 
 class _DisplayEstate extends State<DisplayEstate> {
-  int id;
   _DisplayEstate({
     required this.id,
+    required this.type,
   });
 
+  int id;
+  String type;
   @override
   void initState() {
     super.initState();
