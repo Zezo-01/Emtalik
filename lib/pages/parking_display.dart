@@ -31,9 +31,9 @@ class _ParkingDisplay extends State<ParkingDisplay> {
 
   Future<Parking> getParking() async {
     var response = await HttpService.getEstateByTypeAndId("parking", id);
-    debugPrint(response.statusCode.toString());
-    debugPrint("Response body : \n" + response.body);
-    debugPrint(Parking.fromRawJson(response.body).name);
+    debugPrint(
+        Parking.fromRawJson(response.body).carsAllowd!.split(",").toString());
+
     return Parking.fromRawJson(response.body);
   }
 
@@ -61,7 +61,7 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                         ),
                         side: BorderSide(width: 3, color: Colors.black)),
                     bottom: PreferredSize(
-                        preferredSize: Size.fromHeight(40), child: SizedBox()),
+                        preferredSize: Size.fromHeight(20), child: SizedBox()),
                     backgroundColor:
                         Theme.of(context).appBarTheme.backgroundColor,
                     centerTitle: true,
@@ -74,9 +74,7 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                         )),
                     leading: IconButton(
                         onPressed: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: ((context) => MyHomePage())));
+                          Navigator.pop(context);
                         },
                         icon: Icon(Icons.arrow_back))),
                 body: SingleChildScrollView(
@@ -90,82 +88,138 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                           fit: BoxFit.cover,
                         ),
                       ),
-                      Container(
-                        margin: EdgeInsets.only(bottom: 10, top: 10),
-                        alignment: Alignment.centerLeft,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Row(
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(right: 20, left: 20),
-                                child: ClipOval(
-                                  child: Image.network(
-                                    HttpService.getProfilePictureRoute(
-                                        parking.ownerId),
-                                    width: 35,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(width: 5),
-                              Text(
-                                decodeUtf8ToString(parking.ownerUserName),
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
                       Row(
                         children: [
                           Container(
                               margin: EdgeInsets.only(left: 20, right: 20),
-                              child: FaIcon(FontAwesomeIcons.ruler)),
-                          Container(
-                            margin: EdgeInsets.only(
-                                left: 20, right: 20, bottom: 10, top: 10),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              parking.size.toString() +
-                                  " " +
-                                  "square-meters".i18n(),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(left: 20),
                               child: FaIcon(FontAwesomeIcons.city)),
                           Container(
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 10, top: 10),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              parking.province.i18n(),
+                              parking.province.i18n() +
+                                  ", " +
+                                  decodeUtf8ToString(parking.address),
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
+                        ],
+                      ),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: () {
+                            // TODO: ADD OPEN USER PROFILE FUNCTIONALITY
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(right: 20, left: 20),
+                                    child: ClipOval(
+                                      child: Image.network(
+                                        HttpService.getProfilePictureRoute(
+                                            parking.ownerId),
+                                        width: 35,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  Text(
+                                    decodeUtf8ToString(parking.ownerUserName),
+                                    style:
+                                        Theme.of(context).textTheme.bodyText2,
+                                  )
+                                ],
+                              ),
+                              Text("owner".i18n()),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.only(left: 20, right: 20),
+                                  child: FaIcon(FontAwesomeIcons.ruler)),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  parking.size.toString() +
+                                      " " +
+                                      "square-meters".i18n(),
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text("size-in-square-meters".i18n()),
                         ],
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Container(
-                              margin: EdgeInsets.only(left: 20),
-                              child: FaIcon(FontAwesomeIcons.houseFlag)),
-                          Container(
-                            margin:
-                                EdgeInsets.only(left: 20, bottom: 10, top: 10),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              decodeUtf8ToString(parking.address),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                          Wrap(
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Container(
+                                  margin: EdgeInsets.only(left: 20, right: 20),
+                                  child:
+                                      FaIcon(FontAwesomeIcons.squareParking)),
+                              Container(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  parking.vehicleCapacity.toString(),
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ),
+                            ],
                           ),
+                          Text("vehicle-capacity".i18n()),
                         ],
                       ),
+                      Text("vehicles-allowed".i18n()),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: parking.carsAllowd!.split(",").length,
+                        itemBuilder: (context, index) {
+                          return Wrap(
+                            alignment: WrapAlignment.start,
+                            crossAxisAlignment: WrapCrossAlignment.center,
+                            children: [
+                              Icon(FontAwesomeIcons.circleDot),
+                              const SizedBox(width: 5),
+                              Text(
+                                  parking.carsAllowd!.split(",")[index].i18n()),
+                              SizedBox(width: 5),
+                              Icon(parking.carsAllowd!.split(",")[index] ==
+                                      "automobile"
+                                  ? FontAwesomeIcons.car
+                                  : parking.carsAllowd!.split(",")[index] ==
+                                          "bus"
+                                      ? FontAwesomeIcons.bus
+                                      : parking.carsAllowd!.split(",")[index] ==
+                                              "bike"
+                                          ? FontAwesomeIcons.bicycle
+                                          : parking.carsAllowd!
+                                                      .split(",")[index] ==
+                                                  "truck"
+                                              ? FontAwesomeIcons.truck
+                                              : null),
+                            ],
+                          );
+                        },
+                      ),
+                      // TODO: FADI ADD MEDIA HORIZANTALE SCROLL HERE
                     ],
                   ),
                 ),

@@ -82,6 +82,7 @@
     "number-fridges":"عدد الثلاجات",
     "storage-room":"غرفة تخزين",
     "vehicle-capacity":"عدد السيارات التي يمكن ركنها",
+    "vehicles-allowed":"نوع السيارات التي تتسع",
     "automobile":"سيارة عادية",
     "bus":"حافلة",
     "truck":"شاحنة",
@@ -122,5 +123,6 @@
     "negotiable":"السعر قابل للنقاش",
     "price":"السعر",
     "submit":"إرسال",
-    "no-offers":"لا يوجد عروض"
+    "no-offers":"لا يوجد عروض",
+    "owner":"صاحب المليكة"
 }

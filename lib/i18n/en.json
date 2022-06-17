@@ -82,6 +82,7 @@
     "number-fridges":"Number of fridges",
     "storage-room":"Storage room",
     "vehicle-capacity":"Vehicle Capacity",
+    "vehicles-allowed":"Vehicle types that can park",
     "automobile":"Automobile",
     "bus":"Bus",
     "truck":"Truck",
@@ -122,6 +123,6 @@
     "negotiable":"Negotiable price",
     "price":"Price",
     "submit":"Submit",
-    "no-offers":"No offers"
-
+    "no-offers":"No offers",
+    "owner":"Property owner"
 }

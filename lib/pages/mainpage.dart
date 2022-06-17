@@ -12,6 +12,7 @@ import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/models/offer_registration.dart';
 import 'package:emtalik/pages/estate_display.dart';
+import 'package:emtalik/pages/offer_display.dart';
 import 'package:emtalik/pages/parking_display.dart';
 import 'package:emtalik/pages/search.dart';
 import 'package:emtalik/providers/locale_provider.dart';
@@ -360,13 +361,15 @@ class _MyHomePage extends State<MyHomePage> {
                                             () {});
                                       } else {
                                         // TODO: OPEN OFFER PAGE
-                                        ToastFactory.makeToast(
+                                        Navigator.push(
                                             context,
-                                            TOAST_TYPE.info,
-                                            null,
-                                            "implement offer view functionality",
-                                            false,
-                                            () {});
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  DisplayOffer(
+                                                      id: offers
+                                                          .elementAt(index)
+                                                          .id),
+                                            ));
                                       }
                                     },
                                     borderColor:
