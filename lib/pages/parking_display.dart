@@ -6,9 +6,11 @@ import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/parking.dart';
 import 'package:emtalik/pages/mainpage.dart';
+import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 
 class ParkingDisplay extends StatefulWidget {
   ParkingDisplay({
@@ -122,11 +124,18 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                     margin:
                                         EdgeInsets.only(right: 20, left: 20),
                                     child: ClipOval(
-                                      child: Image.network(
-                                        HttpService.getProfilePictureRoute(
-                                            parking.ownerId),
-                                        width: 35,
-                                      ),
+                                      child: Provider.of<UserSession>(context)
+                                              .picture
+                                          ? Image.network(
+                                              HttpService
+                                                  .getProfilePictureRoute(
+                                                      parking.ownerId),
+                                              width: 35,
+                                            )
+                                          : Image.asset(
+                                              "assets/user/default_pfp.png",
+                                              width: 35,
+                                            ),
                                     ),
                                   ),
                                   const SizedBox(width: 5),
