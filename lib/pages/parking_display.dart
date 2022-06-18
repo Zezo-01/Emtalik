@@ -1,4 +1,4 @@
-// ignore_for_file: no_logic_in_create_state, must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers
+// ignore_for_file: no_logic_in_create_state, must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
@@ -90,14 +90,48 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                           fit: BoxFit.cover,
                         ),
                       ),
+                      Container(
+                          margin: EdgeInsets.only(left: 10, top: 10),
+                          alignment: Alignment.centerLeft,
+                          child: TextButton(
+                            onPressed: () {},
+                            child: Row(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(right: 5),
+                                  child: ClipOval(
+                                    child: Provider.of<UserSession>(context)
+                                            .picture
+                                        ? Image.network(
+                                            HttpService.getProfilePictureRoute(
+                                                parking.ownerId),
+                                            width: 35,
+                                          )
+                                        : Image.asset(
+                                            "assets/user/default_pfp.png",
+                                            width: 35,
+                                          ),
+                                  ),
+                                ),
+                                Text(
+                                  decodeUtf8ToString(parking.ownerUserName),
+                                  style: Theme.of(context).textTheme.bodyText2,
+                                ),
+                                const SizedBox(width: 20),
+                                Text("owner".i18n()),
+                              ],
+                            ),
+                          )),
                       Row(
                         children: [
                           Container(
-                              margin: EdgeInsets.only(left: 20, right: 20),
+                              margin: EdgeInsets.only(
+                                left: 20,
+                              ),
                               child: FaIcon(FontAwesomeIcons.city)),
                           Container(
                             margin:
-                                EdgeInsets.only(left: 20, bottom: 10, top: 10),
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
                             child: Text(
                               parking.province.i18n() +
@@ -108,127 +142,209 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                           ),
                         ],
                       ),
-                      Container(
-                        alignment: Alignment.centerLeft,
-                        child: TextButton(
-                          onPressed: () {
-                            // TODO: ADD OPEN USER PROFILE FUNCTIONALITY
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              Wrap(
-                                crossAxisAlignment: WrapCrossAlignment.center,
-                                children: [
-                                  Container(
-                                    margin:
-                                        EdgeInsets.only(right: 20, left: 20),
-                                    child: ClipOval(
-                                      child: Provider.of<UserSession>(context)
-                                              .picture
-                                          ? Image.network(
-                                              HttpService
-                                                  .getProfilePictureRoute(
-                                                      parking.ownerId),
-                                              width: 35,
-                                            )
-                                          : Image.asset(
-                                              "assets/user/default_pfp.png",
-                                              width: 35,
-                                            ),
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Text(
-                                    decodeUtf8ToString(parking.ownerUserName),
-                                    style:
-                                        Theme.of(context).textTheme.bodyText2,
-                                  )
-                                ],
-                              ),
-                              Text("owner".i18n()),
-                            ],
-                          ),
-                        ),
-                      ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(left: 20, right: 20),
-                                  child: FaIcon(FontAwesomeIcons.ruler)),
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  parking.size.toString() +
-                                      " " +
-                                      "square-meters".i18n(),
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
+                          Container(
+                              margin: EdgeInsets.only(
+                                left: 20,
                               ),
-                            ],
+                              child: FaIcon(FontAwesomeIcons.ruler)),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              parking.size.toString().i18n(),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
                           ),
                           Text("size-in-square-meters".i18n()),
                         ],
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Wrap(
-                            crossAxisAlignment: WrapCrossAlignment.center,
-                            children: [
-                              Container(
-                                  margin: EdgeInsets.only(left: 20, right: 20),
-                                  child:
-                                      FaIcon(FontAwesomeIcons.squareParking)),
-                              Container(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  parking.vehicleCapacity.toString(),
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
+                          Container(
+                              margin: EdgeInsets.only(
+                                left: 20,
                               ),
-                            ],
+                              child: FaIcon(FontAwesomeIcons.squareParking)),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              parking.vehicleCapacity.toString().i18n(),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
                           ),
                           Text("vehicle-capacity".i18n()),
                         ],
                       ),
-                      Text("vehicles-allowed".i18n()),
                       ListView.builder(
                         shrinkWrap: true,
                         itemCount: parking.carsAllowd!.split(",").length,
                         itemBuilder: (context, index) {
-                          return Wrap(
-                            alignment: WrapAlignment.start,
-                            crossAxisAlignment: WrapCrossAlignment.center,
+                          return Row(
                             children: [
-                              Icon(FontAwesomeIcons.circleDot),
+                              Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, bottom: 5, top: 10),
+                                  alignment: Alignment.centerLeft,
+                                  child: Icon(FontAwesomeIcons.circleDot)),
                               const SizedBox(width: 5),
-                              Text(
-                                  parking.carsAllowd!.split(",")[index].i18n()),
+                              Container(
+                                 margin:
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                                child: Text(parking.carsAllowd!
+                                    .split(",")[index]
+                                    .i18n()),
+                              ),
                               SizedBox(width: 5),
-                              Icon(parking.carsAllowd!.split(",")[index] ==
-                                      "automobile"
-                                  ? FontAwesomeIcons.car
-                                  : parking.carsAllowd!.split(",")[index] ==
-                                          "bus"
-                                      ? FontAwesomeIcons.bus
-                                      : parking.carsAllowd!.split(",")[index] ==
-                                              "bike"
-                                          ? FontAwesomeIcons.bicycle
-                                          : parking.carsAllowd!
-                                                      .split(",")[index] ==
-                                                  "truck"
-                                              ? FontAwesomeIcons.truck
-                                              : null),
+                              Container(
+                                 margin:
+                                EdgeInsets.only(left: 5, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                                child: Icon(parking.carsAllowd!
+                                            .split(",")[index] ==
+                                        "automobile"
+                                    ? FontAwesomeIcons.car
+                                    : parking.carsAllowd!.split(",")[index] ==
+                                            "bus"
+                                        ? FontAwesomeIcons.bus
+                                        : parking.carsAllowd!
+                                                    .split(",")[index] ==
+                                                "bike"
+                                            ? FontAwesomeIcons.bicycle
+                                            : parking.carsAllowd!
+                                                        .split(",")[index] ==
+                                                    "truck"
+                                                ? FontAwesomeIcons.truck
+                                                : null),
+                              ),
                             ],
                           );
                         },
                       ),
-                      // TODO: FADI ADD MEDIA HORIZANTALE SCROLL HERE
+                      Container(
+                        height: 200,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          children: [
+                            ClipOval(
+                              child: Provider.of<UserSession>(context).picture
+                                  ? Image.network(
+                                      HttpService.getProfilePictureRoute(
+                                          parking.ownerId),
+                                      width: 150,
+                                    )
+                                  : Image.asset(
+                                      "assets/user/default_pfp.png",
+                                      width: 150,
+                                    ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            ClipOval(
+                              child: Provider.of<UserSession>(context).picture
+                                  ? Image.network(
+                                      HttpService.getProfilePictureRoute(
+                                          parking.ownerId),
+                                      width: 150,
+                                    )
+                                  : Image.asset(
+                                      "assets/user/default_pfp.png",
+                                      width: 150,
+                                    ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            ClipOval(
+                              child: Provider.of<UserSession>(context).picture
+                                  ? Image.network(
+                                      HttpService.getProfilePictureRoute(
+                                          parking.ownerId),
+                                      width: 150,
+                                    )
+                                  : Image.asset(
+                                      "assets/user/default_pfp.png",
+                                      width: 150,
+                                    ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            ClipOval(
+                              child: Provider.of<UserSession>(context).picture
+                                  ? Image.network(
+                                      HttpService.getProfilePictureRoute(
+                                          parking.ownerId),
+                                      width: 150,
+                                    )
+                                  : Image.asset(
+                                      "assets/user/default_pfp.png",
+                                      width: 150,
+                                    ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            ClipOval(
+                              child: Provider.of<UserSession>(context).picture
+                                  ? Image.network(
+                                      HttpService.getProfilePictureRoute(
+                                          parking.ownerId),
+                                      width: 150,
+                                    )
+                                  : Image.asset(
+                                      "assets/user/default_pfp.png",
+                                      width: 150,
+                                    ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            ClipOval(
+                              child: Provider.of<UserSession>(context).picture
+                                  ? Image.network(
+                                      HttpService.getProfilePictureRoute(
+                                          parking.ownerId),
+                                      width: 150,
+                                    )
+                                  : Image.asset(
+                                      "assets/user/default_pfp.png",
+                                      width: 150,
+                                    ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                            ClipOval(
+                              child: Provider.of<UserSession>(context).picture
+                                  ? Image.network(
+                                      HttpService.getProfilePictureRoute(
+                                          parking.ownerId),
+                                      width: 150,
+                                    )
+                                  : Image.asset(
+                                      "assets/user/default_pfp.png",
+                                      width: 150,
+                                    ),
+                            ),
+                            SizedBox(
+                              width: 12,
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
