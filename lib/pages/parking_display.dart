@@ -33,8 +33,6 @@ class _ParkingDisplay extends State<ParkingDisplay> {
 
   Future<Parking> getParking() async {
     var response = await HttpService.getEstateByTypeAndId("parking", id);
-    debugPrint(
-        Parking.fromRawJson(response.body).carsAllowd!.split(",").toString());
 
     return Parking.fromRawJson(response.body);
   }
@@ -56,29 +54,31 @@ class _ParkingDisplay extends State<ParkingDisplay> {
               var parking = snapshot.data as Parking;
               return Scaffold(
                 appBar: AppBar(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                          bottomLeft: Radius.circular(1000),
-                          bottomRight: Radius.circular(1000),
-                        ),
-                        side: BorderSide(width: 3, color: Colors.black)),
-                    bottom: PreferredSize(
-                        preferredSize: Size.fromHeight(20), child: SizedBox()),
-                    backgroundColor:
-                        Theme.of(context).appBarTheme.backgroundColor,
-                    centerTitle: true,
-                    shadowColor: Colors.black,
-                    title: Container(
-                        margin: EdgeInsets.only(top: 30),
-                        child: Text(
-                          decodeUtf8ToString(parking.name),
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        )),
-                    leading: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.arrow_back))),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(1000),
+                        bottomRight: Radius.circular(1000),
+                      ),
+                      side: BorderSide(width: 3, color: Colors.black)),
+                  bottom: PreferredSize(
+                      preferredSize: Size.fromHeight(20), child: SizedBox()),
+                  backgroundColor:
+                      Theme.of(context).appBarTheme.backgroundColor,
+                  centerTitle: true,
+                  shadowColor: Colors.black,
+                  title: Container(
+                      margin: EdgeInsets.only(top: 30),
+                      child: Text(
+                        decodeUtf8ToString(parking.name),
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      )),
+                  leading: IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back),
+                  ),
+                ),
                 body: SingleChildScrollView(
                   child: Column(
                     children: [

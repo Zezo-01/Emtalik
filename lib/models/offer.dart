@@ -13,9 +13,10 @@ class Offer {
     this.rentPricePerMonth,
     this.rentPricePerYear,
     this.rentPricePerSeasson,
-    this.negotiable,
+    required this.negotiable,
     this.estateId,
     this.estateName,
+    required this.estateType,
   });
   int id;
   String name;
@@ -24,9 +25,10 @@ class Offer {
   double? rentPricePerMonth;
   double? rentPricePerYear;
   double? rentPricePerSeasson;
-  bool? negotiable;
+  bool negotiable;
   int? estateId;
   String? estateName;
+  String estateType;
 
   factory Offer.fromRawJson(String str) => Offer.fromJson(json.decode(str));
 
@@ -42,7 +44,8 @@ class Offer {
       rentPricePerSeasson: json["rentPricePerSeasson"],
       negotiable: json["negotiable"],
       estateId: json["estateId"],
-      estateName: json["estateName"]);
+      estateName: json["estateName"],
+      estateType: json["estateType"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -55,5 +58,6 @@ class Offer {
         "negotiable": negotiable,
         "estateId": estateId,
         "estateName": estateName,
+        "estateType": estateType,
       };
 }

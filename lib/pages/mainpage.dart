@@ -50,6 +50,7 @@ class _MyHomePage extends State<MyHomePage> {
     List<Offer> offers = List.empty(growable: true);
     http.Response offerResponse = await HttpService.getOffers();
     var offersList = jsonDecode(offerResponse.body);
+    debugPrint(offerResponse.body);
     if (offersList.isNotEmpty) {
       for (var offer in offersList) {
         offers.add(Offer.fromJson(offer));
@@ -348,29 +349,27 @@ class _MyHomePage extends State<MyHomePage> {
                                 itemBuilder: (context, index) {
                                   return DisplayCard(
                                     onPress: () {
-                                      if (Provider.of<UserSession>(context,
-                                                  listen: false)
-                                              .role ==
-                                          null) {
-                                        ToastFactory.makeToast(
-                                            context,
-                                            TOAST_TYPE.info,
-                                            null,
-                                            "no-privileges-for-guest".i18n(),
-                                            false,
-                                            () {});
-                                      } else {
-                                        // TODO: OPEN OFFER PAGE
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DisplayOffer(
-                                                      id: offers
-                                                          .elementAt(index)
-                                                          .id),
-                                            ));
-                                      }
+                                      // if (Provider.of<UserSession>(context,
+                                      //             listen: false)
+                                      //         .role ==
+                                      //     null) {
+                                      //   ToastFactory.makeToast(
+                                      //       context,
+                                      //       TOAST_TYPE.info,
+                                      //       null,
+                                      //       "no-privileges-for-guest".i18n(),
+                                      //       false,
+                                      //       () {});
+                                      // } else {
+                                      // TODO: OPEN OFFER PAGE
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => DisplayOffer(
+                                              id: offers.elementAt(index).id),
+                                        ),
+                                      );
+                                      // }
                                     },
                                     borderColor:
                                         Theme.of(context).colorScheme.primary,
@@ -385,7 +384,7 @@ class _MyHomePage extends State<MyHomePage> {
                                     footer2: offers
                                                 .elementAt(index)
                                                 .sellPrice !=
-                                            null
+                                            0.0
                                         ? offers
                                             .elementAt(index)
                                             .sellPrice
@@ -393,27 +392,34 @@ class _MyHomePage extends State<MyHomePage> {
                                         : offers
                                                     .elementAt(index)
                                                     .rentPricePerMonth !=
-                                                null
-                                            ? offers
-                                                .elementAt(index)
-                                                .rentPricePerMonth
-                                                .toString()
+                                                0.0
+                                            ? "rent-per-month".i18n() +
+                                                "\n" +
+                                                offers
+                                                    .elementAt(index)
+                                                    .rentPricePerMonth
+                                                    .toString()
                                             : offers
                                                         .elementAt(index)
                                                         .rentPricePerYear !=
-                                                    null
-                                                ? offers
-                                                    .elementAt(index)
-                                                    .rentPricePerYear
-                                                    .toString()
+                                                    0.0
+                                                ? "rent-per-year".i18n() +
+                                                    "\n" +
+                                                    offers
+                                                        .elementAt(index)
+                                                        .rentPricePerYear
+                                                        .toString()
                                                 : offers
                                                             .elementAt(index)
                                                             .rentPricePerSeasson !=
-                                                        null
-                                                    ? offers
-                                                        .elementAt(index)
-                                                        .rentPricePerSeasson
-                                                        .toString()
+                                                        0.0
+                                                    ? "rent-per-seasson"
+                                                            .i18n() +
+                                                        "\n" +
+                                                        offers
+                                                            .elementAt(index)
+                                                            .rentPricePerSeasson
+                                                            .toString()
                                                     : "",
                                   );
                                 },

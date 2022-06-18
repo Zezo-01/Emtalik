@@ -124,5 +124,8 @@
     "price":"Price",
     "submit":"Submit",
     "no-offers":"No offers",
-    "owner":"Property owner"
+    "owner":"Property owner",
+    "offer-type":"Offer type",
+    "yes":"Yes",
+    "no":"No"
 }
