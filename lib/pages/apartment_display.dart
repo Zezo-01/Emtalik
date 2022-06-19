@@ -9,19 +9,19 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 
-class AppartmentDisplay extends StatefulWidget {
-  AppartmentDisplay({
+class ApartmentDisplay extends StatefulWidget {
+  ApartmentDisplay({
     Key? key,
     required this.id,
   }) : super(key: key);
   int id;
 
   @override
-  State<StatefulWidget> createState() => _AppartmentDisplay(id: id);
+  State<StatefulWidget> createState() => _ApartmentDisplay(id: id);
 }
 
-class _AppartmentDisplay extends State<AppartmentDisplay> {
-  _AppartmentDisplay({
+class _ApartmentDisplay extends State<ApartmentDisplay> {
+  _ApartmentDisplay({
     required this.id,
   });
 
@@ -29,7 +29,7 @@ class _AppartmentDisplay extends State<AppartmentDisplay> {
   late Future<House> house;
 
   Future<House> getHouse() async {
-    var response = await HttpService.getEstateByTypeAndId("house", id);
+    var response = await HttpService.getEstateByTypeAndId("apartment", id);
 
     return House.fromRawJson(response.body);
   }
@@ -181,7 +181,7 @@ class _AppartmentDisplay extends State<AppartmentDisplay> {
                           Text("size-in-square-meters".i18n()),
                         ],
                       ),
-  Row(
+                      Row(
                         children: [
                           Container(
                               margin: EdgeInsets.only(
@@ -203,8 +203,7 @@ class _AppartmentDisplay extends State<AppartmentDisplay> {
                           Text("number-of-floors".i18n()),
                         ],
                       ),
-
-                        Row(
+                      Row(
                         children: [
                           Container(
                               margin: EdgeInsets.only(
@@ -226,8 +225,6 @@ class _AppartmentDisplay extends State<AppartmentDisplay> {
                           Text("number-of-rooms".i18n()),
                         ],
                       ),
-
-                      
                       Container(
                         height: 200,
                         child: ListView(

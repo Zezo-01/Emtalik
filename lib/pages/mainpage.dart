@@ -11,10 +11,13 @@ import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/models/offer_registration.dart';
+import 'package:emtalik/pages/apartment_display.dart';
 import 'package:emtalik/pages/estate_display.dart';
+import 'package:emtalik/pages/land_display.dart';
 import 'package:emtalik/pages/offer_display.dart';
 import 'package:emtalik/pages/parking_display.dart';
 import 'package:emtalik/pages/search.dart';
+import 'package:emtalik/pages/store_display.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
@@ -268,6 +271,15 @@ class _MyHomePage extends State<MyHomePage> {
                                                 .elementAt(index)
                                                 .type ==
                                             "apartment") {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ApartmentDisplay(
+                                                id: estates.elementAt(index).id,
+                                              ),
+                                            ),
+                                          );
                                         } else if (estates
                                                 .elementAt(index)
                                                 .type ==
@@ -276,10 +288,28 @@ class _MyHomePage extends State<MyHomePage> {
                                                 .elementAt(index)
                                                 .type ==
                                             "store") {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  StoreDisplay(
+                                                id: estates.elementAt(index).id,
+                                              ),
+                                            ),
+                                          );
                                         } else if (estates
                                                 .elementAt(index)
                                                 .type ==
-                                            "land") {}
+                                            "land") {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => LandDisplay(
+                                                id: estates.elementAt(index).id,
+                                              ),
+                                            ),
+                                          );
+                                        }
                                       }
                                     },
                                     borderColor:
