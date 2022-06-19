@@ -1,17 +1,19 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'dart:convert';
-
+import 'dart:typed_data';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/media_response.dart';
 import 'package:emtalik/models/parking.dart';
+import 'package:emtalik/pages/image_display.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class ParkingDisplay extends StatefulWidget {
   ParkingDisplay({
@@ -32,14 +34,18 @@ class _ParkingDisplay extends State<ParkingDisplay> {
   int id;
   late Future<Parking> parking;
   late List<MediaResponse> media = List.empty(growable: true);
+  late List<Uint8List> thumbnails = List.empty(growable: true);
   void getMediaInfo() async {
     var response = await HttpService.getEstateMediaInfo(id);
     var mediaInfoString = jsonDecode(response.body);
     for (var media in mediaInfoString) {
       this.media.add(MediaResponse.fromJson(media));
-    }
-    for (var someshit in this.media) {
-      debugPrint("ID : " + someshit.id.toString());
+      if (MediaResponse.fromJson(media).contentType.split("/")[0] != "image") {
+        var thumbnail = await VideoThumbnail.thumbnailData(
+            video: HttpService.getEstateMedia(
+                id, MediaResponse.fromJson(media).id));
+        thumbnails.add(thumbnail!);
+      }
     }
   }
 
@@ -246,23 +252,42 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                         },
                       ),
                       Container(
-                        height: 200,
+                        height: 500,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: media.length,
                           itemBuilder: (context, index) {
+                            int thumb = 0;
                             return Wrap(
                               children: [
                                 ClipOval(
                                   child:
                                       media[index].contentType.split("/")[0] ==
                                               "image"
-                                          ? Image.network(
-                                              HttpService.getEstateMedia(
-                                                  id, media[index].id),
-                                              width: 150,
+                                          ? TextButton(
+                                              child: Image.network(
+                                                HttpService.getEstateMedia(
+                                                    id, media[index].id),
+                                                fit: BoxFit.cover,
+                                                width: 250,
+                                                height: 500,
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ImageDisplay(
+                                                            link: HttpService
+                                                                .getEstateMedia(
+                                                                    id,
+                                                                    media[index]
+                                                                        .id)),
+                                                  ),
+                                                );
+                                              },
                                             )
-                                          : Wrap(),
+                                          : Image.memory(thumbnails[thumb++]),
                                 ),
                                 SizedBox(width: 12),
                               ],
