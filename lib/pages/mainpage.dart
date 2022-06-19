@@ -53,7 +53,7 @@ class _MyHomePage extends State<MyHomePage> {
     List<Offer> offers = List.empty(growable: true);
     http.Response offerResponse = await HttpService.getOffers();
     var offersList = jsonDecode(offerResponse.body);
-    debugPrint(offerResponse.body);
+
     if (offersList.isNotEmpty) {
       for (var offer in offersList) {
         offers.add(Offer.fromJson(offer));

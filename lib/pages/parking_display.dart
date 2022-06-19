@@ -32,26 +32,29 @@ class _ParkingDisplay extends State<ParkingDisplay> {
   });
 
   int id;
+
+  Uint8List? thumb;
   late Future<Parking> parking;
   late List<MediaResponse> media = List.empty(growable: true);
-  late List<Uint8List> thumbnails = List.empty(growable: true);
+
   void getMediaInfo() async {
     var response = await HttpService.getEstateMediaInfo(id);
+
     var mediaInfoString = jsonDecode(response.body);
+
     for (var media in mediaInfoString) {
       this.media.add(MediaResponse.fromJson(media));
-      if (MediaResponse.fromJson(media).contentType.split("/")[0] != "image") {
-        var thumbnail = await VideoThumbnail.thumbnailData(
-            video: HttpService.getEstateMedia(
-                id, MediaResponse.fromJson(media).id));
-        thumbnails.add(thumbnail!);
-      }
     }
+  }
+
+  void getThumbNail(int estateId, int mediaId) async {
+    var result = await VideoThumbnail.thumbnailData(
+        video: HttpService.getEstateMedia(estateId, mediaId));
+    thumb = result;
   }
 
   Future<Parking> getParking() async {
     var response = await HttpService.getEstateByTypeAndId("parking", id);
-
     return Parking.fromRawJson(response.body);
   }
 
@@ -254,10 +257,14 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                       Container(
                         height: 500,
                         child: ListView.builder(
+                          shrinkWrap: false,
                           scrollDirection: Axis.horizontal,
                           itemCount: media.length,
                           itemBuilder: (context, index) {
-                            int thumb = 0;
+                            if (media[index].contentType.split("/")[0] !=
+                                "image") {
+                              getThumbNail(id, media[index].id);
+                            }
                             return Wrap(
                               children: [
                                 ClipOval(
@@ -287,7 +294,15 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                                 );
                                               },
                                             )
-                                          : Image.memory(thumbnails[thumb++]),
+                                          : TextButton(
+                                              child: Image.memory(
+                                                thumb!,
+                                                fit: BoxFit.cover,
+                                                width: 250,
+                                                height: 500,
+                                              ),
+                                              onPressed: () {},
+                                            ),
                                 ),
                                 SizedBox(width: 12),
                               ],
