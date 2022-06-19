@@ -35,21 +35,24 @@ class _ParkingDisplay extends State<ParkingDisplay> {
 
   Uint8List? thumb;
   late Future<Parking> parking;
-  late List<MediaResponse> media = List.empty(growable: true);
+  late Future<List<MediaResponse>> media;
 
-  void getMediaInfo() async {
+  Future<List<MediaResponse>> getMediaInfo() async {
     var response = await HttpService.getEstateMediaInfo(id);
 
     var mediaInfoString = jsonDecode(response.body);
 
+    List<MediaResponse> result = List.empty(growable: true);
     for (var media in mediaInfoString) {
-      this.media.add(MediaResponse.fromJson(media));
+      result.add(MediaResponse.fromJson(media));
     }
+    return result;
   }
 
   void getThumbNail(int estateId, int mediaId) async {
     var result = await VideoThumbnail.thumbnailData(
         video: HttpService.getEstateMedia(estateId, mediaId));
+
     thumb = result;
   }
 
@@ -62,7 +65,7 @@ class _ParkingDisplay extends State<ParkingDisplay> {
   void initState() {
     super.initState();
     parking = getParking();
-    getMediaInfo();
+    media = getMediaInfo();
   }
 
   @override
@@ -254,61 +257,84 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                           );
                         },
                       ),
-                      Container(
-                        height: 500,
-                        child: ListView.builder(
-                          shrinkWrap: false,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: media.length,
-                          itemBuilder: (context, index) {
-                            if (media[index].contentType.split("/")[0] !=
-                                "image") {
-                              getThumbNail(id, media[index].id);
-                            }
-                            return Wrap(
-                              children: [
-                                ClipOval(
-                                  child:
-                                      media[index].contentType.split("/")[0] ==
-                                              "image"
-                                          ? TextButton(
-                                              child: Image.network(
-                                                HttpService.getEstateMedia(
-                                                    id, media[index].id),
-                                                fit: BoxFit.cover,
-                                                width: 250,
-                                                height: 500,
+                      FutureBuilder(
+                        future: media,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else {
+                            List<MediaResponse> media =
+                                snapshot.data as List<MediaResponse>;
+                            return Container(
+                              height: 500,
+                              child: ListView.builder(
+                                shrinkWrap: false,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: media.length,
+                                itemBuilder: (context, index) {
+                                  if (media[index].contentType.split("/")[0] !=
+                                      "image") {
+                                    getThumbNail(id, media[index].id);
+                                  }
+                                  return Wrap(
+                                    children: [
+                                      ClipOval(
+                                        child: media[index]
+                                                    .contentType
+                                                    .split("/")[0] ==
+                                                "image"
+                                            ? TextButton(
+                                                child: Image.network(
+                                                  HttpService.getEstateMedia(
+                                                      id, media[index].id),
+                                                  fit: BoxFit.cover,
+                                                  width: 250,
+                                                  height: 500,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ImageDisplay(
+                                                              link: HttpService
+                                                                  .getEstateMedia(
+                                                                      id,
+                                                                      media[index]
+                                                                          .id)),
+                                                    ),
+                                                  );
+                                                },
+                                              )
+                                            : FutureBuilder(
+                                                future: VideoThumbnail
+                                                    .thumbnailData(
+                                                        video: HttpService
+                                                            .getEstateMedia(
+                                                                id,
+                                                                media[index]
+                                                                    .id)),
+                                                builder: (context, snapshot) {
+                                                  return TextButton(
+                                                    child: Image.memory(
+                                                      thumb!,
+                                                      fit: BoxFit.cover,
+                                                      width: 250,
+                                                      height: 500,
+                                                    ),
+                                                    onPressed: () {},
+                                                  );
+                                                },
                                               ),
-                                              onPressed: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        ImageDisplay(
-                                                            link: HttpService
-                                                                .getEstateMedia(
-                                                                    id,
-                                                                    media[index]
-                                                                        .id)),
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          : TextButton(
-                                              child: Image.memory(
-                                                thumb!,
-                                                fit: BoxFit.cover,
-                                                width: 250,
-                                                height: 500,
-                                              ),
-                                              onPressed: () {},
-                                            ),
-                                ),
-                                SizedBox(width: 12),
-                              ],
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
                             );
-                          },
-                        ),
+                          }
+                        },
                       ),
                       const SizedBox(
                         height: 20,
