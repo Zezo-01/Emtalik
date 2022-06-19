@@ -8,6 +8,7 @@ import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/media_response.dart';
 import 'package:emtalik/models/parking.dart';
 import 'package:emtalik/pages/image_display.dart';
+import 'package:emtalik/pages/video_display.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -316,15 +317,48 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                                                 media[index]
                                                                     .id)),
                                                 builder: (context, snapshot) {
-                                                  return TextButton(
-                                                    child: Image.memory(
-                                                      thumb!,
-                                                      fit: BoxFit.cover,
-                                                      width: 250,
-                                                      height: 500,
-                                                    ),
-                                                    onPressed: () {},
-                                                  );
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return CircularProgressIndicator();
+                                                  } else if (snapshot
+                                                      .hasError) {
+                                                    return Wrap();
+                                                  } else {
+                                                    return TextButton(
+                                                      child: Stack(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        children: [
+                                                          Image.memory(
+                                                            thumb!,
+                                                            fit: BoxFit.cover,
+                                                            width: 250,
+                                                            height: 500,
+                                                          ),
+                                                          CircleAvatar(
+                                                            radius: 30,
+                                                            backgroundColor:
+                                                                Colors.black54,
+                                                            child: Icon(Icons
+                                                                .play_arrow),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    ((context) =>
+                                                                        DisplayVideo(
+                                                                          link: HttpService.getEstateMedia(
+                                                                              id,
+                                                                              media[index].id),
+                                                                        ))));
+                                                      },
+                                                    );
+                                                  }
                                                 },
                                               ),
                                       ),
