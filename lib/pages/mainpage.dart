@@ -349,27 +349,27 @@ class _MyHomePage extends State<MyHomePage> {
                                 itemBuilder: (context, index) {
                                   return DisplayCard(
                                     onPress: () {
-                                      // if (Provider.of<UserSession>(context,
-                                      //             listen: false)
-                                      //         .role ==
-                                      //     null) {
-                                      //   ToastFactory.makeToast(
-                                      //       context,
-                                      //       TOAST_TYPE.info,
-                                      //       null,
-                                      //       "no-privileges-for-guest".i18n(),
-                                      //       false,
-                                      //       () {});
-                                      // } else {
-                                      // TODO: OPEN OFFER PAGE
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DisplayOffer(
-                                              id: offers.elementAt(index).id),
-                                        ),
-                                      );
-                                      // }
+                                      if (Provider.of<UserSession>(context,
+                                                  listen: false)
+                                              .role ==
+                                          null) {
+                                        ToastFactory.makeToast(
+                                            context,
+                                            TOAST_TYPE.info,
+                                            null,
+                                            "no-privileges-for-guest".i18n(),
+                                            false,
+                                            () {});
+                                      } else {
+                                        // TODO: OPEN OFFER PAGE
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => DisplayOffer(
+                                                id: offers.elementAt(index).id),
+                                          ),
+                                        );
+                                      }
                                     },
                                     borderColor:
                                         Theme.of(context).colorScheme.primary,
