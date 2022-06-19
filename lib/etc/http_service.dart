@@ -11,7 +11,7 @@ import 'package:http_parser/src/media_type.dart';
 import 'package:mime/mime.dart';
 
 abstract class HttpService {
-  static String get target => 'http://192.168.0.110:8080';
+  static String get target => 'http://192.168.1.101:8080';
   static String get adminTarget => target + '/admin';
   static String get estateTarget => target + '/estate';
   static String get userTarget => target + '/user';
@@ -21,9 +21,16 @@ abstract class HttpService {
   static String getEstateMainPicture(int id) =>
       target + '/estate/mainpicture/' + id.toString();
   static String getEstateMedia(int estateId, int mediaId) =>
-      target + '/estate/media/' + estateId.toString() + mediaId.toString();
-  static String getEstateMediaInfo(int estateId) =>
-      target + '/estate/media/' + estateId.toString();
+      target +
+      '/estate/media/' +
+      estateId.toString() +
+      "/" +
+      mediaId.toString();
+  static Future<http.Response> getEstateMediaInfo(int estateId) async {
+    return await http
+        .get(Uri.parse(target + '/estate/media/' + estateId.toString()));
+  }
+
   static Future<http.Response> validateUser(String id, String password) async {
     return await http.post(
       Uri.parse(adminTarget + "/validate"),

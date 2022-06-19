@@ -1,11 +1,12 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
-import 'package:emtalik/etc/enums.dart';
+import 'dart:convert';
+
 import 'package:emtalik/etc/http_service.dart';
-import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
+import 'package:emtalik/models/estate_response.dart';
+import 'package:emtalik/models/media_response.dart';
 import 'package:emtalik/models/parking.dart';
-import 'package:emtalik/pages/mainpage.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -30,6 +31,17 @@ class _ParkingDisplay extends State<ParkingDisplay> {
 
   int id;
   late Future<Parking> parking;
+  late List<MediaResponse> media = List.empty(growable: true);
+  void getMediaInfo() async {
+    var response = await HttpService.getEstateMediaInfo(id);
+    var mediaInfoString = jsonDecode(response.body);
+    for (var media in mediaInfoString) {
+      this.media.add(MediaResponse.fromJson(media));
+    }
+    for (var someshit in this.media) {
+      debugPrint("ID : " + someshit.id.toString());
+    }
+  }
 
   Future<Parking> getParking() async {
     var response = await HttpService.getEstateByTypeAndId("parking", id);
@@ -41,6 +53,7 @@ class _ParkingDisplay extends State<ParkingDisplay> {
   void initState() {
     super.initState();
     parking = getParking();
+    getMediaInfo();
   }
 
   @override
@@ -199,18 +212,18 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                   child: Icon(FontAwesomeIcons.circleDot)),
                               const SizedBox(width: 5),
                               Container(
-                                 margin:
-                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                            alignment: Alignment.centerLeft,
+                                margin: EdgeInsets.only(
+                                    left: 20, bottom: 5, top: 10),
+                                alignment: Alignment.centerLeft,
                                 child: Text(parking.carsAllowd!
                                     .split(",")[index]
                                     .i18n()),
                               ),
                               SizedBox(width: 5),
                               Container(
-                                 margin:
-                                EdgeInsets.only(left: 5, bottom: 5, top: 10),
-                            alignment: Alignment.centerLeft,
+                                margin: EdgeInsets.only(
+                                    left: 5, bottom: 5, top: 10),
+                                alignment: Alignment.centerLeft,
                                 child: Icon(parking.carsAllowd!
                                             .split(",")[index] ==
                                         "automobile"
@@ -234,117 +247,32 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                       ),
                       Container(
                         height: 200,
-                        child: ListView(
+                        child: ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          children: [
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          parking.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          parking.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          parking.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          parking.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          parking.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          parking.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          parking.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                          ],
+                          itemCount: media.length,
+                          itemBuilder: (context, index) {
+                            return Wrap(
+                              children: [
+                                ClipOval(
+                                  child:
+                                      media[index].contentType.split("/")[0] ==
+                                              "image"
+                                          ? Image.network(
+                                              HttpService.getEstateMedia(
+                                                  id, media[index].id),
+                                              width: 150,
+                                            )
+                                          : Wrap(),
+                                ),
+                                SizedBox(width: 12),
+                              ],
+                            );
+                          },
                         ),
-                      )
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
                 ),
