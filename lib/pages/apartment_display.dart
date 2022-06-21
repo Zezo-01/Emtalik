@@ -1,13 +1,20 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/house.dart';
+import 'package:emtalik/models/media_response.dart';
+import 'package:emtalik/pages/image_display.dart';
+import 'package:emtalik/pages/video_display.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class ApartmentDisplay extends StatefulWidget {
   ApartmentDisplay({
@@ -27,6 +34,26 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
 
   int id;
   late Future<House> house;
+  Uint8List? thumb;
+  late Future<List<MediaResponse>> media;
+  Future<List<MediaResponse>> getMediaInfo() async {
+    var response = await HttpService.getEstateMediaInfo(id);
+
+    var mediaInfoString = jsonDecode(response.body);
+
+    List<MediaResponse> result = List.empty(growable: true);
+    for (var media in mediaInfoString) {
+      result.add(MediaResponse.fromJson(media));
+    }
+    return result;
+  }
+
+  void getThumbNail(int estateId, int mediaId) async {
+    var result = await VideoThumbnail.thumbnailData(
+        video: HttpService.getEstateMedia(estateId, mediaId));
+
+    thumb = result;
+  }
 
   Future<House> getHouse() async {
     var response = await HttpService.getEstateByTypeAndId("apartment", id);
@@ -225,119 +252,118 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                           Text("number-of-rooms".i18n()),
                         ],
                       ),
-                      Container(
-                        height: 200,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          children: [
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          house.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          house.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          house.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          house.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          house.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          house.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                            ClipOval(
-                              child: Provider.of<UserSession>(context).picture
-                                  ? Image.network(
-                                      HttpService.getProfilePictureRoute(
-                                          house.ownerId),
-                                      width: 150,
-                                    )
-                                  : Image.asset(
-                                      "assets/user/default_pfp.png",
-                                      width: 150,
-                                    ),
-                            ),
-                            SizedBox(
-                              width: 12,
-                            ),
-                          ],
-                        ),
-                      )
+                      FutureBuilder(
+                        future: media,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else {
+                            List<MediaResponse> media =
+                                snapshot.data as List<MediaResponse>;
+                            return Container(
+                              height: 500,
+                              child: ListView.builder(
+                                shrinkWrap: false,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: media.length,
+                                itemBuilder: (context, index) {
+                                  if (media[index].contentType.split("/")[0] !=
+                                      "image") {
+                                    getThumbNail(id, media[index].id);
+                                  }
+                                  return Wrap(
+                                    children: [
+                                      ClipOval(
+                                        child: media[index]
+                                                    .contentType
+                                                    .split("/")[0] ==
+                                                "image"
+                                            ? TextButton(
+                                                child: Image.network(
+                                                  HttpService.getEstateMedia(
+                                                      id, media[index].id),
+                                                  fit: BoxFit.cover,
+                                                  width: 250,
+                                                  height: 500,
+                                                ),
+                                                onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          ImageDisplay(
+                                                              link: HttpService
+                                                                  .getEstateMedia(
+                                                                      id,
+                                                                      media[index]
+                                                                          .id)),
+                                                    ),
+                                                  );
+                                                },
+                                              )
+                                            : FutureBuilder(
+                                                future: VideoThumbnail
+                                                    .thumbnailData(
+                                                        video: HttpService
+                                                            .getEstateMedia(
+                                                                id,
+                                                                media[index]
+                                                                    .id)),
+                                                builder: (context, snapshot) {
+                                                  if (snapshot
+                                                          .connectionState ==
+                                                      ConnectionState.waiting) {
+                                                    return CircularProgressIndicator();
+                                                  } else if (snapshot
+                                                      .hasError) {
+                                                    return Wrap();
+                                                  } else {
+                                                    return TextButton(
+                                                      child: Stack(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        children: [
+                                                          Image.memory(
+                                                            thumb!,
+                                                            fit: BoxFit.cover,
+                                                            width: 250,
+                                                            height: 500,
+                                                          ),
+                                                          CircleAvatar(
+                                                            radius: 30,
+                                                            backgroundColor:
+                                                                Colors.black54,
+                                                            child: Icon(Icons
+                                                                .play_arrow),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      onPressed: () {
+                                                        Navigator.push(
+                                                            context,
+                                                            MaterialPageRoute(
+                                                                builder:
+                                                                    ((context) =>
+                                                                        DisplayVideo(
+                                                                          link: HttpService.getEstateMedia(
+                                                                              id,
+                                                                              media[index].id),
+                                                                        ))));
+                                                      },
+                                                    );
+                                                  }
+                                                },
+                                              ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            );
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),
