@@ -1,7 +1,10 @@
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/offer.dart';
+import 'package:emtalik/pages/apartment_display.dart';
+import 'package:emtalik/pages/land_display.dart';
 import 'package:emtalik/pages/parking_display.dart';
+import 'package:emtalik/pages/store_display.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:localization/localization.dart';
@@ -80,6 +83,34 @@ class _DisplayOfferState extends State<DisplayOffer> {
                             MaterialPageRoute(
                                 builder: (context) =>
                                     ParkingDisplay(id: offer.estateId ?? 0)));
+                      } else if (offer.estateType == "apartment") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ApartmentDisplay(
+                              id: offer.estateId ?? 0,
+                            ),
+                          ),
+                        );
+                      } else if (offer.estateType == "house") {
+                      } else if (offer.estateType == "store") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => StoreDisplay(
+                              id: offer.estateId ?? 0,
+                            ),
+                          ),
+                        );
+                      } else if (offer.estateType == "land") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LandDisplay(
+                              id: offer.estateId ?? 0,
+                            ),
+                          ),
+                        );
                       }
                     },
                     child: Row(
