@@ -127,5 +127,7 @@
     "owner":"Property owner",
     "offer-type":"Offer type",
     "yes":"Yes",
-    "no":"No"
+    "no":"No",
+    "edit-estate":"Edit Estate",
+    "delete-estate":"Delete Estate"
 }

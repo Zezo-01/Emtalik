@@ -5,6 +5,7 @@ import 'dart:typed_data';
 
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/utils.dart';
+import 'package:emtalik/models/apartment.dart';
 import 'package:emtalik/models/house.dart';
 import 'package:emtalik/models/media_response.dart';
 import 'package:emtalik/pages/image_display.dart';
@@ -33,7 +34,7 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
   });
 
   int id;
-  late Future<House> house;
+  late Future<Apartment> apartment;
   Uint8List? thumb;
   late Future<List<MediaResponse>> media;
   Future<List<MediaResponse>> getMediaInfo() async {
@@ -55,22 +56,22 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
     thumb = result;
   }
 
-  Future<House> getHouse() async {
+  Future<Apartment> getAppartment() async {
     var response = await HttpService.getEstateByTypeAndId("apartment", id);
 
-    return House.fromRawJson(response.body);
+    return Apartment.fromRawJson(response.body);
   }
 
   @override
   void initState() {
     super.initState();
-    house = getHouse();
+    apartment = getAppartment();
   }
 
   @override
   Widget build(BuildContext context) => SafeArea(
         child: FutureBuilder(
-          future: house,
+          future: apartment,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -123,24 +124,24 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                               children: [
                                 Container(
                                   margin: EdgeInsets.only(right: 5),
-                                  child: ClipOval(
-                                    child: Provider.of<UserSession>(context)
-                                            .picture
-                                        ? Image.network(
-                                            HttpService.getProfilePictureRoute(
-                                                house.ownerId),
-                                            width: 35,
-                                          )
-                                        : Image.asset(
-                                            "assets/user/default_pfp.png",
-                                            width: 35,
-                                          ),
-                                  ),
+                                  // child: ClipOval(
+                                  //   child: Provider.of<UserSession>(context)
+                                  //           .picture
+                                  //       ? Image.network(
+                                  //           HttpService.getProfilePictureRoute(
+                                  //               apartment.ownerId),
+                                  //           width: 35,
+                                  //         )
+                                  //       : Image.asset(
+                                  //           "assets/user/default_pfp.png",
+                                  //           width: 35,
+                                  //         ),
+                                  // ),
                                 ),
-                                Text(
-                                  decodeUtf8ToString(house.ownerUserName),
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
+                                // Text(
+                                //   decodeUtf8ToString(apartment.ownerUserName),
+                                //   style: Theme.of(context).textTheme.bodyText2,
+                                // ),
                                 const SizedBox(width: 20),
                                 Text("owner".i18n()),
                               ],
@@ -157,12 +158,12 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              house.province.i18n() +
-                                  ", " +
-                                  decodeUtf8ToString(house.province),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                            // child: Text(
+                            //   house.province.i18n() +
+                            //       ", " +
+                            //       decodeUtf8ToString(apartment.province),
+                            //   style: Theme.of(context).textTheme.bodyMedium,
+                            // ),
                           ),
                         ],
                       ),
@@ -177,12 +178,12 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              house.address.i18n() +
-                                  ", " +
-                                  decodeUtf8ToString(house.address),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                            // child: Text(
+                            //   house.address.i18n() +
+                            //       ", " +
+                            //       decodeUtf8ToString(apartment.address),
+                            //   style: Theme.of(context).textTheme.bodyMedium,
+                            // ),
                           ),
                         ],
                       ),
@@ -197,10 +198,10 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              house.size.toString().i18n(),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                            // child: Text(
+                            //   apartment.size.toString().i18n(),
+                            //   style: Theme.of(context).textTheme.bodyMedium,
+                            // ),
                           ),
                           SizedBox(
                             width: 10,
@@ -219,10 +220,10 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              house.numberOfFloors.toString().i18n(),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                            // child: Text(
+                            //   apartment.numberOfFloors.toString().i18n(),
+                            //   style: Theme.of(context).textTheme.bodyMedium,
+                            // ),
                           ),
                           SizedBox(
                             width: 10,
@@ -241,15 +242,15 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              house.rooms.toString().i18n(),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+                            // child: Text(
+                            //   apartment.apartmentNumber.toString().i18n(),
+                            //   style: Theme.of(context).textTheme.bodyMedium,
+                            // ),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Text("number-of-rooms".i18n()),
+                          Text("apartment-number".i18n()),
                         ],
                       ),
                       FutureBuilder(
@@ -363,6 +364,27 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                             );
                           }
                         },
+                      ),
+                              Row(
+                        children: [
+                           Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed('/editpage');
+                              },
+                              child: Text("edit-estate".i18n()),
+                            ),
+                            SizedBox(width: 15,),
+                            TextButton(
+                              onPressed: () {},
+                              child: Text("delete-estate".i18n()),
+                            ),
+                          ],
+                        ),
+
+                        ],
+                        
                       ),
                     ],
                   ),

@@ -5,8 +5,8 @@ import 'dart:typed_data';
 
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/utils.dart';
+import 'package:emtalik/models/house.dart';
 import 'package:emtalik/models/media_response.dart';
-import 'package:emtalik/models/store.dart';
 import 'package:emtalik/pages/image_display.dart';
 import 'package:emtalik/pages/video_display.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -16,25 +16,24 @@ import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
 
-class StoreDisplay extends StatefulWidget {
-  StoreDisplay({
+class HouseDisplay extends StatefulWidget {
+  HouseDisplay({
     Key? key,
     required this.id,
   }) : super(key: key);
   int id;
 
   @override
-  State<StatefulWidget> createState() => _StoreDisplay(id: id);
+  State<StatefulWidget> createState() => _HouseDisplay(id: id);
 }
 
-class _StoreDisplay extends State<StoreDisplay> {
-  _StoreDisplay({
+class _HouseDisplay extends State<HouseDisplay> {
+  _HouseDisplay({
     required this.id,
   });
 
   int id;
-  late Future<Store> store;
-
+  late Future<House> house;
   Uint8List? thumb;
   late Future<List<MediaResponse>> media;
   Future<List<MediaResponse>> getMediaInfo() async {
@@ -56,27 +55,27 @@ class _StoreDisplay extends State<StoreDisplay> {
     thumb = result;
   }
 
-  Future<Store> getStore() async {
-    var response = await HttpService.getEstateByTypeAndId("store", id);
+  Future<House> getHouse() async {
+    var response = await HttpService.getEstateByTypeAndId("apartment", id);
 
-    return Store.fromRawJson(response.body);
+    return House.fromRawJson(response.body);
   }
 
   @override
   void initState() {
     super.initState();
-    store = getStore();
+    house = getHouse();
   }
 
   @override
   Widget build(BuildContext context) => SafeArea(
         child: FutureBuilder(
-          future: store,
+          future: house,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
             } else {
-              var store = snapshot.data as Store;
+              var house = snapshot.data as House;
               return Scaffold(
                 appBar: AppBar(
                   shape: RoundedRectangleBorder(
@@ -94,7 +93,7 @@ class _StoreDisplay extends State<StoreDisplay> {
                   title: Container(
                       margin: EdgeInsets.only(top: 30),
                       child: Text(
-                        decodeUtf8ToString(store.name),
+                        decodeUtf8ToString(house.name),
                         style: Theme.of(context).textTheme.bodyMedium,
                       )),
                   leading: IconButton(
@@ -111,7 +110,7 @@ class _StoreDisplay extends State<StoreDisplay> {
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(top: 10),
                         child: Image.network(
-                          HttpService.getEstateMainPicture(store.id),
+                          HttpService.getEstateMainPicture(house.id),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -129,7 +128,7 @@ class _StoreDisplay extends State<StoreDisplay> {
                                             .picture
                                         ? Image.network(
                                             HttpService.getProfilePictureRoute(
-                                                store.ownerId),
+                                                house.ownerId),
                                             width: 35,
                                           )
                                         : Image.asset(
@@ -139,7 +138,7 @@ class _StoreDisplay extends State<StoreDisplay> {
                                   ),
                                 ),
                                 Text(
-                                  decodeUtf8ToString(store.ownerUserName),
+                                  decodeUtf8ToString(house.ownerUserName),
                                   style: Theme.of(context).textTheme.bodyText2,
                                 ),
                                 const SizedBox(width: 20),
@@ -159,9 +158,9 @@ class _StoreDisplay extends State<StoreDisplay> {
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              store.province.i18n() +
+                              house.province.i18n() +
                                   ", " +
-                                  decodeUtf8ToString(store.province),
+                                  decodeUtf8ToString(house.province),
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
@@ -179,9 +178,9 @@ class _StoreDisplay extends State<StoreDisplay> {
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              store.address.i18n() +
+                              house.address.i18n() +
                                   ", " +
-                                  decodeUtf8ToString(store.address),
+                                  decodeUtf8ToString(house.address),
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
@@ -199,7 +198,7 @@ class _StoreDisplay extends State<StoreDisplay> {
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              store.size.toString().i18n(),
+                              house.size.toString().i18n(),
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
@@ -215,20 +214,42 @@ class _StoreDisplay extends State<StoreDisplay> {
                               margin: EdgeInsets.only(
                                 left: 20,
                               ),
-                              child: FaIcon(FontAwesomeIcons.accessibleIcon)),
+                              child: FaIcon(FontAwesomeIcons.houseFloodWater)),
                           Container(
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              store.fridges.toString().i18n(),
+                              house.numberOfFloors.toString().i18n(),
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
                           SizedBox(
                             width: 10,
                           ),
-                          Text("fridges-number".i18n()),
+                          Text("number-of-floors".i18n()),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(
+                                left: 20,
+                              ),
+                              child: FaIcon(FontAwesomeIcons.restroom)),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              house.rooms.toString().i18n(),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text("number-of-rooms".i18n()),
                         ],
                       ),
                       FutureBuilder(
@@ -334,29 +355,7 @@ class _StoreDisplay extends State<StoreDisplay> {
                                                   }
                                                 },
                                               ),
-                                              
                                       ),
-                                              Row(
-                        children: [
-                           Column(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed('/editpage');
-                              },
-                              child: Text("edit-estate".i18n()),
-                            ),
-                            SizedBox(width: 15,),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text("delete-estate".i18n()),
-                            ),
-                          ],
-                        ),
-
-                        ],
-                        
-                      ),
                                     ],
                                   );
                                 },

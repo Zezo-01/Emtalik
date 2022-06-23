@@ -373,6 +373,27 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                       const SizedBox(
                         height: 20,
                       ),
+                      Row(
+                        children: [
+                           Column(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pushNamed('/editpage');
+                              },
+                              child: Text("edit-estate".i18n()),
+                            ),
+                            SizedBox(width: 15,),
+                            TextButton(
+                              onPressed: () {},
+                              child: Text("delete-estate".i18n()),
+                            ),
+                          ],
+                        ),
+
+                        ],
+                        
+                      ),
                     ],
                   ),
                 ),

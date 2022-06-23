@@ -285,6 +285,7 @@ class _DisplayOfferState extends State<DisplayOffer> {
                       ),
                     ],
                   ),
+
                 ],
               )),
             );
