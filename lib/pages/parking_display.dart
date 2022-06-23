@@ -10,6 +10,7 @@ import 'package:emtalik/models/parking.dart';
 import 'package:emtalik/pages/image_display.dart';
 import 'package:emtalik/pages/video_display.dart';
 import 'package:emtalik/providers/user_session.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:localization/localization.dart';
@@ -375,24 +376,53 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                       ),
                       Row(
                         children: [
-                           Column(
-                          children: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pushNamed('/editpage');
-                              },
-                              child: Text("edit-estate".i18n()),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Column(
+                              children: [
+                                TextButton(
+                                  onPressed: () {
+                                    openFeedback();
+                                  },
+                                  child: Text("give-feedback".i18n()),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 15,),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text("delete-estate".i18n()),
-                            ),
-                          ],
-                        ),
-
+                          ),
                         ],
-                        
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Row(
+                        children: [
+                          Column(
+                            children: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pushNamed('/editpage');
+                                },
+                                child: Text("edit-estate".i18n()),
+                              ),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, bottom: 5, top: 10),
+                                alignment: Alignment.centerLeft,
+                                child: TextButton(
+                                  child: Text("delete-estate".i18n()),
+                                  onPressed: () {
+                                    openDialop();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
@@ -402,4 +432,27 @@ class _ParkingDisplay extends State<ParkingDisplay> {
           },
         ),
       );
+  Future openDialop() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text("delete-estate?".i18n()),
+            actions: [
+              ElevatedButton(onPressed: () {}, child: Text("yes".i18n())),
+              ElevatedButton(onPressed: () {Navigator.pop(context);
+              }, child: Text("no".i18n())),
+            ],
+          ));
+
+          Future openFeedback() => showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+            title: Text("feedback".i18n()),
+            content: TextField(
+              decoration: InputDecoration(hintText: 'FeedBack'),
+            ),
+            actions: [
+              ElevatedButton(onPressed: () {}, child: Text("submit".i18n())),
+             
+            ],
+          ));
 }
