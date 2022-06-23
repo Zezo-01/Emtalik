@@ -341,28 +341,6 @@ class _StoreDisplay extends State<StoreDisplay> {
                       ),
                       Row(
                         children: [
-                          Container(
-                            margin:
-                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                            alignment: Alignment.centerLeft,
-                            child: Column(
-                              children: [
-                                TextButton(
-                                  onPressed: () {
-                                    openFeedback();
-                                  },
-                                  child: Text("give-feedback".i18n()),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Row(
-                        children: [
                           Column(
                             children: [
                               TextButton(
@@ -414,18 +392,5 @@ class _StoreDisplay extends State<StoreDisplay> {
               ElevatedButton(onPressed: () {Navigator.pop(context);
               }, child: Text("no".i18n())),
             ],
-          ));
-
-          Future openFeedback() => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: Text("feedback".i18n()),
-            content: TextField(
-              decoration: InputDecoration(hintText: 'FeedBack'),
-            ),
-            actions: [
-              ElevatedButton(onPressed: () {}, child: Text("submit".i18n())),
-             
-            ],
-          ));
+      ));
 }
