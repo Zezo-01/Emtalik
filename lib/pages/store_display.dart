@@ -296,6 +296,7 @@ class _StoreDisplay extends State<StoreDisplay> {
                                                     return CircularProgressIndicator();
                                                   } else if (snapshot
                                                       .hasError) {
+                                                    setState(() {});
                                                     return Wrap();
                                                   } else {
                                                     return TextButton(
@@ -334,39 +335,43 @@ class _StoreDisplay extends State<StoreDisplay> {
                                                   }
                                                 },
                                               ),
-                                              
                                       ),
-                                   const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/editpage');
-                                },
-                                child: Text("edit-estate".i18n()),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 20, bottom: 5, top: 10),
-                                alignment: Alignment.centerLeft,
-                                child: TextButton(
-                                  child: Text("delete-estate".i18n()),
-                                  onPressed: () {
-                                    openDialop();
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                                      const SizedBox(
+                                        height: 20,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Column(
+                                            children: [
+                                              TextButton(
+                                                onPressed: () {
+                                                  Navigator.of(context)
+                                                      .pushNamed('/editpage');
+                                                },
+                                                child:
+                                                    Text("edit-estate".i18n()),
+                                              ),
+                                              SizedBox(
+                                                height: 15,
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(
+                                                    left: 20,
+                                                    bottom: 5,
+                                                    top: 10),
+                                                alignment: Alignment.centerLeft,
+                                                child: TextButton(
+                                                  child: Text(
+                                                      "delete-estate".i18n()),
+                                                  onPressed: () {
+                                                    openDialop();
+                                                  },
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ],
                                   );
                                 },
@@ -383,14 +388,17 @@ class _StoreDisplay extends State<StoreDisplay> {
           },
         ),
       );
-      Future openDialop() => showDialog(
+  Future openDialop() => showDialog(
       context: context,
       builder: (context) => AlertDialog(
             title: Text("delete-estate?".i18n()),
             actions: [
               ElevatedButton(onPressed: () {}, child: Text("yes".i18n())),
-              ElevatedButton(onPressed: () {Navigator.pop(context);
-              }, child: Text("no".i18n())),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("no".i18n())),
             ],
-      ));
+          ));
 }

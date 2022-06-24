@@ -275,6 +275,7 @@ class _LandDisplay extends State<LandDisplay> {
                                                     return CircularProgressIndicator();
                                                   } else if (snapshot
                                                       .hasError) {
+                                                    setState(() {});
                                                     return Wrap();
                                                   } else {
                                                     return TextButton(
