@@ -84,16 +84,11 @@ class _ParkingDisplay extends State<ParkingDisplay> {
               return Scaffold(
                 appBar: AppBar(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(1000),
-                      bottomRight: Radius.circular(1000),
-                    ),
-                    side: BorderSide(
-                        width: 3,
-                        color: parking.approved
-                            ? Colors.black
-                            : Theme.of(context).colorScheme.error),
-                  ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(1000),
+                        bottomRight: Radius.circular(1000),
+                      ),
+                      side: BorderSide(width: 3, color: Colors.black)),
                   bottom: PreferredSize(
                       preferredSize: Size.fromHeight(20), child: SizedBox()),
                   backgroundColor:
@@ -156,66 +151,6 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                               ],
                             ),
                           )),
-                      Provider.of<UserSession>(context).role == "admin"
-                          ? Row(
-                              children: [
-                                Container(
-                                    margin: EdgeInsets.only(
-                                      left: 20,
-                                    ),
-                                    child: FaIcon(parking.approved
-                                        ? FontAwesomeIcons.check
-                                        : FontAwesomeIcons.x)),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 20, bottom: 5, top: 10),
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    "approval".i18n(),
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 20, bottom: 5, top: 10),
-                                  alignment: Alignment.centerLeft,
-                                  child: parking.approved
-                                      ? Text(
-                                          "yes".i18n(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        )
-                                      : Text(
-                                          "no".i18n(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                ),
-                                ElevatedButton(
-                                    onPressed: () async {
-                                      var response = await HttpService
-                                          .toggleEstateApproval(id);
-                                      if (response.statusCode == 200) {
-                                        // TODO REBUILD
-                                      } else {
-                                        ToastFactory.makeToast(
-                                            context,
-                                            TOAST_TYPE.warning,
-                                            null,
-                                            "error".i18n(),
-                                            false,
-                                            () {});
-                                      }
-                                    },
-                                    child: parking.approved
-                                        ? Text("not-approve?".i18n())
-                                        : Text("approve?".i18n())),
-                              ],
-                            )
-                          : Wrap(),
                       Row(
                         children: [
                           Container(
@@ -439,56 +374,6 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                           }
                         },
                       ),
-<<<<<<< HEAD
-                      const SizedBox(
-                        height: 20,
-                      ),
-                          Row(
-                          children: [
-                            Column(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pushNamed('/editpage');
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),
-                                  child: Text("edit-estate".i18n()),
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 20, bottom: 5, top: 10),
-                                  alignment: Alignment.centerLeft,
-                                  child: ElevatedButton(
-                                     style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),
-                                    child: Text("delete-estate".i18n()),
-                                    onPressed: () {
-                                      openDialop();
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      
-=======
                       const SizedBox(height: 30),
                       Container(
                         margin:
@@ -631,7 +516,6 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                           ],
                         ),
                       ),
->>>>>>> c6f4abadd7aa2f47584e9051077481f23e865b2f
                     ],
                   ),
                 ),
