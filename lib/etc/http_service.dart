@@ -182,9 +182,4 @@ abstract class HttpService {
       body: {"estateId": id.toString()},
     );
   }
-
-  static Future<http.Response> toggleEstateApproval(int id) {
-    return http.put(Uri.parse(adminTarget + "/approve"),
-        body: {"estateId": id.toString()});
-  }
 }

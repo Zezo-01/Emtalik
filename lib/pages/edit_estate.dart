@@ -1,7 +1,9 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
+import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
+import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/parking.dart';
@@ -101,7 +103,7 @@ class _EditEstate extends State<EditEstate> {
                             alignment: Alignment.centerLeft,
                             child: Column(
                               children: [
-                                Text("Enter New Name"),
+                                Text("Enter New Name :-"),
                                 SizedBox(width: 10,),
                                 CustomFormField(labelText:"Enter New Name"),
                               ],
@@ -122,7 +124,7 @@ class _EditEstate extends State<EditEstate> {
                             alignment: Alignment.centerLeft,
                             child: Column(
                               children: [
-                                Text("Enter New Address"),
+                                Text("Enter New Address :-"),
                                 SizedBox(width: 10,),
                                 CustomFormField(labelText:"Enter New Address"),
                               ],
@@ -143,9 +145,30 @@ class _EditEstate extends State<EditEstate> {
                             alignment: Alignment.centerLeft,
                               child: Column(
                               children: [
-                                Text("Enter New Province"),
+                                Text("Enter New Province :-"),
                                 SizedBox(width: 10,),
                                 CustomFormField(labelText:"Enter New Province"),
+                              ],
+                            ))
+                        ],
+                      ),
+
+                      Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(
+                                left: 20,
+                              ),
+                              child: FaIcon(FontAwesomeIcons.squareParking)),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                              child: Column(
+                              children: [
+                                Text("Enter New Size :-"),
+                                SizedBox(width: 10,),
+                                CustomFormField(labelText:"Enter New Size"),
                               ],
                             ))
                         ],
@@ -157,20 +180,112 @@ class _EditEstate extends State<EditEstate> {
                           children: [
                             Column(
                               children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    openDialop();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),
-                                  child: Text("Save".i18n()),
-                                ),
+                                ElevatedButton.icon(
+                              icon: Icon(Icons.save),
+                              label: Text("save-changes".i18n()),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context).colorScheme.secondary),
+                              ),
+                              onPressed: () {
+                                showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                              "save-changes".i18n(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelMedium,
+                                            ),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  child: Text(
+                                                    "estate-change-confirmation"
+                                                        .i18n(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    ElevatedButton(
+                                                      onPressed: () async {
+                                                        var response =
+                                                            await HttpService
+                                                                .deleteEstateById(
+                                                                    id);
+                                                        if (response
+                                                                .statusCode ==
+                                                            200) {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator
+                                                              .popAndPushNamed(
+                                                                  context,
+                                                                  "mainpage");
+                                                        } else {
+                                                          Navigator.pop(
+                                                              context);
+                                                          ToastFactory
+                                                              .makeToast(
+                                                                  context,
+                                                                  TOAST_TYPE
+                                                                      .warning,
+                                                                  null,
+                                                                  "error"
+                                                                      .i18n(),
+                                                                  false,
+                                                                  () {});
+                                                        }
+                                                      },
+                                                      child: Text("yes".i18n(),
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2),
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .error)),
+                                                    ),
+                                                    OutlinedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        "no".i18n(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2,
+                                                      ),
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                              },
+                            ),
                                 SizedBox(
                                   height: 15,
                                 ),
