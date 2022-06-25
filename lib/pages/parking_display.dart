@@ -432,7 +432,8 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                         },
                       ),
                       const SizedBox(height: 30),
-                      Provider.of<UserSession>(context, listen: false).id == id
+                      Provider.of<UserSession>(context, listen: false).id ==
+                              parking.ownerId
                           ? Container(
                               margin: EdgeInsets.only(
                                   left: 10, right: 10, bottom: 10),
