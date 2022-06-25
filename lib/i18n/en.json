@@ -131,8 +131,8 @@
     "edit-estate":"Edit Estate",
     "delete-estate":"Delete Estate",
     "estate-delete-confirmation":"Are you sure you want to delete this estate?",
-    "approval":"الموافقة",
-    "approve?":"موافقة عليها ؟",
-    "not-approve?":"حذف الوافقة ؟"
+    "approval":"Approval",
+    "approve?":"Approve ? ",
+    "not-approve?":"Remove approval ?"
    
 }

@@ -37,7 +37,6 @@ class _ParkingDisplay extends State<ParkingDisplay> {
 
   int id;
 
-  Uint8List? thumb;
   late Future<Parking> parking;
   late Future<List<MediaResponse>> media;
 
@@ -53,11 +52,11 @@ class _ParkingDisplay extends State<ParkingDisplay> {
     return result;
   }
 
-  void getThumbNail(int estateId, int mediaId) async {
+  Future<Uint8List?> getThumbNail(int estateId, int mediaId) async {
     var result = await VideoThumbnail.thumbnailData(
         video: HttpService.getEstateMedia(estateId, mediaId));
 
-    thumb = result;
+    return result;
   }
 
   Future<Parking> getParking() async {
@@ -199,7 +198,9 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                       var response = await HttpService
                                           .toggleEstateApproval(id);
                                       if (response.statusCode == 200) {
-                                        // TODO REBUILD
+                                        setState(() {
+                                          this.parking = getParking();
+                                        });
                                       } else {
                                         ToastFactory.makeToast(
                                             context,
@@ -344,95 +345,91 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                 itemBuilder: (context, index) {
                                   if (media[index].contentType.split("/")[0] !=
                                       "image") {
-                                    getThumbNail(id, media[index].id);
-                                  }
-                                  return Wrap(
-                                    children: [
-                                      ClipOval(
-                                        child: media[index]
-                                                    .contentType
-                                                    .split("/")[0] ==
-                                                "image"
-                                            ? TextButton(
-                                                child: Image.network(
-                                                  HttpService.getEstateMedia(
-                                                      id, media[index].id),
-                                                  fit: BoxFit.cover,
-                                                  width: 250,
-                                                  height: 500,
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.push(
+                                    var future;
+                                    future = getThumbNail(id, media[index].id);
+                                    return FutureBuilder(
+                                      future: future,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Container(
+                                              width: 250,
+                                              height: 500,
+                                              child: Center(
+                                                  child:
+                                                      CircularProgressIndicator()));
+                                        } else if (snapshot.hasError) {
+                                          setState(() {
+                                            future = getThumbNail(
+                                                id, media[index].id);
+                                          });
+                                          return Wrap();
+                                        } else {
+                                          Uint8List? data =
+                                              snapshot.data as Uint8List?;
+                                          return ClipOval(
+                                            child: TextButton(
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Image.memory(
+                                                    data!,
+                                                    fit: BoxFit.cover,
+                                                    width: 250,
+                                                    height: 500,
+                                                  ),
+                                                  CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor:
+                                                        Colors.black54,
+                                                    child:
+                                                        Icon(Icons.play_arrow),
+                                                  )
+                                                ],
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ImageDisplay(
+                                                        builder: ((context) =>
+                                                            DisplayVideo(
                                                               link: HttpService
                                                                   .getEstateMedia(
                                                                       id,
                                                                       media[index]
-                                                                          .id)),
-                                                    ),
-                                                  );
-                                                },
-                                              )
-                                            : FutureBuilder(
-                                                future: VideoThumbnail
-                                                    .thumbnailData(
-                                                        video: HttpService
-                                                            .getEstateMedia(
-                                                                id,
-                                                                media[index]
-                                                                    .id)),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.waiting) {
-                                                    return CircularProgressIndicator();
-                                                  } else if (snapshot
-                                                      .hasError) {
-                                                    setState(() {});
-                                                    return Wrap();
-                                                  } else {
-                                                    return TextButton(
-                                                      child: Stack(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        children: [
-                                                          Image.memory(
-                                                            thumb!,
-                                                            fit: BoxFit.cover,
-                                                            width: 250,
-                                                            height: 500,
-                                                          ),
-                                                          CircleAvatar(
-                                                            radius: 30,
-                                                            backgroundColor:
-                                                                Colors.black54,
-                                                            child: Icon(Icons
-                                                                .play_arrow),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    ((context) =>
-                                                                        DisplayVideo(
-                                                                          link: HttpService.getEstateMedia(
-                                                                              id,
-                                                                              media[index].id),
-                                                                        ))));
-                                                      },
-                                                    );
-                                                  }
-                                                },
-                                              ),
+                                                                          .id),
+                                                            ))));
+                                              },
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  } else {
+                                    return ClipOval(
+                                      child: TextButton(
+                                        child: Image.network(
+                                          HttpService.getEstateMedia(
+                                              id, media[index].id),
+                                          fit: BoxFit.cover,
+                                          width: 250,
+                                          height: 500,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ImageDisplay(
+                                                      link: HttpService
+                                                          .getEstateMedia(id,
+                                                              media[index].id)),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    ],
-                                  );
+                                    );
+                                  }
                                 },
                               ),
                             );
@@ -589,17 +586,4 @@ class _ParkingDisplay extends State<ParkingDisplay> {
           },
         ),
       );
-  Future openDialop() => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: Text("delete-estate?".i18n()),
-            actions: [
-              ElevatedButton(onPressed: () {}, child: Text("yes".i18n())),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("no".i18n())),
-            ],
-          ));
 }
