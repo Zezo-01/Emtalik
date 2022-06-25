@@ -6,7 +6,6 @@ import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/estate_response.dart';
-import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/models/offer_registration.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';

@@ -176,6 +176,14 @@ abstract class HttpService {
     });
   }
 
+  static Future<http.Response> updateOffer(
+      OfferRegistration offer, int offerId) {
+    return http.put(Uri.parse(offerTarget + "/update"), body: {
+      "offerJson": offer.toRawJson(),
+      "offerId": offerId.toString(),
+    });
+  }
+
   static Future<http.Response> deleteEstateById(int id) {
     return http.delete(
       Uri.parse(estateTarget),
@@ -186,5 +194,12 @@ abstract class HttpService {
   static Future<http.Response> toggleEstateApproval(int id) {
     return http.put(Uri.parse(adminTarget + "/approve"),
         body: {"estateId": id.toString()});
+  }
+
+  static Future<http.Response> deleteOfferById(int id) {
+    return http.delete(
+      Uri.parse(offerTarget),
+      body: {"offerId": id.toString()},
+    );
   }
 }

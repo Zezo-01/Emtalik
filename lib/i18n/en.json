@@ -117,9 +117,9 @@
     "pick-estate":"Pick an estate for the offer",
     "rent":"Rent",
     "sell":"Sell",
-    "rent-per-month":"Rent per month",
-    "rent-per-year":"Rent per month",
-    "rent-per-seasson":"Rent per month",
+    "rent-per-month":"Month",
+    "rent-per-year":"Year",
+    "rent-per-seasson":"Season",
     "negotiable":"Negotiable price",
     "price":"Price",
     "submit":"Submit",
@@ -133,6 +133,10 @@
     "estate-delete-confirmation":"Are you sure you want to delete this estate?",
     "approval":"Approval",
     "approve?":"Approve ? ",
-    "not-approve?":"Remove approval ?"
+    "not-approve?":"Remove approval ?",
+    "delete-offer":"Delete offer",
+    "edit-offer":"Edit offer",
+    "offer-delete-confirmation":"Are you sure you want to delete this offer?",
+    "editing":"Editing"
    
 }

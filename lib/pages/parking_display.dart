@@ -508,7 +508,7 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                                           Navigator
                                                               .popAndPushNamed(
                                                                   context,
-                                                                  "mainpage");
+                                                                  "/mainpage");
                                                         } else {
                                                           Navigator.pop(
                                                               context);

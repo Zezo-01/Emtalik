@@ -117,9 +117,9 @@
     "pick-estate":"إختر عقار للعرض",
     "rent":"إستإجار",
     "sell":"بيع",
-    "rent-per-month":"الإستإجار الشهري",
-    "rent-per-year":"الإستإجار السنوي",
-    "rent-per-seasson":"الإستإجار للموسم",
+    "rent-per-month":"شهرياً",
+    "rent-per-year":"سنوياً",
+    "rent-per-seasson":"الموسم",
     "negotiable":"السعر قابل للنقاش",
     "price":"السعر",
     "submit":"إرسال",
@@ -130,8 +130,12 @@
     "no":"لا",
     "edit-estate":"عدل العقار",
     "delete-estate":"إحذف العقار",
-    "estate-delete-confirmation":"هل أنت متأكد من حذف هذا العقار؟",
+    "estate-delete-confirmation":"هل أنت متأكد من حذف العقار؟",
     "approval":"الموافقة",
     "approve?":"وافق على نشر العقار",
-    "not-approve?":"حذف الموافقة ؟"
+    "not-approve?":"حذف الموافقة ؟",
+    "delete-offer":"حذف العرض",
+    "edit-offer":"تعديل العرض",
+    "offer-delete-confirmation":"هل أنت متأكد من حذف العرض؟",
+    "editing":"تعديل"
 }
