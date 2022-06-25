@@ -18,6 +18,7 @@ class EditEstate extends StatefulWidget {
     required this.id,
   }) : super(key: key);
   int id;
+   late String province;
 
   @override
   State<StatefulWidget> createState() => _EditEstate(id: id);
@@ -29,6 +30,7 @@ class _EditEstate extends State<EditEstate> {
   });
 
   int id;
+  late String province;
   late Future<EstateResponse> estate;
 
 
@@ -41,6 +43,7 @@ class _EditEstate extends State<EditEstate> {
   void initState() {
     super.initState();
     estate = getEstate();
+    province = "";
   }
 
   @override
@@ -147,7 +150,65 @@ class _EditEstate extends State<EditEstate> {
                               children: [
                                 Text("Enter New Province :-"),
                                 SizedBox(width: 10,),
-                                CustomFormField(labelText:"Enter New Province"),
+                                DropdownButtonFormField<String>(
+                            onChanged: (value) {
+                              setState(() {
+                                province = value!;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "required-field".i18n();
+                              }
+                            },
+                            hint: Text("pick-province".i18n()),
+                            items: [
+                              DropdownMenuItem(
+                                child: Text("nablus".i18n()),
+                                value: "nablus",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("ramallah".i18n()),
+                                value: "ramallah",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("selfeet".i18n()),
+                                value: "selfeet",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("hebrone".i18n()),
+                                value: "hebrone",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("tubas".i18n()),
+                                value: "tubas",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("bethleem".i18n()),
+                                value: "bethleem",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("jenin".i18n()),
+                                value: "jenin",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("jericho".i18n()),
+                                value: "jericho",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("tulkarem".i18n()),
+                                value: "tulkarem",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("qalqilya".i18n()),
+                                value: "qalqilya",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("jerusalem".i18n()),
+                                value: "jerusalem",
+                              ),
+                            ],
+                          ),
                               ],
                             ))
                         ],
