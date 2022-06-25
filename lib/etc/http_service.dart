@@ -175,4 +175,11 @@ abstract class HttpService {
       "estateId": estateId.toString()
     });
   }
+
+  static Future<http.Response> deleteEstateById(int id) {
+    return http.delete(
+      Uri.parse(estateTarget),
+      body: {"estateId": id.toString()},
+    );
+  }
 }
