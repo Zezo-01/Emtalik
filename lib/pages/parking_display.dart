@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 import 'dart:typed_data';
+import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
+import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/media_response.dart';
@@ -372,6 +374,7 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                           }
                         },
                       ),
+<<<<<<< HEAD
                       const SizedBox(
                         height: 20,
                       ),
@@ -420,6 +423,150 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                           ],
                         ),
                       
+=======
+                      const SizedBox(height: 30),
+                      Container(
+                        margin:
+                            EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // Provider.of<UserSession>(context, listen: false)
+                            //
+                            //          .id ==
+                            //         id
+                            //     ?
+                            ElevatedButton.icon(
+                              icon: Icon(Icons.edit),
+                              label: Text("edit-estate".i18n()),
+                              style: ButtonStyle(
+                                backgroundColor: MaterialStateProperty.all(
+                                    Theme.of(context).colorScheme.secondary),
+                              ),
+                              onPressed: () {
+                                // TODO MAKE EDIT PAGES
+                              },
+                            )
+                            // :  Wrap()
+
+                            ,
+                            Provider.of<UserSession>(context, listen: false)
+                                        .id ==
+                                    id
+                                ? ElevatedButton.icon(
+                                    icon: Icon(Icons.delete_forever),
+                                    label: Text("delete-estate".i18n()),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .error),
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                              "delete-estate".i18n(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelMedium,
+                                            ),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  child: Text(
+                                                    "estate-delete-confirmation"
+                                                        .i18n(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    ElevatedButton(
+                                                      onPressed: () async {
+                                                        var response =
+                                                            await HttpService
+                                                                .deleteEstateById(
+                                                                    id);
+                                                        if (response
+                                                                .statusCode ==
+                                                            200) {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator
+                                                              .popAndPushNamed(
+                                                                  context,
+                                                                  "mainpage");
+                                                        } else {
+                                                          Navigator.pop(
+                                                              context);
+                                                          ToastFactory
+                                                              .makeToast(
+                                                                  context,
+                                                                  TOAST_TYPE
+                                                                      .warning,
+                                                                  null,
+                                                                  "error"
+                                                                      .i18n(),
+                                                                  false,
+                                                                  () {});
+                                                        }
+                                                      },
+                                                      child: Text("yes".i18n(),
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2),
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .error)),
+                                                    ),
+                                                    OutlinedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        "no".i18n(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2,
+                                                      ),
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  )
+                                : Wrap(),
+                          ],
+                        ),
+                      ),
+>>>>>>> c6f4abadd7aa2f47584e9051077481f23e865b2f
                     ],
                   ),
                 ),

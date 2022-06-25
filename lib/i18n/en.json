@@ -129,6 +129,7 @@
     "yes":"Yes",
     "no":"No",
     "edit-estate":"Edit Estate",
-    "delete-estate":"Delete Estate"
+    "delete-estate":"Delete Estate",
+    "estate-delete-confirmation":"Are you sure you want to delete this estate?"
    
 }

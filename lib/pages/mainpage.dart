@@ -38,7 +38,7 @@ class _MyHomePage extends State<MyHomePage> {
 
   Future<List<EstateResponse>> getEstates() async {
     List<EstateResponse> estates = List.empty(growable: true);
-    http.Response estateResponse = await HttpService.getEstates();
+    http.Response estateResponse = await HttpService.getApprovedEstates();
     var estatesList = jsonDecode(estateResponse.body);
     if (estatesList.isNotEmpty) {
       for (var estate in estatesList) {
