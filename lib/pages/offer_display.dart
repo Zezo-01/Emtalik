@@ -2,6 +2,7 @@ import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/pages/apartment_display.dart';
+import 'package:emtalik/pages/house_display.dart';
 import 'package:emtalik/pages/land_display.dart';
 import 'package:emtalik/pages/parking_display.dart';
 import 'package:emtalik/pages/store_display.dart';
@@ -93,6 +94,14 @@ class _DisplayOfferState extends State<DisplayOffer> {
                           ),
                         );
                       } else if (offer.estateType == "house") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => HouseDisplay(
+                              id: offer.estateId ?? 0,
+                            ),
+                          ),
+                        );
                       } else if (offer.estateType == "store") {
                         Navigator.push(
                           context,
@@ -285,7 +294,6 @@ class _DisplayOfferState extends State<DisplayOffer> {
                       ),
                     ],
                   ),
-
                 ],
               )),
             );

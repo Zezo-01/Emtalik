@@ -318,6 +318,7 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                                                     return CircularProgressIndicator();
                                                   } else if (snapshot
                                                       .hasError) {
+                                                    setState(() {});
                                                     return Wrap();
                                                   } else {
                                                     return TextButton(
@@ -368,33 +369,35 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pushNamed('/editpage');
-                                },
-                                child: Text("edit-estate".i18n()),
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    left: 20, bottom: 5, top: 10),
-                                alignment: Alignment.centerLeft,
-                                child: TextButton(
-                                  child: Text("delete-estate".i18n()),
+                      Column(
+                        children: [ Row(
+                          children: [
+                            Column(
+                              children: [
+                                TextButton(
                                   onPressed: () {
-                                    openDialop();
+                                    Navigator.of(context).pushNamed('/editpage');
                                   },
+                                  child: Text("edit-estate".i18n()),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, bottom: 5, top: 10),
+                                  alignment: Alignment.centerLeft,
+                                  child: TextButton(
+                                    child: Text("delete-estate".i18n()),
+                                    onPressed: () {
+                                      openDialop();
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),],
                       ),
                     ],
                   ),

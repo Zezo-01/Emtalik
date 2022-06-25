@@ -11,6 +11,7 @@ import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/pages/apartment_display.dart';
+import 'package:emtalik/pages/house_display.dart';
 import 'package:emtalik/pages/land_display.dart';
 import 'package:emtalik/pages/offer_display.dart';
 import 'package:emtalik/pages/parking_display.dart';
@@ -282,6 +283,15 @@ class _MyHomePage extends State<MyHomePage> {
                                                 .elementAt(index)
                                                 .type ==
                                             "house") {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HouseDisplay(
+                                                id: estates.elementAt(index).id,
+                                              ),
+                                            ),
+                                          );
                                         } else if (estates
                                                 .elementAt(index)
                                                 .type ==

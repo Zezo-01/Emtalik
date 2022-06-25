@@ -317,6 +317,7 @@ class _HouseDisplay extends State<HouseDisplay> {
                                                     return CircularProgressIndicator();
                                                   } else if (snapshot
                                                       .hasError) {
+                                                    setState(() {});
                                                     return Wrap();
                                                   } else {
                                                     return TextButton(
@@ -358,15 +359,13 @@ class _HouseDisplay extends State<HouseDisplay> {
                                       ),
                                     ],
                                   );
-                                  
                                 },
                               ),
-                              
                             );
                           }
                         },
                       ),
-                         const SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
                       Row(
@@ -399,22 +398,23 @@ class _HouseDisplay extends State<HouseDisplay> {
                       ),
                     ],
                   ),
-                  
                 ),
-
               );
             }
           },
         ),
       );
-            Future openDialop() => showDialog(
+  Future openDialop() => showDialog(
       context: context,
       builder: (context) => AlertDialog(
             title: Text("delete-estate?".i18n()),
             actions: [
               ElevatedButton(onPressed: () {}, child: Text("yes".i18n())),
-              ElevatedButton(onPressed: () {Navigator.pop(context);
-              }, child: Text("no".i18n())),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("no".i18n())),
             ],
           ));
 }

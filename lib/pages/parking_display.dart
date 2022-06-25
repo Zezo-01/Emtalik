@@ -324,6 +324,7 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                                     return CircularProgressIndicator();
                                                   } else if (snapshot
                                                       .hasError) {
+                                                    setState(() {});
                                                     return Wrap();
                                                   } else {
                                                     return TextButton(
@@ -416,8 +417,11 @@ class _ParkingDisplay extends State<ParkingDisplay> {
             title: Text("delete-estate?".i18n()),
             actions: [
               ElevatedButton(onPressed: () {}, child: Text("yes".i18n())),
-              ElevatedButton(onPressed: () {Navigator.pop(context);
-              }, child: Text("no".i18n())),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text("no".i18n())),
             ],
           ));
 }
