@@ -83,16 +83,11 @@ class _ParkingDisplay extends State<ParkingDisplay> {
               return Scaffold(
                 appBar: AppBar(
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(1000),
-                      bottomRight: Radius.circular(1000),
-                    ),
-                    side: BorderSide(
-                        width: 3,
-                        color: parking.approved
-                            ? Colors.black
-                            : Theme.of(context).colorScheme.error),
-                  ),
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(1000),
+                        bottomRight: Radius.circular(1000),
+                      ),
+                      side: BorderSide(width: 3, color: Colors.black)),
                   bottom: PreferredSize(
                       preferredSize: Size.fromHeight(20), child: SizedBox()),
                   backgroundColor:
