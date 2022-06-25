@@ -437,35 +437,29 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                         },
                       ),
                       const SizedBox(height: 30),
-                      Container(
-                        margin:
-                            EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Provider.of<UserSession>(context, listen: false)
-                            //
-                            //          .id ==
-                            //         id
-                            //     ?
-                            ElevatedButton.icon(
-                              icon: Icon(Icons.edit),
-                              label: Text("edit-estate".i18n()),
-                              style: ButtonStyle(
-                                backgroundColor: MaterialStateProperty.all(
-                                    Theme.of(context).colorScheme.secondary),
-                              ),
-                              onPressed: () {
-                                // TODO MAKE EDIT PAGES
-                              },
-                            )
-                            // :  Wrap()
-
-                            ,
-                            Provider.of<UserSession>(context, listen: false)
-                                        .id ==
-                                    id
-                                ? ElevatedButton.icon(
+                      Provider.of<UserSession>(context, listen: false).id == id
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton.icon(
+                                    icon: Icon(Icons.edit),
+                                    label: Text("edit-estate".i18n()),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
+                                    ),
+                                    onPressed: () {
+                                      // TODO MAKE EDIT PAGES
+                                    },
+                                  ),
+                                  ElevatedButton.icon(
                                     icon: Icon(Icons.delete_forever),
                                     label: Text("delete-estate".i18n()),
                                     style: ButtonStyle(
@@ -573,11 +567,11 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                         },
                                       );
                                     },
-                                  )
-                                : Wrap(),
-                          ],
-                        ),
-                      ),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Wrap(),
                     ],
                   ),
                 ),
