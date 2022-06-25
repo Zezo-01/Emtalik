@@ -84,11 +84,16 @@ class _ParkingDisplay extends State<ParkingDisplay> {
               return Scaffold(
                 appBar: AppBar(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(1000),
-                        bottomRight: Radius.circular(1000),
-                      ),
-                      side: BorderSide(width: 3, color: Colors.black)),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(1000),
+                      bottomRight: Radius.circular(1000),
+                    ),
+                    side: BorderSide(
+                        width: 3,
+                        color: parking.approved
+                            ? Colors.black
+                            : Theme.of(context).colorScheme.error),
+                  ),
                   bottom: PreferredSize(
                       preferredSize: Size.fromHeight(20), child: SizedBox()),
                   backgroundColor:
@@ -151,6 +156,66 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                               ],
                             ),
                           )),
+                      Provider.of<UserSession>(context).role == "admin"
+                          ? Row(
+                              children: [
+                                Container(
+                                    margin: EdgeInsets.only(
+                                      left: 20,
+                                    ),
+                                    child: FaIcon(parking.approved
+                                        ? FontAwesomeIcons.check
+                                        : FontAwesomeIcons.x)),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, bottom: 5, top: 10),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "approval".i18n(),
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, bottom: 5, top: 10),
+                                  alignment: Alignment.centerLeft,
+                                  child: parking.approved
+                                      ? Text(
+                                          "yes".i18n(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        )
+                                      : Text(
+                                          "no".i18n(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        ),
+                                ),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      var response = await HttpService
+                                          .toggleEstateApproval(id);
+                                      if (response.statusCode == 200) {
+                                        // TODO REBUILD
+                                      } else {
+                                        ToastFactory.makeToast(
+                                            context,
+                                            TOAST_TYPE.warning,
+                                            null,
+                                            "error".i18n(),
+                                            false,
+                                            () {});
+                                      }
+                                    },
+                                    child: parking.approved
+                                        ? Text("not-approve?".i18n())
+                                        : Text("approve?".i18n())),
+                              ],
+                            )
+                          : Wrap(),
                       Row(
                         children: [
                           Container(

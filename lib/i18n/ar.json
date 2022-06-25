@@ -130,5 +130,8 @@
     "no":"لا",
     "edit-estate":"عدل العقار",
     "delete-estate":"إحذف العقار",
-    "estate-delete-confirmation":"هل أنت متأكد من حذف هذا العقار؟"
+    "estate-delete-confirmation":"هل أنت متأكد من حذف هذا العقار؟",
+    "approval":"الموافقة",
+    "approve?":"وافق على نشر العقار",
+    "not-approve?":"سحب الموافقة عن العقار ؟"
 }
