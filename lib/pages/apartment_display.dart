@@ -159,7 +159,7 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
                             // child: Text(
-                            //   house.province.i18n() +
+                            //   apartment.province.i18n() +
                             //       ", " +
                             //       decodeUtf8ToString(apartment.province),
                             //   style: Theme.of(context).textTheme.bodyMedium,
@@ -179,7 +179,7 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
                             alignment: Alignment.centerLeft,
                             // child: Text(
-                            //   house.address.i18n() +
+                            //   apartment.address.i18n() +
                             //       ", " +
                             //       decodeUtf8ToString(apartment.address),
                             //   style: Theme.of(context).textTheme.bodyMedium,
@@ -369,15 +369,22 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Column(
-                        children: [ Row(
+               Row(
                           children: [
                             Column(
                               children: [
-                                TextButton(
+                                ElevatedButton(
                                   onPressed: () {
                                     Navigator.of(context).pushNamed('/editpage');
                                   },
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                    padding: EdgeInsets.all(10),
+                                    side: BorderSide(color: Colors.blue),
+                                    primary: Color.fromARGB(239, 253, 233, 199),
+                                    onPrimary: Colors.black
+                                  ),
                                   child: Text("edit-estate".i18n()),
                                 ),
                                 SizedBox(
@@ -387,7 +394,15 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                                   margin: EdgeInsets.only(
                                       left: 20, bottom: 5, top: 10),
                                   alignment: Alignment.centerLeft,
-                                  child: TextButton(
+                                  child: ElevatedButton(
+                                     style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                    padding: EdgeInsets.all(10),
+                                    side: BorderSide(color: Colors.blue),
+                                    primary: Color.fromARGB(239, 253, 233, 199),
+                                    onPrimary: Colors.black
+                                  ),
                                     child: Text("delete-estate".i18n()),
                                     onPressed: () {
                                       openDialop();
@@ -397,8 +412,7 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
                               ],
                             ),
                           ],
-                        ),],
-                      ),
+                        ),
                     ],
                   ),
                 ),
@@ -412,8 +426,23 @@ class _ApartmentDisplay extends State<ApartmentDisplay> {
       builder: (context) => AlertDialog(
             title: Text("delete-estate?".i18n()),
             actions: [
-              ElevatedButton(onPressed: () {}, child: Text("yes".i18n())),
+              ElevatedButton(      style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                    padding: EdgeInsets.all(10),
+                                    side: BorderSide(color: Colors.blue),
+                                    primary: Color.fromARGB(239, 253, 233, 199),
+                                    onPrimary: Colors.black
+                                  ),onPressed: () {}, child: Text("yes".i18n())),
               ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                    padding: EdgeInsets.all(10),
+                                    side: BorderSide(color: Colors.blue),
+                                    primary: Color.fromARGB(239, 253, 233, 199),
+                                    onPrimary: Colors.black
+                                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },

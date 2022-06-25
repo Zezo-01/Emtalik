@@ -318,39 +318,50 @@ class _LandDisplay extends State<LandDisplay> {
                                       const SizedBox(
                                         height: 20,
                                       ),
-                                      Row(
-                                        children: [
-                                          Column(
-                                            children: [
-                                              TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .pushNamed('/editpage');
-                                                },
-                                                child:
-                                                    Text("edit-estate".i18n()),
-                                              ),
-                                              SizedBox(
-                                                height: 15,
-                                              ),
-                                              Container(
-                                                margin: EdgeInsets.only(
-                                                    left: 20,
-                                                    bottom: 5,
-                                                    top: 10),
-                                                alignment: Alignment.centerLeft,
-                                                child: TextButton(
-                                                  child: Text(
-                                                      "delete-estate".i18n()),
-                                                  onPressed: () {
-                                                    openDialop();
-                                                  },
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                   Row(
+                          children: [
+                            Column(
+                              children: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushNamed('/editpage');
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                    padding: EdgeInsets.all(10),
+                                    side: BorderSide(color: Colors.blue),
+                                    primary: Color.fromARGB(239, 253, 233, 199),
+                                    onPrimary: Colors.black
+                                  ),
+                                  child: Text("edit-estate".i18n()),
+                                ),
+                                SizedBox(
+                                  height: 15,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, bottom: 5, top: 10),
+                                  alignment: Alignment.centerLeft,
+                                  child: ElevatedButton(
+                                     style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                    padding: EdgeInsets.all(10),
+                                    side: BorderSide(color: Colors.blue),
+                                    primary: Color.fromARGB(239, 253, 233, 199),
+                                    onPrimary: Colors.black
+                                  ),
+                                    child: Text("delete-estate".i18n()),
+                                    onPressed: () {
+                                      openDialop();
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                                     ],
                                   );
                                 },
@@ -372,8 +383,23 @@ class _LandDisplay extends State<LandDisplay> {
       builder: (context) => AlertDialog(
             title: Text("delete-estate?".i18n()),
             actions: [
-              ElevatedButton(onPressed: () {}, child: Text("yes".i18n())),
+              ElevatedButton(      style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                    padding: EdgeInsets.all(10),
+                                    side: BorderSide(color: Colors.blue),
+                                    primary: Color.fromARGB(239, 253, 233, 199),
+                                    onPrimary: Colors.black
+                                  ),onPressed: () {}, child: Text("yes".i18n())),
               ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                                    elevation: 5,
+                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
+                                    padding: EdgeInsets.all(10),
+                                    side: BorderSide(color: Colors.blue),
+                                    primary: Color.fromARGB(239, 253, 233, 199),
+                                    onPrimary: Colors.black
+                                  ),
                   onPressed: () {
                     Navigator.pop(context);
                   },
