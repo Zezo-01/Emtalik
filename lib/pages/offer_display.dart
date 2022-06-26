@@ -313,125 +313,134 @@ class _DisplayOfferState extends State<DisplayOffer> {
                         ),
                       ],
                     ),
-                    // Provider.of<UserSession>(context, listen: false).id ==
-                    //         offer.ownerId
-                    //     ?
-                    Container(
-                      margin: const EdgeInsets.only(
-                          left: 10, right: 10, bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ElevatedButton.icon(
-                            icon: const Icon(Icons.edit),
-                            label: Text("edit-offer".i18n()),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).colorScheme.secondary),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: ((context) =>
-                                          OfferEdit(id: id))));
-                            },
-                          ),
-                          ElevatedButton.icon(
-                            icon: Icon(Icons.delete_forever),
-                            label: Text("delete-offer".i18n()),
-                            style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all(
-                                  Theme.of(context).colorScheme.error),
-                            ),
-                            onPressed: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    title: Text(
-                                      "delete-offer".i18n(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelMedium,
-                                    ),
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Container(
-                                          child: Text(
-                                            "offer-delete-confirmation".i18n(),
+                    Provider.of<UserSession>(context, listen: false).id ==
+                            offer.ownerId
+                        ? Container(
+                            margin: const EdgeInsets.only(
+                                left: 10, right: 10, bottom: 10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ElevatedButton.icon(
+                                  icon: const Icon(Icons.edit),
+                                  label: Text("edit-offer".i18n()),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Theme.of(context)
+                                            .colorScheme
+                                            .secondary),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: ((context) =>
+                                                OfferEdit(id: id))));
+                                  },
+                                ),
+                                ElevatedButton.icon(
+                                  icon: Icon(Icons.delete_forever),
+                                  label: Text("delete-offer".i18n()),
+                                  style: ButtonStyle(
+                                    backgroundColor: MaterialStateProperty.all(
+                                        Theme.of(context).colorScheme.error),
+                                  ),
+                                  onPressed: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) {
+                                        return AlertDialog(
+                                          title: Text(
+                                            "delete-offer".i18n(),
                                             style: Theme.of(context)
                                                 .textTheme
-                                                .bodyMedium,
+                                                .labelMedium,
                                           ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            ElevatedButton(
-                                              onPressed: () async {
-                                                var response = await HttpService
-                                                    .deleteOfferById(id);
-                                                if (response.statusCode ==
-                                                    200) {
-                                                  Navigator.pop(context);
-                                                  Navigator.popAndPushNamed(
-                                                      context, "/mainpage");
-                                                } else {
-                                                  Navigator.pop(context);
-                                                  ToastFactory.makeToast(
-                                                      context,
-                                                      TOAST_TYPE.warning,
-                                                      null,
-                                                      "error".i18n(),
-                                                      false,
-                                                      () {});
-                                                }
-                                              },
-                                              child: Text("yes".i18n(),
+                                          content: Column(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  "offer-delete-confirmation"
+                                                      .i18n(),
                                                   style: Theme.of(context)
                                                       .textTheme
-                                                      .bodyText2),
-                                              style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          Theme.of(context)
-                                                              .colorScheme
-                                                              .error)),
-                                            ),
-                                            OutlinedButton(
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                              child: Text(
-                                                "no".i18n(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyText2,
+                                                      .bodyMedium,
+                                                ),
                                               ),
-                                              style: ButtonStyle(
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          Theme.of(context)
-                                                              .colorScheme
-                                                              .primary)),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    )
-                    // : Wrap(),
+                                              const SizedBox(height: 10),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  ElevatedButton(
+                                                    onPressed: () async {
+                                                      var response =
+                                                          await HttpService
+                                                              .deleteOfferById(
+                                                                  id);
+                                                      if (response.statusCode ==
+                                                          200) {
+                                                        Navigator.pop(context);
+                                                        Navigator
+                                                            .popAndPushNamed(
+                                                                context,
+                                                                "/mainpage");
+                                                      } else {
+                                                        Navigator.pop(context);
+                                                        ToastFactory.makeToast(
+                                                            context,
+                                                            TOAST_TYPE.warning,
+                                                            null,
+                                                            "error".i18n(),
+                                                            false,
+                                                            () {});
+                                                      }
+                                                    },
+                                                    child: Text("yes".i18n(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2),
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .error)),
+                                                  ),
+                                                  OutlinedButton(
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text(
+                                                      "no".i18n(),
+                                                      style: Theme.of(context)
+                                                          .textTheme
+                                                          .bodyText2,
+                                                    ),
+                                                    style: ButtonStyle(
+                                                        backgroundColor:
+                                                            MaterialStateProperty
+                                                                .all(Theme.of(
+                                                                        context)
+                                                                    .colorScheme
+                                                                    .primary)),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        : Wrap(),
                   ],
                 ),
               ),
