@@ -432,7 +432,7 @@ class _MyHomePage extends State<MyHomePage> {
                                                     .rentPricePerMonth !=
                                                 0.0
                                             ? "rent-per-month".i18n() +
-                                                "\n" +
+                                                " " +
                                                 offers
                                                     .elementAt(index)
                                                     .rentPricePerMonth
@@ -442,7 +442,7 @@ class _MyHomePage extends State<MyHomePage> {
                                                         .rentPricePerYear !=
                                                     0.0
                                                 ? "rent-per-year".i18n() +
-                                                    "\n" +
+                                                    " " +
                                                     offers
                                                         .elementAt(index)
                                                         .rentPricePerYear
@@ -453,7 +453,7 @@ class _MyHomePage extends State<MyHomePage> {
                                                         0.0
                                                     ? "rent-per-seasson"
                                                             .i18n() +
-                                                        "\n" +
+                                                        " " +
                                                         offers
                                                             .elementAt(index)
                                                             .rentPricePerSeasson

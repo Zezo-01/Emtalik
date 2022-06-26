@@ -11,7 +11,7 @@ import 'package:http_parser/src/media_type.dart';
 import 'package:mime/mime.dart';
 
 abstract class HttpService {
-  static String get target => 'http://192.168.0.110:8080';
+  static String get target => 'http://192.168.1.103:8080';
   static String get adminTarget => target + '/admin';
   static String get estateTarget => target + '/estate';
   static String get userTarget => target + '/user';
@@ -176,10 +176,30 @@ abstract class HttpService {
     });
   }
 
+  static Future<http.Response> updateOffer(
+      OfferRegistration offer, int offerId) {
+    return http.put(Uri.parse(offerTarget + "/update"), body: {
+      "offerJson": offer.toRawJson(),
+      "offerId": offerId.toString(),
+    });
+  }
+
   static Future<http.Response> deleteEstateById(int id) {
     return http.delete(
       Uri.parse(estateTarget),
       body: {"estateId": id.toString()},
+    );
+  }
+
+  static Future<http.Response> toggleEstateApproval(int id) {
+    return http.put(Uri.parse(adminTarget + "/approve"),
+        body: {"estateId": id.toString()});
+  }
+
+  static Future<http.Response> deleteOfferById(int id) {
+    return http.delete(
+      Uri.parse(offerTarget),
+      body: {"offerId": id.toString()},
     );
   }
 }
