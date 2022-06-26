@@ -3,6 +3,7 @@ import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/pages/login.dart';
+import 'package:emtalik/pages/unreviewed_estates.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/theme_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -143,13 +144,10 @@ class CustomDrawer extends StatelessWidget {
                           ),
                         ),
                         onPressed: () {
-                          ToastFactory.makeToast(
+                          Navigator.push(
                               context,
-                              TOAST_TYPE.info,
-                              "Work here",
-                              "Implement admin approving estates",
-                              false,
-                              () {});
+                              MaterialPageRoute(
+                                  builder: ((context) => UnReviewedEstates())));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

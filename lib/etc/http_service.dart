@@ -154,6 +154,10 @@ abstract class HttpService {
     return await http.get(Uri.parse(estateTarget + "/approved"));
   }
 
+  static Future<http.Response> getUnApprovedEstates() async {
+    return await http.get(Uri.parse(estateTarget + "/unapproved"));
+  }
+
   static Future<http.Response> userHasEstates(int id) async {
     return await http
         .get(Uri.parse(userTarget + "/hasestates/" + id.toString()));

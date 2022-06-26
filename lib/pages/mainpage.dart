@@ -72,7 +72,6 @@ class _MyHomePage extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) => SafeArea(
         child: Scaffold(
-            // TODO: UNCOMMENT FOR FULL PRIVILEGES
             drawer:
                 Provider.of<UserSession>(context, listen: false).role != null
                     ? CustomDrawer()
@@ -85,7 +84,6 @@ class _MyHomePage extends State<MyHomePage> {
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    // TODO: UNCOMMENT FOR FULL PRIVILEGES
                     if (Provider.of<UserSession>(context, listen: false).role !=
                         null) {
                       showSearch(
@@ -134,7 +132,6 @@ class _MyHomePage extends State<MyHomePage> {
                     Icons.real_estate_agent_sharp,
                   ),
                   onTap: () {
-                    // // TODO: UNCOMMENT FOR FULL FUNCTIONALITY
                     if (Provider.of<UserSession>(context, listen: false).role ==
                             "seller" ||
                         Provider.of<UserSession>(context, listen: false).role ==
@@ -158,12 +155,10 @@ class _MyHomePage extends State<MyHomePage> {
                     Icons.local_offer_sharp,
                   ),
                   onTap: () async {
-                    // TODO: UNCOMMENT FOR FULL FUNCTIONALITY
                     if (Provider.of<UserSession>(context, listen: false).role ==
                             "seller" ||
                         Provider.of<UserSession>(context, listen: false).role ==
                             "admin") {
-                      //   // TODO: WORK HERE
                       try {
                         var response = await HttpService.userHasEstates(
                             Provider.of<UserSession>(context, listen: false)
@@ -223,10 +218,29 @@ class _MyHomePage extends State<MyHomePage> {
 
                             if (estates.isEmpty) {
                               return Center(
-                                child: Text(
-                                  "no-estates".i18n(),
-                                  style:
-                                      Theme.of(context).textTheme.displaySmall,
+                                child: Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    Text(
+                                      "no-estates".i18n(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall,
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          this.estates = getEstates();
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.refresh,
+                                        size: 35,
+                                      ),
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    )
+                                  ],
                                 ),
                               );
                             } else {
@@ -254,7 +268,6 @@ class _MyHomePage extends State<MyHomePage> {
                                             false,
                                             () {});
                                       } else {
-                                        // TODO: OPEN ESTATE PAGE
                                         if (estates.elementAt(index).type ==
                                             "parking") {
                                           Navigator.push(
@@ -340,9 +353,29 @@ class _MyHomePage extends State<MyHomePage> {
                             }
                           } else {
                             return Center(
-                              child: Text(
-                                "no-connection".i18n(),
-                                style: Theme.of(context).textTheme.displaySmall,
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  Text(
+                                    "no-connection".i18n(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displaySmall,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        this.estates = getEstates();
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.refresh,
+                                      size: 35,
+                                    ),
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ],
                               ),
                             );
                           }
@@ -368,10 +401,29 @@ class _MyHomePage extends State<MyHomePage> {
 
                             if (offers.isEmpty) {
                               return Center(
-                                child: Text(
-                                  "no-offers".i18n(),
-                                  style:
-                                      Theme.of(context).textTheme.displaySmall,
+                                child: Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    Text(
+                                      "no-offers".i18n(),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall,
+                                    ),
+                                    IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          this.offers = getOffers();
+                                        });
+                                      },
+                                      icon: const Icon(
+                                        Icons.refresh,
+                                        size: 35,
+                                      ),
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    )
+                                  ],
                                 ),
                               );
                             } else {
@@ -399,7 +451,6 @@ class _MyHomePage extends State<MyHomePage> {
                                             false,
                                             () {});
                                       } else {
-                                        // TODO: OPEN OFFER PAGE
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(
@@ -465,9 +516,29 @@ class _MyHomePage extends State<MyHomePage> {
                             }
                           } else {
                             return Center(
-                              child: Text(
-                                "no-connection".i18n(),
-                                style: Theme.of(context).textTheme.displaySmall,
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
+                                children: [
+                                  Text(
+                                    "no-connection".i18n(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displaySmall,
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        this.offers = getOffers();
+                                      });
+                                    },
+                                    icon: const Icon(
+                                      Icons.refresh,
+                                      size: 35,
+                                    ),
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ],
                               ),
                             );
                           }

@@ -137,5 +137,6 @@
     "delete-offer":"حذف العرض",
     "edit-offer":"تعديل العرض",
     "offer-delete-confirmation":"هل أنت متأكد من حذف العرض؟",
-    "editing":"تعديل"
+    "editing":"تعديل",
+    "unreviewed-estates":"العقارات الغير وافق عليها"
 }

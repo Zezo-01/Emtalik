@@ -137,6 +137,7 @@
     "delete-offer":"Delete offer",
     "edit-offer":"Edit offer",
     "offer-delete-confirmation":"Are you sure you want to delete this offer?",
-    "editing":"Editing"
+    "editing":"Editing",
+    "unreviewed-estates":"Unreviewed Estates"
    
 }
