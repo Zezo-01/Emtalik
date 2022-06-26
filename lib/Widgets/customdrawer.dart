@@ -2,15 +2,17 @@ import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
-import 'package:emtalik/pages/login.dart';
+import 'package:emtalik/pages/my_estates.dart';
 import 'package:emtalik/pages/unreviewed_estates.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/theme_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:localization/localization.dart';
 
+// ignore: use_key_in_widget_constructors
 class CustomDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -128,7 +130,6 @@ class CustomDrawer extends StatelessWidget {
                   ),
                 ),
                 if (Provider.of<UserSession>(context).role == "admin")
-                  //  ADMIN WORK HERE MUST SET IT TO == "admin"
                   Column(
                     children: [
                       Divider(
@@ -147,14 +148,133 @@ class CustomDrawer extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: ((context) => UnReviewedEstates())));
+                                  builder: ((context) =>
+                                      const UnReviewedEstates())));
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Icon(Icons.approval_rounded),
                             Text(
-                              "unreviewed-states".i18n(),
+                              "unreviewed-estates".i18n(),
+                              style: Theme.of(context).textTheme.labelMedium,
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                if (Provider.of<UserSession>(context, listen: false).role ==
+                    "seller")
+                  Column(
+                    children: [
+                      Divider(
+                        endIndent: 25,
+                        thickness: 3,
+                        indent: 25,
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                      TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                            const EdgeInsets.only(left: 25, right: 25),
+                          ),
+                        ),
+                        onPressed: () async {
+                          try {
+                            var response = await HttpService.userHasEstates(
+                                Provider.of<UserSession>(context, listen: false)
+                                        .id ??
+                                    0);
+
+                            if (response.statusCode == 200) {
+                              if (response.body == "true") {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyEstates(
+                                            userId: Provider.of<UserSession>(
+                                                        context,
+                                                        listen: false)
+                                                    .id ??
+                                                0)));
+                              } else {
+                                ToastFactory.makeToast(
+                                    context,
+                                    TOAST_TYPE.error,
+                                    null,
+                                    "you-dont-have-estates".i18n(),
+                                    false,
+                                    () {});
+                              }
+                            } else {
+                              ToastFactory.makeToast(context, TOAST_TYPE.error,
+                                  null, "error".i18n(), false, () {});
+                            }
+                          } catch (e) {
+                            ToastFactory.makeToast(context, TOAST_TYPE.error,
+                                null, "no-connection".i18n(), false, () {});
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Icon(FontAwesomeIcons.house),
+                            Text(
+                              "my-estates".i18n(),
+                              style: Theme.of(context).textTheme.labelMedium,
+                            )
+                          ],
+                        ),
+                      ),
+                      TextButton(
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.all(
+                            const EdgeInsets.only(left: 25, right: 25),
+                          ),
+                        ),
+                        onPressed: () async {
+                          try {
+                            var response = await HttpService.userHasOffers(
+                                Provider.of<UserSession>(context, listen: false)
+                                        .id ??
+                                    0);
+
+                            if (response.statusCode == 200) {
+                              if (response.body == "true") {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => MyEstates(
+                                            userId: Provider.of<UserSession>(
+                                                        context,
+                                                        listen: false)
+                                                    .id ??
+                                                0)));
+                              } else {
+                                ToastFactory.makeToast(
+                                    context,
+                                    TOAST_TYPE.error,
+                                    null,
+                                    "you-dont-have-offers".i18n(),
+                                    false,
+                                    () {});
+                              }
+                            } else {
+                              ToastFactory.makeToast(context, TOAST_TYPE.error,
+                                  null, "error".i18n(), false, () {});
+                            }
+                          } catch (e) {
+                            ToastFactory.makeToast(context, TOAST_TYPE.error,
+                                null, "no-connection".i18n(), false, () {});
+                          }
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            const Icon(Icons.local_offer),
+                            Text(
+                              "my-offers".i18n(),
                               style: Theme.of(context).textTheme.labelMedium,
                             )
                           ],

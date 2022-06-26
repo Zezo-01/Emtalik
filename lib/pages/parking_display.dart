@@ -150,7 +150,9 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                               ],
                             ),
                           )),
-                      Provider.of<UserSession>(context).role == "admin"
+                      Provider.of<UserSession>(context).role == "admin" ||
+                              Provider.of<UserSession>(context).id ==
+                                  parking.ownerId
                           ? Row(
                               children: [
                                 Container(
@@ -188,27 +190,30 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                               .bodyMedium,
                                         ),
                                 ),
-                                ElevatedButton(
-                                    onPressed: () async {
-                                      var response = await HttpService
-                                          .toggleEstateApproval(id);
-                                      if (response.statusCode == 200) {
-                                        setState(() {
-                                          this.parking = getParking();
-                                        });
-                                      } else {
-                                        ToastFactory.makeToast(
-                                            context,
-                                            TOAST_TYPE.warning,
-                                            null,
-                                            "error".i18n(),
-                                            false,
-                                            () {});
-                                      }
-                                    },
-                                    child: parking.approved
-                                        ? Text("not-approve?".i18n())
-                                        : Text("approve?".i18n())),
+                                Provider.of<UserSession>(context).role ==
+                                        "admin"
+                                    ? ElevatedButton(
+                                        onPressed: () async {
+                                          var response = await HttpService
+                                              .toggleEstateApproval(id);
+                                          if (response.statusCode == 200) {
+                                            setState(() {
+                                              this.parking = getParking();
+                                            });
+                                          } else {
+                                            ToastFactory.makeToast(
+                                                context,
+                                                TOAST_TYPE.warning,
+                                                null,
+                                                "error".i18n(),
+                                                false,
+                                                () {});
+                                          }
+                                        },
+                                        child: parking.approved
+                                            ? Text("not-approve?".i18n())
+                                            : Text("approve?".i18n()))
+                                    : Wrap(),
                               ],
                             )
                           : Wrap(),

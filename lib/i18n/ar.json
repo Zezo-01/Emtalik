@@ -54,7 +54,7 @@
     "light-theme":"الوضع الفاتح",
     "dark-theme":"الوضع الداكن",
     "logout":"تسجيل الخروج",
-    "unreviewed-states":"عقارات يجب مراجعتها",
+    "must-review-estates":"عقارات يجب مراجعتها",
     "estates":"عقارات",
     "offers":"عروض",
     "add-estate":"إضافة عقار",
@@ -111,6 +111,7 @@
     "qalqilya":"قلقيلية",
     "no-estates":"لا يوجد عقارات",
     "you-dont-have-estates":"ليس لديك عقارات",
+    "you-dont-have-offers":"ليس لديك عروض",
     "add-esates-to-add-offers":"اضف عقاراً لعمل عرض",
     "offer-name":"إسم العرض",
     "offer-name-constraint":"25 حرف",
@@ -138,5 +139,7 @@
     "edit-offer":"تعديل العرض",
     "offer-delete-confirmation":"هل أنت متأكد من حذف العرض؟",
     "editing":"تعديل",
-    "unreviewed-estates":"العقارات الغير وافق عليها"
+    "unreviewed-estates":"العقارات الغير وافق عليها",
+    "my-estates":"عقاراتي",
+    "my-offers":"عروضي"
 }
