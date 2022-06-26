@@ -3,6 +3,7 @@ import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/pages/my_estates.dart';
+import 'package:emtalik/pages/my_offers.dart';
 import 'package:emtalik/pages/unreviewed_estates.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/theme_provider.dart';
@@ -245,7 +246,7 @@ class CustomDrawer extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => MyEstates(
+                                        builder: (context) => MyOffers(
                                             userId: Provider.of<UserSession>(
                                                         context,
                                                         listen: false)
