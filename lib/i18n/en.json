@@ -141,6 +141,9 @@
     "editing":"Editing",
     "unreviewed-estates":"Unreviewed Estates",
     "my-estates":"My estates",
-    "my-offers":"My offers"
+    "my-offers":"My offers",
+    "full-name":"Full name",
+    "admin":"Administrator",
+    "edit-profile":"Edit profile"
    
 }

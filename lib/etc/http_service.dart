@@ -176,6 +176,11 @@ abstract class HttpService {
     return await http.get(Uri.parse(userTarget + "/offers/" + id.toString()));
   }
 
+  static Future<http.Response> getUserApprovedOffers(int id) async {
+    return await http
+        .get(Uri.parse(userTarget + "/offers/approved" + id.toString()));
+  }
+
   static Future<http.Response> getUserApprovedEstates(int id) async {
     return await http
         .get(Uri.parse(userTarget + "/estates/approved/" + id.toString()));
@@ -214,5 +219,9 @@ abstract class HttpService {
       Uri.parse(offerTarget),
       body: {"offerId": id.toString()},
     );
+  }
+
+  static Future<http.Response> getUserById(int id) {
+    return http.get(Uri.parse(userTarget + "/" + id.toString()));
   }
 }

@@ -5,6 +5,7 @@ import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/pages/my_estates.dart';
 import 'package:emtalik/pages/my_offers.dart';
 import 'package:emtalik/pages/unreviewed_estates.dart';
+import 'package:emtalik/pages/user_page.dart';
 import 'package:emtalik/providers/locale_provider.dart';
 import 'package:emtalik/providers/theme_provider.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -50,13 +51,15 @@ class CustomDrawer extends StatelessWidget {
                     ),
                   ),
                   onPressed: () {
-                    ToastFactory.makeToast(
+                    Navigator.push(
                         context,
-                        TOAST_TYPE.info,
-                        "Work required",
-                        "Implement user view profile and settings",
-                        false,
-                        () {});
+                        MaterialPageRoute(
+                          builder: (context) => UserPage(
+                              userId: Provider.of<UserSession>(context,
+                                          listen: false)
+                                      .id ??
+                                  0),
+                        ));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
