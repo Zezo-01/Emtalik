@@ -178,7 +178,7 @@ abstract class HttpService {
 
   static Future<http.Response> getUserApprovedOffers(int id) async {
     return await http
-        .get(Uri.parse(userTarget + "/offers/approved" + id.toString()));
+        .get(Uri.parse(userTarget + "/offers/approved/" + id.toString()));
   }
 
   static Future<http.Response> getUserApprovedEstates(int id) async {
