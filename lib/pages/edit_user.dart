@@ -5,12 +5,16 @@ import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
+import 'package:emtalik/etc/utils.dart';
+import 'package:emtalik/models/error.dart';
 import 'package:emtalik/models/user_details.dart';
+import 'package:emtalik/models/user_register.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +55,7 @@ class _EditUserState extends State<EditUser> {
             image = null;
           });
         }
+      } else if (userImage == null) {
       } else {
         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
             "not-supported-file".i18n(), false, () {});
@@ -79,6 +84,8 @@ class _EditUserState extends State<EditUser> {
   final TextEditingController _lastNameId = TextEditingController();
   final TextEditingController _emailId = TextEditingController();
   final TextEditingController _phoneId = TextEditingController();
+  final TextEditingController _confirmPasswordId = TextEditingController();
+
   FocusNode _emailNode = FocusNode();
   FocusNode _phoneNode = FocusNode();
   FocusNode _nextNode = FocusNode();
@@ -94,7 +101,7 @@ class _EditUserState extends State<EditUser> {
 
   late bool initilized;
 
-  late bool modefiedPfp;
+  String? modefiedPfp;
 
   final _formKey = GlobalKey<FormState>();
   Future<UserDetails> getUser() async {
@@ -105,7 +112,7 @@ class _EditUserState extends State<EditUser> {
 
   @override
   void initState() {
-    modefiedPfp = false;
+    modefiedPfp = "pfp";
     initilized = false;
     super.initState();
     user = getUser();
@@ -118,20 +125,22 @@ class _EditUserState extends State<EditUser> {
         future: user,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Scaffold(
-                body: Center(
-              child: CircularProgressIndicator(),
-            ));
+            return Scaffold(
+                appBar: AppBar(),
+                body: const Center(
+                  child: CircularProgressIndicator(),
+                ));
           } else {
             UserDetails user = snapshot.data as UserDetails;
             if (!initilized) {
-              _userNameId.text = user.username;
+              _userNameId.text = decodeUtf8ToString(user.username);
               _emailId.text = user.email;
               _phoneId.text = user.contactNumber ?? "";
-              _firstNameId.text = user.firstName ?? "";
-              _secondNameId.text = user.fathersName ?? "";
-              _thirdNameId.text = user.grandfathersName ?? "";
-              _lastNameId.text = user.surName ?? "";
+              _firstNameId.text = decodeUtf8ToString(user.firstName ?? "");
+              _secondNameId.text = decodeUtf8ToString(user.fathersName ?? "");
+              _thirdNameId.text =
+                  decodeUtf8ToString(user.grandfathersName ?? "");
+              _lastNameId.text = decodeUtf8ToString(user.surName ?? "");
               List<String> interests =
                   user.interests ?? List.empty(growable: true);
               interests.contains("land") ? _land = true : _land = false;
@@ -147,6 +156,10 @@ class _EditUserState extends State<EditUser> {
             }
 
             return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                title: Text("edit-profile".i18n()),
+              ),
               body: Form(
                 key: _formKey,
                 child: GestureDetector(
@@ -159,35 +172,58 @@ class _EditUserState extends State<EditUser> {
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    modefiedPfp = null;
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.cancel,
+                                  size: 35,
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    modefiedPfp = "pfp";
+                                  });
+                                },
+                                icon: const Icon(
+                                  Icons.refresh,
+                                  size: 35,
+                                ),
+                              ),
+                            ],
+                          ),
                           Container(
                             height: 350,
-                            child: Stack(
-                              fit: StackFit.expand,
-                              children: [
-                                CircleAvatar(
-                                  child: ClipOval(
-                                    child: modefiedPfp
-                                        ? image == null
-                                            ? Image.asset(
-                                                "assets/user/default_pfp.png",
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Image.file(
-                                                File(image!.path),
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height,
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                fit: BoxFit.cover,
-                                              )
+                            width: 350,
+                            child: CircleAvatar(
+                              child: ClipOval(
+                                child: modefiedPfp == null
+                                    ? Image.asset(
+                                        "assets/user/default_pfp.png",
+                                        height:
+                                            MediaQuery.of(context).size.height,
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        fit: BoxFit.cover,
+                                      )
+                                    : modefiedPfp == "image"
+                                        ? Image.file(
+                                            File(image!.path),
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            fit: BoxFit.cover,
+                                          )
                                         : Image.network(
                                             HttpService.getProfilePictureRoute(
                                                 Provider.of<UserSession>(
@@ -203,39 +239,28 @@ class _EditUserState extends State<EditUser> {
                                                 .width,
                                             fit: BoxFit.cover,
                                           ),
-                                  ),
-                                  radius: 120,
-                                ),
-                                Container(
-                                  child: IconButton(
-                                    alignment: Alignment.topRight,
-                                    onPressed: () {
-                                      setState(() {
-                                        modefiedPfp = true;
-                                      });
-                                    },
-                                    icon: const Icon(
-                                      Icons.cancel,
-                                      size: 35,
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  alignment: Alignment.bottomLeft,
-                                  onPressed: () async {
-                                    await pickYourImage();
-                                    setState(() {
-                                      modefiedPfp = true;
-                                    });
-                                  },
-                                  icon: const Icon(
-                                    Icons.image_search,
-                                    size: 35,
-                                  ),
-                                ),
-                              ],
+                              ),
+                              radius: 120,
                             ),
                           ),
+                          IconButton(
+                            alignment: Alignment.bottomLeft,
+                            onPressed: () async {
+                              await pickYourImage();
+                              setState(() {
+                                if (image == null) {
+                                  modefiedPfp = null;
+                                } else {
+                                  modefiedPfp = "image";
+                                }
+                              });
+                            },
+                            icon: const Icon(
+                              Icons.image_search,
+                              size: 35,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
                           Text(
                             "username-constraint".i18n(),
                             style: Theme.of(context)
@@ -496,6 +521,225 @@ class _EditUserState extends State<EditUser> {
                               });
                             },
                           ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton.icon(
+                                  onPressed: () {
+                                    showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Center(
+                                              child: Text(
+                                                "confirm-password".i18n(),
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .labelMedium,
+                                              ),
+                                            ),
+                                            content: SizedBox(
+                                              width: 450,
+                                              height: 250,
+                                              child: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text("password".i18n()),
+                                                  PasswordFormField(
+                                                    controller:
+                                                        _confirmPasswordId,
+                                                  ),
+                                                  Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        ElevatedButton(
+                                                          onPressed: () async {
+                                                            var response = await HttpService.validateUser(
+                                                                Provider.of<UserSession>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .username ??
+                                                                    "",
+                                                                _confirmPasswordId
+                                                                    .text);
+                                                            if (response
+                                                                    .statusCode ==
+                                                                200) {
+                                                              List<String>
+                                                                  interests =
+                                                                  List.empty(
+                                                                      growable:
+                                                                          true);
+                                                              if (_land ==
+                                                                  true) {
+                                                                interests.add(
+                                                                    "land");
+                                                              }
+                                                              if (_appartment ==
+                                                                  true) {
+                                                                interests.add(
+                                                                    "apartment");
+                                                              }
+                                                              if (_store ==
+                                                                  true) {
+                                                                interests.add(
+                                                                    "store");
+                                                              }
+                                                              if (_parking ==
+                                                                  true) {
+                                                                interests.add(
+                                                                    "parking");
+                                                              }
+                                                              if (_house ==
+                                                                  true) {
+                                                                interests.add(
+                                                                    "house");
+                                                              }
+                                                              var user =
+                                                                  UserRegister(
+                                                                username:
+                                                                    _userNameId
+                                                                        .value
+                                                                        .text,
+                                                                firstName: _firstNameId
+                                                                        .value
+                                                                        .text
+                                                                        .isEmpty
+                                                                    ? null
+                                                                    : _firstNameId
+                                                                        .value
+                                                                        .text,
+                                                                fathersName: _secondNameId
+                                                                        .value
+                                                                        .text
+                                                                        .isEmpty
+                                                                    ? null
+                                                                    : _secondNameId
+                                                                        .value
+                                                                        .text,
+                                                                grandfathersName: _thirdNameId
+                                                                        .value
+                                                                        .text
+                                                                        .isEmpty
+                                                                    ? null
+                                                                    : _thirdNameId
+                                                                        .value
+                                                                        .text,
+                                                                surName: _lastNameId
+                                                                        .value
+                                                                        .text
+                                                                        .isEmpty
+                                                                    ? null
+                                                                    : _lastNameId
+                                                                        .value
+                                                                        .text,
+                                                                email: _emailId
+                                                                    .value.text,
+                                                                password:
+                                                                    _passwordId
+                                                                        .value
+                                                                        .text,
+                                                                contactNumber: _phoneId
+                                                                        .value
+                                                                        .text
+                                                                        .isEmpty
+                                                                    ? null
+                                                                    : _phoneId
+                                                                        .value
+                                                                        .text,
+                                                                interests: interests
+                                                                        .isEmpty
+                                                                    ? null
+                                                                    : interests,
+                                                              );
+                                                              var streamedResponse =
+                                                                  await HttpService
+                                                                      .editUserDetails(
+                                                                          Provider.of<UserSession>(context, listen: false).id ??
+                                                                              0,
+                                                                          user,
+                                                                          image);
+
+                                                              var response =
+                                                                  await Response
+                                                                      .fromStream(
+                                                                          streamedResponse);
+                                                              if (response
+                                                                      .statusCode ==
+                                                                  200) {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              } else {
+                                                                ToastFactory.makeToast(
+                                                                    context,
+                                                                    TOAST_TYPE
+                                                                        .error,
+                                                                    null,
+                                                                    "error"
+                                                                        .i18n(),
+                                                                    false,
+                                                                    () {});
+                                                              }
+                                                            } else {
+                                                              ToastFactory.makeToast(
+                                                                  context,
+                                                                  TOAST_TYPE
+                                                                      .error,
+                                                                  "error"
+                                                                      .i18n(),
+                                                                  Error.fromRawJson(
+                                                                          response
+                                                                              .body)
+                                                                      .message
+                                                                      .i18n(),
+                                                                  false,
+                                                                  () {});
+                                                            }
+                                                          },
+                                                          child: const Icon(
+                                                              Icons.check),
+                                                          style: ButtonStyle(
+                                                              backgroundColor: MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .error)),
+                                                        ),
+                                                        OutlinedButton(
+                                                          onPressed: () {
+                                                            Navigator.pop(
+                                                                context);
+                                                          },
+                                                          child: const Icon(Icons
+                                                              .cancel_outlined),
+                                                          style: ButtonStyle(
+                                                              backgroundColor: MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary)),
+                                                        ),
+                                                      ]),
+                                                ],
+                                              ),
+                                            ),
+                                          );
+                                        });
+                                  },
+                                  icon: const Icon(Icons.check),
+                                  label: Text("confirm".i18n())),
+                              ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(Icons.cancel_outlined),
+                                  label: Text("cancel".i18n())),
+                            ],
+                          )
                         ],
                       ),
                     ),

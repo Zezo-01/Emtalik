@@ -145,6 +145,9 @@
     "full-name":"Full name",
     "admin":"Administrator",
     "edit-profile":"Edit profile",
-    "new-password":"New password"
+    "new-password":"New password",
+    "confirm":"Confirm",
+    "cancel":"Cancel",
+    "confirm-password":"Confirm Password"
    
 }

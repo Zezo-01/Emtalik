@@ -48,6 +48,7 @@ class _Signup extends State<Signup> {
             image = null;
           });
         }
+      } else if (userImage == null) {
       } else {
         ToastFactory.makeToast(context, TOAST_TYPE.error, null,
             "not-supported-file".i18n(), false, () {});

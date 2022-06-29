@@ -145,5 +145,9 @@
     "full-name":"اإسم الكامل",
     "admin":"مدير",
     "edit-profile":"عدل ملفك الشخصي",
-    "new-password":"الرقم السري الجديد"
+    "new-password":"الرقم السري الجديد",
+    "confirm":"تأكيد",
+    "cancel":"إلغاء",
+    "confirm-password":"تأكيد الرقم السري"
+   
 }

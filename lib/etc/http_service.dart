@@ -224,4 +224,30 @@ abstract class HttpService {
   static Future<http.Response> getUserById(int id) {
     return http.get(Uri.parse(userTarget + "/" + id.toString()));
   }
+
+  static Future<http.StreamedResponse> editUserDetails(
+      int userId, UserRegister user, XFile? image) async {
+    var picture;
+    var request = http.MultipartRequest(
+        "POST", Uri.parse(adminTarget + "/edit/" + userId.toString()));
+    request.fields['userJson'] = jsonEncode(user);
+    if (image != null) {
+      File file = File(image.path);
+      picture = http.MultipartFile.fromBytes(
+        "picture",
+        file.readAsBytesSync(),
+        filename: image.name,
+        contentType: MediaType.parse(
+          lookupMimeType(image.name) ?? 'application/octet-stream',
+        ),
+      );
+    } else {
+      picture = null;
+    }
+    if (picture != null) {
+      request.files.add(picture);
+    }
+
+    return await request.send();
+  }
 }
