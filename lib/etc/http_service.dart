@@ -226,11 +226,12 @@ abstract class HttpService {
   }
 
   static Future<http.StreamedResponse> editUserDetails(
-      int userId, UserRegister user, XFile? image) async {
+      int userId, bool removePicture, UserRegister user, XFile? image) async {
     var picture;
     var request = http.MultipartRequest(
-        "POST", Uri.parse(adminTarget + "/edit/" + userId.toString()));
+        "PUT", Uri.parse(adminTarget + "/edit/" + userId.toString()));
     request.fields['userJson'] = jsonEncode(user);
+    request.fields['removePicture'] = removePicture.toString();
     if (image != null) {
       File file = File(image.path);
       picture = http.MultipartFile.fromBytes(

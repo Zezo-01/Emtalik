@@ -148,6 +148,7 @@
     "new-password":"الرقم السري الجديد",
     "confirm":"تأكيد",
     "cancel":"إلغاء",
-    "confirm-password":"تأكيد الرقم السري"
+    "confirm-password":"تأكيد الرقم السري",
+    "empty-fields":"لديك حقول فارغة أو خاطئة"
    
 }

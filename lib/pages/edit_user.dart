@@ -347,9 +347,9 @@ class _EditUserState extends State<EditUser> {
                             focusNode: _passwordNode,
                             controller: _passwordId,
                             onValidation: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "required-field".i18n();
-                              } else if (!Validator.passwordValidator(value)) {
+                              if (value != null &&
+                                  value.isNotEmpty &&
+                                  !Validator.passwordValidator(value)) {
                                 return 'password-constraint'.i18n();
                               }
                             },
@@ -526,209 +526,246 @@ class _EditUserState extends State<EditUser> {
                             children: [
                               ElevatedButton.icon(
                                   onPressed: () {
-                                    showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Center(
-                                              child: Text(
-                                                "confirm-password".i18n(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .labelMedium,
+                                    debugPrint(_passwordId.text);
+                                    if (_formKey.currentState!.validate()) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Center(
+                                                child: Text(
+                                                  "confirm-password".i18n(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelMedium,
+                                                ),
                                               ),
-                                            ),
-                                            content: SizedBox(
-                                              width: 450,
-                                              height: 250,
-                                              child: Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text("password".i18n()),
-                                                  PasswordFormField(
-                                                    controller:
-                                                        _confirmPasswordId,
-                                                  ),
-                                                  Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        ElevatedButton(
-                                                          onPressed: () async {
-                                                            var response = await HttpService.validateUser(
-                                                                Provider.of<UserSession>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .username ??
-                                                                    "",
-                                                                _confirmPasswordId
-                                                                    .text);
-                                                            if (response
-                                                                    .statusCode ==
-                                                                200) {
-                                                              List<String>
-                                                                  interests =
-                                                                  List.empty(
-                                                                      growable:
-                                                                          true);
-                                                              if (_land ==
-                                                                  true) {
-                                                                interests.add(
-                                                                    "land");
-                                                              }
-                                                              if (_appartment ==
-                                                                  true) {
-                                                                interests.add(
-                                                                    "apartment");
-                                                              }
-                                                              if (_store ==
-                                                                  true) {
-                                                                interests.add(
-                                                                    "store");
-                                                              }
-                                                              if (_parking ==
-                                                                  true) {
-                                                                interests.add(
-                                                                    "parking");
-                                                              }
-                                                              if (_house ==
-                                                                  true) {
-                                                                interests.add(
-                                                                    "house");
-                                                              }
-                                                              var user =
-                                                                  UserRegister(
-                                                                username:
-                                                                    _userNameId
-                                                                        .value
-                                                                        .text,
-                                                                firstName: _firstNameId
-                                                                        .value
-                                                                        .text
-                                                                        .isEmpty
-                                                                    ? null
-                                                                    : _firstNameId
-                                                                        .value
-                                                                        .text,
-                                                                fathersName: _secondNameId
-                                                                        .value
-                                                                        .text
-                                                                        .isEmpty
-                                                                    ? null
-                                                                    : _secondNameId
-                                                                        .value
-                                                                        .text,
-                                                                grandfathersName: _thirdNameId
-                                                                        .value
-                                                                        .text
-                                                                        .isEmpty
-                                                                    ? null
-                                                                    : _thirdNameId
-                                                                        .value
-                                                                        .text,
-                                                                surName: _lastNameId
-                                                                        .value
-                                                                        .text
-                                                                        .isEmpty
-                                                                    ? null
-                                                                    : _lastNameId
-                                                                        .value
-                                                                        .text,
-                                                                email: _emailId
-                                                                    .value.text,
-                                                                password:
-                                                                    _passwordId
-                                                                        .value
-                                                                        .text,
-                                                                contactNumber: _phoneId
-                                                                        .value
-                                                                        .text
-                                                                        .isEmpty
-                                                                    ? null
-                                                                    : _phoneId
-                                                                        .value
-                                                                        .text,
-                                                                interests: interests
-                                                                        .isEmpty
-                                                                    ? null
-                                                                    : interests,
-                                                              );
-                                                              var streamedResponse =
-                                                                  await HttpService
-                                                                      .editUserDetails(
-                                                                          Provider.of<UserSession>(context, listen: false).id ??
-                                                                              0,
-                                                                          user,
-                                                                          image);
-
-                                                              var response =
-                                                                  await Response
-                                                                      .fromStream(
-                                                                          streamedResponse);
+                                              content: SizedBox(
+                                                width: 450,
+                                                height: 250,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text("password".i18n()),
+                                                    PasswordFormField(
+                                                      controller:
+                                                          _confirmPasswordId,
+                                                    ),
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          ElevatedButton(
+                                                            onPressed:
+                                                                () async {
+                                                              var response = await HttpService.validateUser(
+                                                                  Provider.of<UserSession>(
+                                                                              context,
+                                                                              listen:
+                                                                                  false)
+                                                                          .username ??
+                                                                      "",
+                                                                  _confirmPasswordId
+                                                                      .text);
                                                               if (response
                                                                       .statusCode ==
                                                                   200) {
-                                                                Navigator.pop(
-                                                                    context);
+                                                                List<String>
+                                                                    interests =
+                                                                    List.empty(
+                                                                        growable:
+                                                                            true);
+                                                                if (_land ==
+                                                                    true) {
+                                                                  interests.add(
+                                                                      "land");
+                                                                }
+                                                                if (_appartment ==
+                                                                    true) {
+                                                                  interests.add(
+                                                                      "apartment");
+                                                                }
+                                                                if (_store ==
+                                                                    true) {
+                                                                  interests.add(
+                                                                      "store");
+                                                                }
+                                                                if (_parking ==
+                                                                    true) {
+                                                                  interests.add(
+                                                                      "parking");
+                                                                }
+                                                                if (_house ==
+                                                                    true) {
+                                                                  interests.add(
+                                                                      "house");
+                                                                }
+                                                                var user =
+                                                                    UserRegister(
+                                                                  username:
+                                                                      _userNameId
+                                                                          .value
+                                                                          .text,
+                                                                  firstName: _firstNameId
+                                                                          .value
+                                                                          .text
+                                                                          .isEmpty
+                                                                      ? null
+                                                                      : _firstNameId
+                                                                          .value
+                                                                          .text,
+                                                                  fathersName: _secondNameId
+                                                                          .value
+                                                                          .text
+                                                                          .isEmpty
+                                                                      ? null
+                                                                      : _secondNameId
+                                                                          .value
+                                                                          .text,
+                                                                  grandfathersName: _thirdNameId
+                                                                          .value
+                                                                          .text
+                                                                          .isEmpty
+                                                                      ? null
+                                                                      : _thirdNameId
+                                                                          .value
+                                                                          .text,
+                                                                  surName: _lastNameId
+                                                                          .value
+                                                                          .text
+                                                                          .isEmpty
+                                                                      ? null
+                                                                      : _lastNameId
+                                                                          .value
+                                                                          .text,
+                                                                  email:
+                                                                      _emailId
+                                                                          .value
+                                                                          .text,
+                                                                  password: _passwordId
+                                                                          .value
+                                                                          .text
+                                                                          .isEmpty
+                                                                      ? _confirmPasswordId
+                                                                          .text
+                                                                      : _passwordId
+                                                                          .text,
+                                                                  contactNumber: _phoneId
+                                                                          .value
+                                                                          .text
+                                                                          .isEmpty
+                                                                      ? null
+                                                                      : _phoneId
+                                                                          .value
+                                                                          .text,
+                                                                  interests: interests
+                                                                          .isEmpty
+                                                                      ? null
+                                                                      : interests,
+                                                                );
+                                                                var streamedResponse = await HttpService.editUserDetails(
+                                                                    Provider.of<UserSession>(context, listen: false)
+                                                                            .id ??
+                                                                        0,
+                                                                    modefiedPfp ==
+                                                                            null
+                                                                        ? true
+                                                                        : false,
+                                                                    user,
+                                                                    image);
+
+                                                                var response =
+                                                                    await Response
+                                                                        .fromStream(
+                                                                            streamedResponse);
+                                                                if (response
+                                                                        .statusCode ==
+                                                                    200) {
+                                                                  Provider.of<UserSession>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .logout();
+
+                                                                  Provider.of<UserSession>(
+                                                                          context,
+                                                                          listen:
+                                                                              false)
+                                                                      .login(UserSession.fromRawJson(
+                                                                          response
+                                                                              .body));
+
+                                                                  Navigator.pop(
+                                                                      context);
+                                                                  Navigator.pushNamed(
+                                                                      context,
+                                                                      "/mainpage");
+                                                                } else {
+                                                                  ToastFactory.makeToast(
+                                                                      context,
+                                                                      TOAST_TYPE
+                                                                          .error,
+                                                                      null,
+                                                                      "error"
+                                                                          .i18n(),
+                                                                      false,
+                                                                      () {});
+                                                                }
                                                               } else {
                                                                 ToastFactory.makeToast(
                                                                     context,
                                                                     TOAST_TYPE
                                                                         .error,
-                                                                    null,
                                                                     "error"
+                                                                        .i18n(),
+                                                                    Error.fromRawJson(
+                                                                            response.body)
+                                                                        .message
                                                                         .i18n(),
                                                                     false,
                                                                     () {});
                                                               }
-                                                            } else {
-                                                              ToastFactory.makeToast(
-                                                                  context,
-                                                                  TOAST_TYPE
-                                                                      .error,
-                                                                  "error"
-                                                                      .i18n(),
-                                                                  Error.fromRawJson(
-                                                                          response
-                                                                              .body)
-                                                                      .message
-                                                                      .i18n(),
-                                                                  false,
-                                                                  () {});
-                                                            }
-                                                          },
-                                                          child: const Icon(
-                                                              Icons.check),
-                                                          style: ButtonStyle(
-                                                              backgroundColor: MaterialStateProperty
-                                                                  .all(Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .error)),
-                                                        ),
-                                                        OutlinedButton(
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: const Icon(Icons
-                                                              .cancel_outlined),
-                                                          style: ButtonStyle(
-                                                              backgroundColor: MaterialStateProperty
-                                                                  .all(Theme.of(
-                                                                          context)
-                                                                      .colorScheme
-                                                                      .primary)),
-                                                        ),
-                                                      ]),
-                                                ],
+                                                            },
+                                                            child: const Icon(
+                                                                Icons.check),
+                                                            style: ButtonStyle(
+                                                                backgroundColor:
+                                                                    MaterialStateProperty.all(Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .error)),
+                                                          ),
+                                                          OutlinedButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Icon(Icons
+                                                                .cancel_outlined),
+                                                            style: ButtonStyle(
+                                                                backgroundColor:
+                                                                    MaterialStateProperty.all(Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primary)),
+                                                          ),
+                                                        ]),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        });
+                                            );
+                                          });
+                                    } else {
+                                      ToastFactory.makeToast(
+                                          context,
+                                          TOAST_TYPE.error,
+                                          "error".i18n(),
+                                          "empty-fields".i18n(),
+                                          false,
+                                          () {});
+                                    }
                                   },
                                   icon: const Icon(Icons.check),
                                   label: Text("confirm".i18n())),

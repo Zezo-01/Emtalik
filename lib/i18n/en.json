@@ -148,6 +148,7 @@
     "new-password":"New password",
     "confirm":"Confirm",
     "cancel":"Cancel",
-    "confirm-password":"Confirm Password"
+    "confirm-password":"Confirm Password",
+    "empty-fields":"You have empty fields or fields with errors"
    
 }
