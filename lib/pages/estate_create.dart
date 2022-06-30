@@ -710,12 +710,11 @@ class _EstateCreate extends State<EstateCreate> {
                             type: TextInputType.number,
                             enterKeyAction: TextInputAction.done,
                             onValidation: (value) {
-                              if (estateType == "land" && value == null ||
-                                  value!.isEmpty) {
+                              if (value == null || value!.isEmpty) {
                                 return "required-field".i18n();
                               } else {
                                 try {
-                                  int.parse(value);
+                                  double.parse(value);
                                 } catch (e) {
                                   return "must-be-number".i18n();
                                 }

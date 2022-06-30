@@ -251,4 +251,13 @@ abstract class HttpService {
 
     return await request.send();
   }
+
+  static Future<http.Response> updateEstate(
+      String estate, String type, int estateId) {
+    return http.put(Uri.parse(estateTarget + "/modify"), body: {
+      "estateJson": estate,
+      "type": type,
+      "estateId": estateId.toString()
+    });
+  }
 }
