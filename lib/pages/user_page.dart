@@ -7,7 +7,6 @@ import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/offer.dart';
 import 'package:emtalik/models/user_details.dart';
 import 'package:emtalik/pages/apartment_display.dart';
-import 'package:emtalik/pages/edit_estate.dart';
 import 'package:emtalik/pages/edit_user.dart';
 import 'package:emtalik/pages/house_display.dart';
 import 'package:emtalik/pages/land_display.dart';

@@ -526,7 +526,6 @@ class _EditUserState extends State<EditUser> {
                             children: [
                               ElevatedButton.icon(
                                   onPressed: () {
-                                    debugPrint(_passwordId.text);
                                     if (_formKey.currentState!.validate()) {
                                       showDialog(
                                           context: context,

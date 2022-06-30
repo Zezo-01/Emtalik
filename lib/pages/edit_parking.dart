@@ -1,16 +1,20 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
+import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
+import 'package:emtalik/models/error.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/parking.dart';
+import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 
 class EditParking extends StatefulWidget {
   EditParking({
@@ -31,12 +35,16 @@ class _EditParking extends State<EditParking> {
 
   int id;
 
+  final _formKey = GlobalKey<FormState>();
+
   final _parkingName = TextEditingController();
   final _parkingAddress = TextEditingController();
 
   final _parkingDescription = TextEditingController();
   final _parkingSize = TextEditingController();
   final _vehicleCapacityController = TextEditingController();
+
+  final _confirmPasswordId = TextEditingController();
 
   late String province;
   bool _automobile = false;
@@ -70,7 +78,7 @@ class _EditParking extends State<EditParking> {
                   body: Center(child: CircularProgressIndicator()));
             } else {
               var parking = snapshot.data as Parking;
-              if (!initlized) {
+              if (initlized == false) {
                 _parkingName.text = decodeUtf8ToString(parking.name);
                 _parkingAddress.text = decodeUtf8ToString(parking.address);
 
@@ -82,8 +90,8 @@ class _EditParking extends State<EditParking> {
                 _parkingSize.text = parking.size.toString();
                 List<String> allowedVehicles = List.of(
                     parking.carsAllowd == null || parking.carsAllowd!.isEmpty
-                        ? parking.carsAllowd!.split(",")
-                        : List.empty(growable: true));
+                        ? List.empty(growable: true)
+                        : parking.carsAllowd!.split(","));
                 _vehicleCapacityController.text =
                     parking.vehicleCapacity.toString();
                 if (allowedVehicles.contains("automobile")) {
@@ -130,144 +138,331 @@ class _EditParking extends State<EditParking> {
                 ),
                 body: GestureDetector(
                   onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-                  child: Container(
-                    margin: EdgeInsets.all(20),
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        Text(
-                          "estate-name-constraint".i18n(),
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ),
-                        CustomFormField(
-                          labelText: "estate-name",
-                          icon: const Icon(Icons.other_houses),
-                          controller: _parkingName,
-                          type: TextInputType.name,
-                          enterKeyAction: TextInputAction.done,
-                          onValidation: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return "required-field".i18n();
-                            } else if (value.length > 35) {
-                              return "too-long".i18n();
-                            }
-                          },
-                        ),
-                        Text(
-                          "province".i18n(),
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ),
-                        DropdownButtonFormField<String>(
-                          onChanged: (value) {
-                            setState(() {
-                              province = value!;
-                            });
-                          },
-                          validator: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return "required-field".i18n();
-                            }
-                          },
-                          value: province,
-                          items: [
-                            DropdownMenuItem(
-                              child: Text("nablus".i18n()),
-                              value: "nablus",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("ramallah".i18n()),
-                              value: "ramallah",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("selfeet".i18n()),
-                              value: "selfeet",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("hebrone".i18n()),
-                              value: "hebrone",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("tubas".i18n()),
-                              value: "tubas",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("bethleem".i18n()),
-                              value: "bethleem",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("jenin".i18n()),
-                              value: "jenin",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("jericho".i18n()),
-                              value: "jericho",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("tulkarem".i18n()),
-                              value: "tulkarem",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("qalqilya".i18n()),
-                              value: "qalqilya",
-                            ),
-                            DropdownMenuItem(
-                              child: Text("jerusalem".i18n()),
-                              value: "jerusalem",
-                            ),
-                          ],
-                        ),
-                        Text(
-                          "address-constraint".i18n(),
-                          style: Theme.of(context).textTheme.labelMedium,
-                        ),
-                        CustomFormField(
-                          labelText: "address",
-                          icon: const Icon(Icons.other_houses),
-                          controller: _parkingAddress,
-                          type: TextInputType.name,
-                          enterKeyAction: TextInputAction.done,
-                          onValidation: (value) {
-                            if (value == null || value.trim().isEmpty) {
-                              return "required-field".i18n();
-                            } else if (value.length > 35) {
-                              return "too-long".i18n();
-                            }
-                          },
-                        ),
-                        CustomFormField(
-                          labelText: "size-in-square-meters".i18n(),
-                          icon: const Icon(Icons.height),
-                          controller: _parkingSize,
-                          type: TextInputType.number,
-                          enterKeyAction: TextInputAction.done,
-                          onValidation: (value) {
-                            if (value == null || value!.isEmpty) {
-                              return "required-field".i18n();
-                            } else {
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      alignment: Alignment.center,
+                      child: Column(
+                        children: [
+                          Text(
+                            "estate-name-constraint".i18n(),
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                          CustomFormField(
+                            labelText: "estate-name",
+                            icon: const Icon(Icons.other_houses),
+                            controller: _parkingName,
+                            type: TextInputType.name,
+                            enterKeyAction: TextInputAction.done,
+                            onValidation: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "required-field".i18n();
+                              } else if (value.length > 35) {
+                                return "too-long".i18n();
+                              }
+                            },
+                          ),
+                          Text(
+                            "province".i18n(),
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                          DropdownButtonFormField<String>(
+                            onChanged: (value) {
+                              setState(() {
+                                province = value!;
+                              });
+                            },
+                            validator: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "required-field".i18n();
+                              }
+                            },
+                            value: province,
+                            items: [
+                              DropdownMenuItem(
+                                child: Text("nablus".i18n()),
+                                value: "nablus",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("ramallah".i18n()),
+                                value: "ramallah",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("selfeet".i18n()),
+                                value: "selfeet",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("hebrone".i18n()),
+                                value: "hebrone",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("tubas".i18n()),
+                                value: "tubas",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("bethleem".i18n()),
+                                value: "bethleem",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("jenin".i18n()),
+                                value: "jenin",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("jericho".i18n()),
+                                value: "jericho",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("tulkarem".i18n()),
+                                value: "tulkarem",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("qalqilya".i18n()),
+                                value: "qalqilya",
+                              ),
+                              DropdownMenuItem(
+                                child: Text("jerusalem".i18n()),
+                                value: "jerusalem",
+                              ),
+                            ],
+                          ),
+                          Text(
+                            "address-constraint".i18n(),
+                            style: Theme.of(context).textTheme.labelMedium,
+                          ),
+                          CustomFormField(
+                            labelText: "address",
+                            icon: const Icon(Icons.other_houses),
+                            controller: _parkingAddress,
+                            type: TextInputType.name,
+                            enterKeyAction: TextInputAction.done,
+                            onValidation: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "required-field".i18n();
+                              } else if (value.length > 35) {
+                                return "too-long".i18n();
+                              }
+                            },
+                          ),
+                          CustomFormField(
+                            labelText: "size-in-square-meters".i18n(),
+                            icon: const Icon(Icons.height),
+                            controller: _parkingSize,
+                            type: TextInputType.number,
+                            enterKeyAction: TextInputAction.done,
+                            onValidation: (value) {
+                              if (value == null || value!.isEmpty) {
+                                return "required-field".i18n();
+                              } else {
+                                try {
+                                  int.parse(value);
+                                } catch (e) {
+                                  return "must-be-number".i18n();
+                                }
+                              }
+                            },
+                          ),
+                          CustomFormField(
+                            minLines: 3,
+                            maxLines: 5,
+                            labelText: "description".i18n(),
+                            icon: const Icon(Icons.description),
+                            controller: _parkingDescription,
+                            type: TextInputType.multiline,
+                            enterKeyAction: TextInputAction.done,
+                            onValidation: (value) {
+                              if (value == null ||
+                                  value.trim().isNotEmpty &&
+                                      value.length > 255) {
+                                return "too-long".i18n();
+                              }
+                            },
+                          ),
+                          CustomFormField(
+                            labelText: "vehicle-capacity".i18n(),
+                            icon: const Icon(Icons.car_repair_rounded),
+                            controller: _vehicleCapacityController,
+                            type: TextInputType.number,
+                            enterKeyAction: TextInputAction.done,
+                            onValidation: (value) {
+                              if (value == null || value.trim().isEmpty) {
+                                return "required-field".i18n();
+                              }
                               try {
                                 int.parse(value);
                               } catch (e) {
                                 return "must-be-number".i18n();
                               }
-                            }
-                          },
-                        ),
-                        CustomFormField(
-                          minLines: 3,
-                          maxLines: 5,
-                          labelText: "description".i18n(),
-                          icon: const Icon(Icons.description),
-                          controller: _parkingDescription,
-                          type: TextInputType.multiline,
-                          enterKeyAction: TextInputAction.done,
-                          onValidation: (value) {
-                            if (value == null ||
-                                value.trim().isNotEmpty && value.length > 255) {
-                              return "too-long".i18n();
-                            }
-                          },
-                        ),
-                      ],
+                            },
+                          ),
+                          CheckboxListTile(
+                            title: Text("automobile".i18n()),
+                            secondary: const Icon(FontAwesomeIcons.car),
+                            controlAffinity: ListTileControlAffinity.platform,
+                            value: _automobile,
+                            onChanged: (value) {
+                              setState(
+                                () {
+                                  _automobile = value!;
+                                },
+                              );
+                            },
+                          ),
+                          CheckboxListTile(
+                            title: Text("bus".i18n()),
+                            secondary: const Icon(FontAwesomeIcons.bus),
+                            controlAffinity: ListTileControlAffinity.platform,
+                            value: _bus,
+                            onChanged: (value) {
+                              setState(
+                                () {
+                                  _bus = value!;
+                                },
+                              );
+                            },
+                          ),
+                          CheckboxListTile(
+                            title: Text("truck".i18n()),
+                            secondary: const Icon(FontAwesomeIcons.truck),
+                            controlAffinity: ListTileControlAffinity.platform,
+                            value: _truck,
+                            onChanged: (value) {
+                              setState(
+                                () {
+                                  _truck = value!;
+                                },
+                              );
+                            },
+                          ),
+                          CheckboxListTile(
+                            title: Text("bike".i18n()),
+                            secondary: const Icon(FontAwesomeIcons.bicycle),
+                            controlAffinity: ListTileControlAffinity.platform,
+                            value: _bike,
+                            onChanged: (value) {
+                              setState(
+                                () {
+                                  _bike = value!;
+                                },
+                              );
+                            },
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ElevatedButton.icon(
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      showDialog(
+                                          context: context,
+                                          builder: (context) {
+                                            return AlertDialog(
+                                              title: Center(
+                                                child: Text(
+                                                  "confirm-password".i18n(),
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .labelMedium,
+                                                ),
+                                              ),
+                                              content: SizedBox(
+                                                width: 450,
+                                                height: 250,
+                                                child: Column(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Text("password".i18n()),
+                                                    PasswordFormField(
+                                                      controller:
+                                                          _confirmPasswordId,
+                                                    ),
+                                                    Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: [
+                                                          ElevatedButton(
+                                                            onPressed:
+                                                                () async {
+                                                              var response = await HttpService.validateUser(
+                                                                  Provider.of<UserSession>(
+                                                                              context,
+                                                                              listen:
+                                                                                  false)
+                                                                          .username ??
+                                                                      "",
+                                                                  _confirmPasswordId
+                                                                      .text);
+                                                              if (response
+                                                                      .statusCode ==
+                                                                  200) {
+                                                                // TODO: SEND EDIT REQUEST
+                                                              } else {
+                                                                ToastFactory.makeToast(
+                                                                    context,
+                                                                    TOAST_TYPE
+                                                                        .error,
+                                                                    "error"
+                                                                        .i18n(),
+                                                                    Error.fromRawJson(
+                                                                            response.body)
+                                                                        .message
+                                                                        .i18n(),
+                                                                    false,
+                                                                    () {});
+                                                              }
+                                                            },
+                                                            child: const Icon(
+                                                                Icons.check),
+                                                            style: ButtonStyle(
+                                                                backgroundColor:
+                                                                    MaterialStateProperty.all(Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .error)),
+                                                          ),
+                                                          OutlinedButton(
+                                                            onPressed: () {
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: const Icon(Icons
+                                                                .cancel_outlined),
+                                                            style: ButtonStyle(
+                                                                backgroundColor:
+                                                                    MaterialStateProperty.all(Theme.of(
+                                                                            context)
+                                                                        .colorScheme
+                                                                        .primary)),
+                                                          ),
+                                                        ]),
+                                                  ],
+                                                ),
+                                              ),
+                                            );
+                                          });
+                                    } else {
+                                      ToastFactory.makeToast(
+                                          context,
+                                          TOAST_TYPE.error,
+                                          "error".i18n(),
+                                          "empty-fields".i18n(),
+                                          false,
+                                          () {});
+                                    }
+                                  },
+                                  icon: const Icon(Icons.check),
+                                  label: Text("confirm".i18n())),
+                              ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: const Icon(Icons.cancel_outlined),
+                                  label: Text("cancel".i18n())),
+                            ],
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

@@ -35,7 +35,7 @@ class _EditAppartmnet extends State<EditAppartmnet> {
   late Future<Apartment> appartment;
   final _apartmentFloorNumberController = TextEditingController();
   final _apartmentNumberController = TextEditingController();
-    final _apartmentFloorNumber = FocusNode();
+  final _apartmentFloorNumber = FocusNode();
   final _apartmentNumber = FocusNode();
 
   Future<Apartment> getEstate() async {
@@ -353,57 +353,58 @@ class _EditAppartmnet extends State<EditAppartmnet> {
                                 height: 15,
                               ),
                               Form(
-
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CustomFormField(
-                                    focusNode: _apartmentFloorNumber,
-                                    onComplete: () {
-                                      FocusScope.of(context)
-                                          .requestFocus(_apartmentNumber);
-                                    },
-                                    labelText: "apartment-floor-number".i18n(),
-                                    icon: const Icon(Icons.elevator),
-                                    controller: _apartmentFloorNumberController,
-                                    type: TextInputType.number,
-                                    enterKeyAction: TextInputAction.done,
-                                    onValidation: (value) {
-                                      if (value == null ||
-                                          value.trim().isEmpty) {
-                                        return "required-field".i18n();
-                                      }
-                                      try {
-                                        int.parse(value);
-                                      } catch (e) {
-                                        return "must-be-number".i18n();
-                                      }
-                                    },
-                                  ),
-                                  CustomFormField(
-                                    focusNode: _apartmentNumber,
-                                    labelText: "apartment-number".i18n(),
-                                    icon: const Icon(Icons.door_back_door),
-                                    controller: _apartmentNumberController,
-                                    type: TextInputType.number,
-                                    enterKeyAction: TextInputAction.done,
-                                    onValidation: (value) {
-                                      if (value == null ||
-                                          value.trim().isEmpty) {
-                                        return "required-field".i18n();
-                                      }
-                                      try {
-                                        int.parse(value);
-                                      } catch (e) {
-                                        return "must-be-number".i18n();
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            )
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    CustomFormField(
+                                      focusNode: _apartmentFloorNumber,
+                                      onComplete: () {
+                                        FocusScope.of(context)
+                                            .requestFocus(_apartmentNumber);
+                                      },
+                                      labelText:
+                                          "apartment-floor-number".i18n(),
+                                      icon: const Icon(Icons.elevator),
+                                      controller:
+                                          _apartmentFloorNumberController,
+                                      type: TextInputType.number,
+                                      enterKeyAction: TextInputAction.done,
+                                      onValidation: (value) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return "required-field".i18n();
+                                        }
+                                        try {
+                                          int.parse(value);
+                                        } catch (e) {
+                                          return "must-be-number".i18n();
+                                        }
+                                      },
+                                    ),
+                                    CustomFormField(
+                                      focusNode: _apartmentNumber,
+                                      labelText: "apartment-number".i18n(),
+                                      icon: const Icon(Icons.door_back_door),
+                                      controller: _apartmentNumberController,
+                                      type: TextInputType.number,
+                                      enterKeyAction: TextInputAction.done,
+                                      onValidation: (value) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return "required-field".i18n();
+                                        }
+                                        try {
+                                          int.parse(value);
+                                        } catch (e) {
+                                          return "must-be-number".i18n();
+                                        }
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                         ],
