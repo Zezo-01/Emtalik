@@ -149,6 +149,7 @@
     "confirm":"Confirm",
     "cancel":"Cancel",
     "confirm-password":"Confirm Password",
-    "empty-fields":"You have empty fields or fields with errors"
+    "empty-fields":"You have empty fields or fields with errors",
+    "province":"Province"
    
 }

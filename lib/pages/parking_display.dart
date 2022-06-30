@@ -9,6 +9,7 @@ import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/media_response.dart';
 import 'package:emtalik/models/parking.dart';
+import 'package:emtalik/pages/edit_parking.dart';
 import 'package:emtalik/pages/image_display.dart';
 import 'package:emtalik/pages/user_page.dart';
 import 'package:emtalik/pages/video_display.dart';
@@ -465,7 +466,11 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                                   .secondary),
                                     ),
                                     onPressed: () {
-                                      // TODO MAKE EDIT PAGES
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  EditParking(id: id))));
                                     },
                                   ),
                                   ElevatedButton.icon(

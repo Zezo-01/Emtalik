@@ -598,7 +598,6 @@ class _EstateCreate extends State<EstateCreate> {
                 ),
               ),
               Step(
-                
                 title: Text(
                   "extra-details".i18n(),
                   style: Theme.of(context)

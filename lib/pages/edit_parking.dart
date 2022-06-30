@@ -30,14 +30,22 @@ class _EditParking extends State<EditParking> {
   });
 
   int id;
-  late String province;
-  late Future<Parking> parking;
-  bool _automobile = false;
-  bool _bus = false;
-  bool _truck = false;
-  bool _bike = false;
+
+  final _parkingName = TextEditingController();
+  final _parkingAddress = TextEditingController();
+
+  final _parkingDescription = TextEditingController();
+  final _parkingSize = TextEditingController();
   final _vehicleCapacityController = TextEditingController();
 
+  late String province;
+  bool _automobile = false;
+  bool _bus = false;
+  bool _bike = false;
+  bool _truck = false;
+  late Future<Parking> parking;
+
+  late bool initlized;
   Future<Parking> getEstate() async {
     var response = await HttpService.getEstateByTypeAndId("parking", id);
     return Parking.fromRawJson(response.body);
@@ -46,8 +54,9 @@ class _EditParking extends State<EditParking> {
   @override
   void initState() {
     super.initState();
-    parking = getEstate();
+    initlized = false;
     province = "";
+    parking = getEstate();
   }
 
   @override
@@ -56,9 +65,42 @@ class _EditParking extends State<EditParking> {
           future: parking,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Scaffold(
+                  appBar: AppBar(),
+                  body: Center(child: CircularProgressIndicator()));
             } else {
               var parking = snapshot.data as Parking;
+              if (!initlized) {
+                _parkingName.text = decodeUtf8ToString(parking.name);
+                _parkingAddress.text = decodeUtf8ToString(parking.address);
+
+                _parkingDescription.text =
+                    parking.description == null || parking.description!.isEmpty
+                        ? ""
+                        : decodeUtf8ToString(parking.description!);
+                province = parking.province;
+                _parkingSize.text = parking.size.toString();
+                List<String> allowedVehicles = List.of(
+                    parking.carsAllowd == null || parking.carsAllowd!.isEmpty
+                        ? parking.carsAllowd!.split(",")
+                        : List.empty(growable: true));
+                _vehicleCapacityController.text =
+                    parking.vehicleCapacity.toString();
+                if (allowedVehicles.contains("automobile")) {
+                  _automobile = true;
+                }
+                if (allowedVehicles.contains("bus")) {
+                  _bus = true;
+                }
+                if (allowedVehicles.contains("bike")) {
+                  _bike = true;
+                }
+                if (allowedVehicles.contains("truck")) {
+                  _truck = true;
+                }
+
+                initlized = true;
+              }
               return Scaffold(
                 appBar: AppBar(
                   shape: RoundedRectangleBorder(
@@ -76,7 +118,7 @@ class _EditParking extends State<EditParking> {
                   title: Container(
                       margin: EdgeInsets.only(top: 30),
                       child: Text(
-                        decodeUtf8ToString(parking.name),
+                        "edit-estate".i18n(),
                         style: Theme.of(context).textTheme.bodyMedium,
                       )),
                   leading: IconButton(
@@ -86,365 +128,147 @@ class _EditParking extends State<EditParking> {
                     icon: Icon(Icons.arrow_back),
                   ),
                 ),
-                body: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(top: 10),
-                        child: Image.network(
-                          HttpService.getEstateMainPicture(parking.id),
-                          fit: BoxFit.cover,
+                body: GestureDetector(
+                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                  child: Container(
+                    margin: EdgeInsets.all(20),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        Text(
+                          "estate-name-constraint".i18n(),
+                          style: Theme.of(context).textTheme.labelMedium,
                         ),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.city)),
-                          Container(
-                              margin:
-                                  EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Text("Enter New Name :-"),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomFormField(labelText: "Enter New Name"),
-                                ],
-                              )),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.ruler)),
-                          Container(
-                              margin:
-                                  EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Text("Enter New Address :-"),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomFormField(
-                                      labelText: "Enter New Address"),
-                                ],
-                              )),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.squareParking)),
-                          Container(
-                              margin:
-                                  EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Text("Enter New Province :-"),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  DropdownButtonFormField<String>(
-                                    onChanged: (value) {
-                                      setState(() {
-                                        province = value!;
-                                      });
-                                    },
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.trim().isEmpty) {
-                                        return "required-field".i18n();
-                                      }
-                                    },
-                                    hint: Text("pick-province".i18n()),
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text("nablus".i18n()),
-                                        value: "nablus",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("ramallah".i18n()),
-                                        value: "ramallah",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("selfeet".i18n()),
-                                        value: "selfeet",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("hebrone".i18n()),
-                                        value: "hebrone",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("tubas".i18n()),
-                                        value: "tubas",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("bethleem".i18n()),
-                                        value: "bethleem",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("jenin".i18n()),
-                                        value: "jenin",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("jericho".i18n()),
-                                        value: "jericho",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("tulkarem".i18n()),
-                                        value: "tulkarem",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("qalqilya".i18n()),
-                                        value: "qalqilya",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("jerusalem".i18n()),
-                                        value: "jerusalem",
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ))
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.squareParking)),
-                          Container(
-                              margin:
-                                  EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Text("Enter New Size :-"),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomFormField(labelText: "Enter New Size"),
-                                ],
-                              ))
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              ElevatedButton.icon(
-                                icon: Icon(Icons.save),
-                                label: Text("save-changes".i18n()),
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Theme.of(context).colorScheme.secondary),
-                                ),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text(
-                                          "save-changes".i18n(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelMedium,
-                                        ),
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              child: Text(
-                                                "estate-change-confirmation"
-                                                    .i18n(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                ElevatedButton(
-                                                  onPressed: () async {
-                                                    var response =
-                                                        await HttpService
-                                                            .deleteEstateById(
-                                                                id);
-                                                    if (response.statusCode ==
-                                                        200) {
-                                                      Navigator.pop(context);
-                                                      Navigator.popAndPushNamed(
-                                                          context, "mainpage");
-                                                    } else {
-                                                      Navigator.pop(context);
-                                                      ToastFactory.makeToast(
-                                                          context,
-                                                          TOAST_TYPE.warning,
-                                                          null,
-                                                          "error".i18n(),
-                                                          false,
-                                                          () {});
-                                                    }
-                                                  },
-                                                  child: Text("yes".i18n(),
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText2),
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .error)),
-                                                ),
-                                                OutlinedButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text(
-                                                    "no".i18n(),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText2,
-                                                  ),
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .primary)),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Form(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    CheckboxListTile(
-                                      title: Text("automobile".i18n()),
-                                      secondary:
-                                          const Icon(FontAwesomeIcons.car),
-                                      controlAffinity:
-                                          ListTileControlAffinity.platform,
-                                      value: _automobile,
-                                      onChanged: (value) {
-                                        setState(
-                                          () {
-                                            _automobile = value!;
-                                          },
-                                        );
-                                      },
-                                    ),
-                                    CheckboxListTile(
-                                      title: Text("bus".i18n()),
-                                      secondary:
-                                          const Icon(FontAwesomeIcons.bus),
-                                      controlAffinity:
-                                          ListTileControlAffinity.platform,
-                                      value: _bus,
-                                      onChanged: (value) {
-                                        setState(
-                                          () {
-                                            _bus = value!;
-                                          },
-                                        );
-                                      },
-                                    ),
-                                    CheckboxListTile(
-                                      title: Text("truck".i18n()),
-                                      secondary:
-                                          const Icon(FontAwesomeIcons.truck),
-                                      controlAffinity:
-                                          ListTileControlAffinity.platform,
-                                      value: _truck,
-                                      onChanged: (value) {
-                                        setState(
-                                          () {
-                                            _truck = value!;
-                                          },
-                                        );
-                                      },
-                                    ),
-                                    CheckboxListTile(
-                                      title: Text("bike".i18n()),
-                                      secondary:
-                                          const Icon(FontAwesomeIcons.bicycle),
-                                      controlAffinity:
-                                          ListTileControlAffinity.platform,
-                                      value: _bike,
-                                      onChanged: (value) {
-                                        setState(
-                                          () {
-                                            _bike = value!;
-                                          },
-                                        );
-                                      },
-                                    ),
-                                    CustomFormField(
-                                      labelText: "vehicle-capacity".i18n(),
-                                      icon:
-                                          const Icon(Icons.car_repair_rounded),
-                                      controller: _vehicleCapacityController,
-                                      type: TextInputType.number,
-                                      enterKeyAction: TextInputAction.done,
-                                      onValidation: (value) {
-                                        if (value == null ||
-                                            value.trim().isEmpty) {
-                                          return "required-field".i18n();
-                                        }
-                                        try {
-                                          int.parse(value);
-                                        } catch (e) {
-                                          return "must-be-number".i18n();
-                                        }
-                                      },
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
+                        CustomFormField(
+                          labelText: "estate-name",
+                          icon: const Icon(Icons.other_houses),
+                          controller: _parkingName,
+                          type: TextInputType.name,
+                          enterKeyAction: TextInputAction.done,
+                          onValidation: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "required-field".i18n();
+                            } else if (value.length > 35) {
+                              return "too-long".i18n();
+                            }
+                          },
+                        ),
+                        Text(
+                          "province".i18n(),
+                          style: Theme.of(context).textTheme.labelMedium,
+                        ),
+                        DropdownButtonFormField<String>(
+                          onChanged: (value) {
+                            setState(() {
+                              province = value!;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "required-field".i18n();
+                            }
+                          },
+                          value: province,
+                          items: [
+                            DropdownMenuItem(
+                              child: Text("nablus".i18n()),
+                              value: "nablus",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("ramallah".i18n()),
+                              value: "ramallah",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("selfeet".i18n()),
+                              value: "selfeet",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("hebrone".i18n()),
+                              value: "hebrone",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("tubas".i18n()),
+                              value: "tubas",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("bethleem".i18n()),
+                              value: "bethleem",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("jenin".i18n()),
+                              value: "jenin",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("jericho".i18n()),
+                              value: "jericho",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("tulkarem".i18n()),
+                              value: "tulkarem",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("qalqilya".i18n()),
+                              value: "qalqilya",
+                            ),
+                            DropdownMenuItem(
+                              child: Text("jerusalem".i18n()),
+                              value: "jerusalem",
+                            ),
+                          ],
+                        ),
+                        Text(
+                          "address-constraint".i18n(),
+                          style: Theme.of(context).textTheme.labelMedium,
+                        ),
+                        CustomFormField(
+                          labelText: "address",
+                          icon: const Icon(Icons.other_houses),
+                          controller: _parkingAddress,
+                          type: TextInputType.name,
+                          enterKeyAction: TextInputAction.done,
+                          onValidation: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return "required-field".i18n();
+                            } else if (value.length > 35) {
+                              return "too-long".i18n();
+                            }
+                          },
+                        ),
+                        CustomFormField(
+                          labelText: "size-in-square-meters".i18n(),
+                          icon: const Icon(Icons.height),
+                          controller: _parkingSize,
+                          type: TextInputType.number,
+                          enterKeyAction: TextInputAction.done,
+                          onValidation: (value) {
+                            if (value == null || value!.isEmpty) {
+                              return "required-field".i18n();
+                            } else {
+                              try {
+                                int.parse(value);
+                              } catch (e) {
+                                return "must-be-number".i18n();
+                              }
+                            }
+                          },
+                        ),
+                        CustomFormField(
+                          minLines: 3,
+                          maxLines: 5,
+                          labelText: "description".i18n(),
+                          icon: const Icon(Icons.description),
+                          controller: _parkingDescription,
+                          type: TextInputType.multiline,
+                          enterKeyAction: TextInputAction.done,
+                          onValidation: (value) {
+                            if (value == null ||
+                                value.trim().isNotEmpty && value.length > 255) {
+                              return "too-long".i18n();
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
@@ -452,35 +276,4 @@ class _EditParking extends State<EditParking> {
           },
         ),
       );
-  Future openDialop() => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: Text("save-changes?".i18n()),
-            actions: [
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      padding: EdgeInsets.all(10),
-                      side: BorderSide(color: Colors.blue),
-                      primary: Color.fromARGB(239, 253, 233, 199),
-                      onPrimary: Colors.black),
-                  onPressed: () {},
-                  child: Text("yes".i18n())),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      padding: EdgeInsets.all(10),
-                      side: BorderSide(color: Colors.blue),
-                      primary: Color.fromARGB(239, 253, 233, 199),
-                      onPrimary: Colors.black),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("no".i18n())),
-            ],
-          ));
 }

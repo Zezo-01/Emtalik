@@ -149,6 +149,7 @@
     "confirm":"تأكيد",
     "cancel":"إلغاء",
     "confirm-password":"تأكيد الرقم السري",
-    "empty-fields":"لديك حقول فارغة أو خاطئة"
+    "empty-fields":"لديك حقول فارغة أو خاطئة",
+    "province":"المحافظة"
    
 }
