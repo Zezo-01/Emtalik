@@ -398,10 +398,8 @@ class _DisplayOfferState extends State<DisplayOffer> {
                                                             () {});
                                                       }
                                                     },
-                                                    child: Text("yes".i18n(),
-                                                        style: Theme.of(context)
-                                                            .textTheme
-                                                            .bodyText2),
+                                                    child:
+                                                        const Icon(Icons.check),
                                                     style: ButtonStyle(
                                                         backgroundColor:
                                                             MaterialStateProperty
@@ -414,12 +412,8 @@ class _DisplayOfferState extends State<DisplayOffer> {
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
-                                                    child: Text(
-                                                      "no".i18n(),
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText2,
-                                                    ),
+                                                    child: const Icon(
+                                                        Icons.cancel_outlined),
                                                     style: ButtonStyle(
                                                         backgroundColor:
                                                             MaterialStateProperty

@@ -141,6 +141,15 @@
     "editing":"Editing",
     "unreviewed-estates":"Unreviewed Estates",
     "my-estates":"My estates",
-    "my-offers":"My offers"
+    "my-offers":"My offers",
+    "full-name":"Full name",
+    "admin":"Administrator",
+    "edit-profile":"Edit profile",
+    "new-password":"New password",
+    "confirm":"Confirm",
+    "cancel":"Cancel",
+    "confirm-password":"Confirm Password",
+    "empty-fields":"You have empty fields or fields with errors",
+    "province":"Province"
    
 }

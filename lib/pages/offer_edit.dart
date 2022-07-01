@@ -283,7 +283,6 @@ class _OfferEditState extends State<OfferEdit> {
                                 if (response.statusCode == 200) {
                                   Navigator.of(context).pop();
                                 } else {
-                                  debugPrint(response.statusCode.toString());
                                   ToastFactory.makeToast(
                                       context,
                                       TOAST_TYPE.error,

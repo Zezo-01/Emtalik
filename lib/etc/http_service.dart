@@ -176,6 +176,11 @@ abstract class HttpService {
     return await http.get(Uri.parse(userTarget + "/offers/" + id.toString()));
   }
 
+  static Future<http.Response> getUserApprovedOffers(int id) async {
+    return await http
+        .get(Uri.parse(userTarget + "/offers/approved/" + id.toString()));
+  }
+
   static Future<http.Response> getUserApprovedEstates(int id) async {
     return await http
         .get(Uri.parse(userTarget + "/estates/approved/" + id.toString()));
@@ -214,5 +219,45 @@ abstract class HttpService {
       Uri.parse(offerTarget),
       body: {"offerId": id.toString()},
     );
+  }
+
+  static Future<http.Response> getUserById(int id) {
+    return http.get(Uri.parse(userTarget + "/" + id.toString()));
+  }
+
+  static Future<http.StreamedResponse> editUserDetails(
+      int userId, bool removePicture, UserRegister user, XFile? image) async {
+    var picture;
+    var request = http.MultipartRequest(
+        "PUT", Uri.parse(adminTarget + "/edit/" + userId.toString()));
+    request.fields['userJson'] = jsonEncode(user);
+    request.fields['removePicture'] = removePicture.toString();
+    if (image != null) {
+      File file = File(image.path);
+      picture = http.MultipartFile.fromBytes(
+        "picture",
+        file.readAsBytesSync(),
+        filename: image.name,
+        contentType: MediaType.parse(
+          lookupMimeType(image.name) ?? 'application/octet-stream',
+        ),
+      );
+    } else {
+      picture = null;
+    }
+    if (picture != null) {
+      request.files.add(picture);
+    }
+
+    return await request.send();
+  }
+
+  static Future<http.Response> updateEstate(
+      String estate, String type, int estateId) {
+    return http.put(Uri.parse(estateTarget + "/modify"), body: {
+      "estateJson": estate,
+      "type": type,
+      "estateId": estateId.toString()
+    });
   }
 }

@@ -9,7 +9,9 @@ import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/estate_response.dart';
 import 'package:emtalik/models/media_response.dart';
 import 'package:emtalik/models/parking.dart';
+import 'package:emtalik/pages/edit_parking.dart';
 import 'package:emtalik/pages/image_display.dart';
+import 'package:emtalik/pages/user_page.dart';
 import 'package:emtalik/pages/video_display.dart';
 import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/cupertino.dart';
@@ -119,37 +121,44 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.only(left: 10, top: 10),
-                          alignment: Alignment.centerLeft,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Row(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: ClipOval(
-                                    child: Provider.of<UserSession>(context)
-                                            .picture
-                                        ? Image.network(
-                                            HttpService.getProfilePictureRoute(
-                                                parking.ownerId),
-                                            width: 35,
-                                          )
-                                        : Image.asset(
-                                            "assets/user/default_pfp.png",
-                                            width: 35,
-                                          ),
-                                  ),
+                        margin: EdgeInsets.only(left: 10, top: 10),
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) =>
+                                        UserPage(userId: parking.ownerId))));
+                          },
+                          child: Row(
+                            children: [
+                              Text("owner".i18n()),
+                              const SizedBox(width: 20),
+                              Container(
+                                margin: EdgeInsets.only(right: 5),
+                                child: ClipOval(
+                                  child: Provider.of<UserSession>(context)
+                                          .picture
+                                      ? Image.network(
+                                          HttpService.getProfilePictureRoute(
+                                              parking.ownerId),
+                                          width: 35,
+                                        )
+                                      : Image.asset(
+                                          "assets/user/default_pfp.png",
+                                          width: 35,
+                                        ),
                                 ),
-                                Text(
-                                  decodeUtf8ToString(parking.ownerUserName),
-                                  style: Theme.of(context).textTheme.bodyText2,
-                                ),
-                                const SizedBox(width: 20),
-                                Text("owner".i18n()),
-                              ],
-                            ),
-                          )),
+                              ),
+                              Text(
+                                decodeUtf8ToString(parking.ownerUserName),
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       Provider.of<UserSession>(context).role == "admin" ||
                               Provider.of<UserSession>(context).id ==
                                   parking.ownerId
@@ -457,7 +466,11 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                                   .secondary),
                                     ),
                                     onPressed: () {
-                                      // TODO MAKE EDIT PAGES
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  EditParking(id: id))));
                                     },
                                   ),
                                   ElevatedButton.icon(
