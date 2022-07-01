@@ -27,7 +27,7 @@ class Store {
   String ownerUserName;
   int ownerId;
   String? description;
-  int size;
+  double size;
   String? madeOn;
   bool approved;
   int? fridges;

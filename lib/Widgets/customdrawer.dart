@@ -169,7 +169,9 @@ class CustomDrawer extends StatelessWidget {
                     ],
                   ),
                 if (Provider.of<UserSession>(context, listen: false).role ==
-                    "seller")
+                        "seller" ||
+                    Provider.of<UserSession>(context, listen: false).role ==
+                        "admin")
                   Column(
                     children: [
                       Divider(
