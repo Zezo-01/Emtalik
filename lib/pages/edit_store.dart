@@ -34,7 +34,7 @@ class _EditStore extends State<EditStore> {
   late String province;
   late Future<Store> store;
   final _numberOfFridgesController = TextEditingController();
-    bool storageRoomIncluded = false;
+  bool storageRoomIncluded = false;
   Future<Store> getEstate() async {
     var response = await HttpService.getEstateByTypeAndId("store", id);
     return Store.fromRawJson(response.body);
@@ -350,64 +350,60 @@ class _EditStore extends State<EditStore> {
                                 height: 15,
                               ),
                               Form(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisSize: MainAxisSize.min,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          CustomFormField(
-                                            labelText: "number-fridges".i18n(),
-                                            icon: const Icon(Icons.ac_unit),
-                                            controller:
-                                                _numberOfFridgesController,
-                                            type: TextInputType.number,
-                                            enterKeyAction:
-                                                TextInputAction.done,
-                                            onValidation: (value) {
-                                              if (value == null ||
-                                                  value.trim().isEmpty) {
-                                                return "required-field".i18n();
-                                              }
-                                              try {
-                                                int.parse(value);
-                                              } catch (e) {
-                                                return "must-be-number".i18n();
-                                              }
-                                            },
-                                          ),
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Switch(
-                                                value: storageRoomIncluded,
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    storageRoomIncluded = value;
-                                                  });
-                                                },
-                                              ),
-                                              Wrap(
-                                                crossAxisAlignment:
-                                                    WrapCrossAlignment.center,
-                                                children: [
-                                                  Icon(storageRoomIncluded
-                                                      ? Icons.warehouse
-                                                      : Icons
-                                                          .not_interested_outlined),
-                                                  const SizedBox(width: 2),
-                                                  Text(
-                                                    "storage-room".i18n(),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          )
-                                        ],
-                                      ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    CustomFormField(
+                                      labelText: "number-fridges".i18n(),
+                                      icon: const Icon(Icons.ac_unit),
+                                      controller: _numberOfFridgesController,
+                                      type: TextInputType.number,
+                                      enterKeyAction: TextInputAction.done,
+                                      onValidation: (value) {
+                                        if (value == null ||
+                                            value.trim().isEmpty) {
+                                          return "required-field".i18n();
+                                        }
+                                        try {
+                                          int.parse(value);
+                                        } catch (e) {
+                                          return "must-be-number".i18n();
+                                        }
+                                      },
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Switch(
+                                          value: storageRoomIncluded,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              storageRoomIncluded = value;
+                                            });
+                                          },
+                                        ),
+                                        Wrap(
+                                          crossAxisAlignment:
+                                              WrapCrossAlignment.center,
+                                          children: [
+                                            Icon(storageRoomIncluded
+                                                ? Icons.warehouse
+                                                : Icons
+                                                    .not_interested_outlined),
+                                            const SizedBox(width: 2),
+                                            Text(
+                                              "storage-room".i18n(),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     )
+                                  ],
+                                ),
+                              )
                             ],
                           ),
                         ],

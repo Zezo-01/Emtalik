@@ -11,7 +11,7 @@ import 'package:http_parser/src/media_type.dart';
 import 'package:mime/mime.dart';
 
 abstract class HttpService {
-  static String get target => 'http://192.168.1.103:8080';
+  static String get target => 'http://192.168.0.110:8080';
   static String get adminTarget => target + '/admin';
   static String get estateTarget => target + '/estate';
   static String get userTarget => target + '/user';
