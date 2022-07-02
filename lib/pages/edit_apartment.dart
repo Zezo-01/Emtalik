@@ -87,9 +87,9 @@ class _EditAppartmnet extends State<EditAppartmnet> {
                     apartment.apartmentFloorNumber != null
                         ? apartment.apartmentFloorNumber.toString()
                         : "";
-                _apartmentFloorNumberController.text =
-                    apartment.apartmentFloorNumber != null
-                        ? apartment.apartmentFloorNumber.toString()
+                _apartmentNumberController.text =
+                    apartment.apartmentNumber != null
+                        ? apartment.apartmentNumber.toString()
                         : "";
                 initlized = true;
               }
@@ -346,19 +346,31 @@ class _EditAppartmnet extends State<EditAppartmnet> {
                                                                         .statusCode ==
                                                                     200) {
                                                                   // TODO: SEND ESTATE MODIFy
-                                                                  ApartmentRegister newApartment = ApartmentRegister(
-                                                                      name: _apartmentName
-                                                                          .text,
-                                                                      address:
-                                                                          _apartmentAddress
-                                                                              .text,
-                                                                      type:
-                                                                          "apartment",
-                                                                      size: int.parse(
-                                                                          _apartmentSize
-                                                                              .text),
-                                                                      province:
-                                                                          province);
+                                                                  ApartmentRegister
+                                                                      newApartment =
+                                                                      ApartmentRegister(
+                                                                    name: _apartmentName
+                                                                        .text,
+                                                                    address:
+                                                                        _apartmentAddress
+                                                                            .text,
+                                                                    type:
+                                                                        "apartment",
+                                                                    size: double.parse(
+                                                                            _apartmentSize.text)
+                                                                        .toInt(),
+                                                                    province:
+                                                                        province,
+                                                                    apartmentFloorNumber:
+                                                                        int.parse(
+                                                                            _apartmentFloorNumberController.text),
+                                                                    apartmentNumber:
+                                                                        int.parse(
+                                                                            _apartmentNumberController.text),
+                                                                    description:
+                                                                        _apartmentDescription
+                                                                            .text,
+                                                                  );
 
                                                                   var response = await HttpService.updateEstate(
                                                                       newApartment

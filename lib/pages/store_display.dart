@@ -120,37 +120,105 @@ class _StoreDisplay extends State<StoreDisplay> {
                         ),
                       ),
                       Container(
-                          margin: EdgeInsets.only(left: 10, top: 10),
-                          alignment: Alignment.centerLeft,
-                          child: TextButton(
-                            onPressed: () {},
-                            child: Row(
+                        margin: EdgeInsets.only(left: 10, top: 10),
+                        alignment: Alignment.centerLeft,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Row(
+                            children: [
+                              Text("owner".i18n()),
+                              const SizedBox(width: 20),
+                              Container(
+                                margin: EdgeInsets.only(right: 5),
+                                child: ClipOval(
+                                  child: Provider.of<UserSession>(context)
+                                          .picture
+                                      ? Image.network(
+                                          HttpService.getProfilePictureRoute(
+                                              store.ownerId),
+                                          width: 35,
+                                        )
+                                      : Image.asset(
+                                          "assets/user/default_pfp.png",
+                                          width: 35,
+                                        ),
+                                ),
+                              ),
+                              Text(
+                                decodeUtf8ToString(store.ownerUserName),
+                                style: Theme.of(context).textTheme.bodyText2,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Provider.of<UserSession>(context).role == "admin" ||
+                              Provider.of<UserSession>(context).id ==
+                                  store.ownerId
+                          ? Row(
                               children: [
-                                Text("owner".i18n()),
-                                const SizedBox(width: 20),
                                 Container(
-                                  margin: EdgeInsets.only(right: 5),
-                                  child: ClipOval(
-                                    child: Provider.of<UserSession>(context)
-                                            .picture
-                                        ? Image.network(
-                                            HttpService.getProfilePictureRoute(
-                                                store.ownerId),
-                                            width: 35,
-                                          )
-                                        : Image.asset(
-                                            "assets/user/default_pfp.png",
-                                            width: 35,
-                                          ),
+                                    margin: EdgeInsets.only(
+                                      left: 20,
+                                    ),
+                                    child: FaIcon(store.approved
+                                        ? FontAwesomeIcons.check
+                                        : FontAwesomeIcons.x)),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, bottom: 5, top: 10),
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    "approval".i18n(),
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ),
-                                Text(
-                                  decodeUtf8ToString(store.ownerUserName),
-                                  style: Theme.of(context).textTheme.bodyText2,
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: 20, bottom: 5, top: 10),
+                                  alignment: Alignment.centerLeft,
+                                  child: store.approved
+                                      ? Text(
+                                          "yes".i18n(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        )
+                                      : Text(
+                                          "no".i18n(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium,
+                                        ),
                                 ),
+                                Provider.of<UserSession>(context).role ==
+                                        "admin"
+                                    ? ElevatedButton(
+                                        onPressed: () async {
+                                          var response = await HttpService
+                                              .toggleEstateApproval(id);
+                                          if (response.statusCode == 200) {
+                                            setState(() {
+                                              this.store = getStore();
+                                            });
+                                          } else {
+                                            ToastFactory.makeToast(
+                                                context,
+                                                TOAST_TYPE.warning,
+                                                null,
+                                                "error".i18n(),
+                                                false,
+                                                () {});
+                                          }
+                                        },
+                                        child: store.approved
+                                            ? Text("not-approve?".i18n())
+                                            : Text("approve?".i18n()))
+                                    : Wrap(),
                               ],
-                            ),
-                          )),
+                            )
+                          : Wrap(),
                       Row(
                         children: [
                           Container(
@@ -173,13 +241,13 @@ class _StoreDisplay extends State<StoreDisplay> {
                       ),
                       Row(
                         children: [
-                          Text("size-in-square-meters".i18n()),
-                          SizedBox(width: 10),
                           Container(
                               margin: EdgeInsets.only(
                                 left: 20,
                               ),
                               child: FaIcon(FontAwesomeIcons.ruler)),
+                          Text("size-in-square-meters".i18n()),
+                          SizedBox(width: 10),
                           Container(
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
@@ -193,13 +261,13 @@ class _StoreDisplay extends State<StoreDisplay> {
                       ),
                       Row(
                         children: [
-                          Text("number-fridges".i18n()),
-                          SizedBox(width: 10),
                           Container(
                               margin: EdgeInsets.only(
                                 left: 20,
                               ),
-                              child: FaIcon(FontAwesomeIcons.accessibleIcon)),
+                              child: Icon(Icons.ac_unit)),
+                          Text("number-fridges".i18n()),
+                          SizedBox(width: 10),
                           Container(
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
