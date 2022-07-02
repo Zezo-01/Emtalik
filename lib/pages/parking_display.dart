@@ -336,6 +336,23 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                           );
                         },
                       ),
+                      if (parking.description != null &&
+                          parking.description!.isNotEmpty)
+                        Container(
+                          margin: EdgeInsets.only(right: 20, left: 20),
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            "description".i18n(),
+                          ),
+                        ),
+                      if (parking.description != null &&
+                          parking.description!.isNotEmpty)
+                        Container(
+                          margin: EdgeInsets.only(right: 20, left: 20),
+                          alignment: Alignment.topRight,
+                          child: Text(decodeUtf8ToString(parking.description!),
+                              maxLines: 3),
+                        ),
                       FutureBuilder(
                         future: media,
                         builder: (context, snapshot) {
@@ -368,11 +385,41 @@ class _ParkingDisplay extends State<ParkingDisplay> {
                                                   child:
                                                       CircularProgressIndicator()));
                                         } else if (snapshot.hasError) {
-                                          setState(() {
-                                            future = getThumbNail(
-                                                id, media[index].id);
-                                          });
-                                          return Wrap();
+                                          return ClipOval(
+                                            child: TextButton(
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Image.asset(
+                                                    "assets/no-thumbnail.png",
+                                                    fit: BoxFit.cover,
+                                                    width: 250,
+                                                    height: 500,
+                                                  ),
+                                                  CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor:
+                                                        Colors.black54,
+                                                    child:
+                                                        Icon(Icons.play_arrow),
+                                                  )
+                                                ],
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: ((context) =>
+                                                            DisplayVideo(
+                                                              link: HttpService
+                                                                  .getEstateMedia(
+                                                                      id,
+                                                                      media[index]
+                                                                          .id),
+                                                            ))));
+                                              },
+                                            ),
+                                          );
                                         } else {
                                           Uint8List? data =
                                               snapshot.data as Uint8List?;

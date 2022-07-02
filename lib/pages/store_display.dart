@@ -3,10 +3,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
+import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/media_response.dart';
 import 'package:emtalik/models/store.dart';
+import 'package:emtalik/pages/edit_store.dart';
 import 'package:emtalik/pages/image_display.dart';
 import 'package:emtalik/pages/video_display.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -35,8 +38,8 @@ class _StoreDisplay extends State<StoreDisplay> {
   int id;
   late Future<Store> store;
 
-  Uint8List? thumb;
   late Future<List<MediaResponse>> media;
+
   Future<List<MediaResponse>> getMediaInfo() async {
     var response = await HttpService.getEstateMediaInfo(id);
 
@@ -49,16 +52,15 @@ class _StoreDisplay extends State<StoreDisplay> {
     return result;
   }
 
-  void getThumbNail(int estateId, int mediaId) async {
+  Future<Uint8List?> getThumbNail(int estateId, int mediaId) async {
     var result = await VideoThumbnail.thumbnailData(
         video: HttpService.getEstateMedia(estateId, mediaId));
 
-    thumb = result;
+    return result;
   }
 
   Future<Store> getStore() async {
     var response = await HttpService.getEstateByTypeAndId("store", id);
-
     return Store.fromRawJson(response.body);
   }
 
@@ -66,6 +68,7 @@ class _StoreDisplay extends State<StoreDisplay> {
   void initState() {
     super.initState();
     store = getStore();
+    media = getMediaInfo();
   }
 
   @override
@@ -74,9 +77,10 @@ class _StoreDisplay extends State<StoreDisplay> {
           future: store,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Scaffold(body: Center(child: CircularProgressIndicator()));
             } else {
               var store = snapshot.data as Store;
+
               return Scaffold(
                 appBar: AppBar(
                   shape: RoundedRectangleBorder(
@@ -122,6 +126,8 @@ class _StoreDisplay extends State<StoreDisplay> {
                             onPressed: () {},
                             child: Row(
                               children: [
+                                Text("owner".i18n()),
+                                const SizedBox(width: 20),
                                 Container(
                                   margin: EdgeInsets.only(right: 5),
                                   child: ClipOval(
@@ -142,8 +148,6 @@ class _StoreDisplay extends State<StoreDisplay> {
                                   decodeUtf8ToString(store.ownerUserName),
                                   style: Theme.of(context).textTheme.bodyText2,
                                 ),
-                                const SizedBox(width: 20),
-                                Text("owner".i18n()),
                               ],
                             ),
                           )),
@@ -161,26 +165,6 @@ class _StoreDisplay extends State<StoreDisplay> {
                             child: Text(
                               store.province.i18n() +
                                   ", " +
-                                  decodeUtf8ToString(store.province),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.addressCard)),
-                          Container(
-                            margin:
-                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              store.address.i18n() +
-                                  ", " +
                                   decodeUtf8ToString(store.address),
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
@@ -189,6 +173,8 @@ class _StoreDisplay extends State<StoreDisplay> {
                       ),
                       Row(
                         children: [
+                          Text("size-in-square-meters".i18n()),
+                          SizedBox(width: 10),
                           Container(
                               margin: EdgeInsets.only(
                                 left: 20,
@@ -203,14 +189,12 @@ class _StoreDisplay extends State<StoreDisplay> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text("size-in-square-meters".i18n()),
                         ],
                       ),
                       Row(
                         children: [
+                          Text("number-fridges".i18n()),
+                          SizedBox(width: 10),
                           Container(
                               margin: EdgeInsets.only(
                                 left: 20,
@@ -225,12 +209,57 @@ class _StoreDisplay extends State<StoreDisplay> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text("fridges-number".i18n()),
                         ],
                       ),
+                      Row(
+                        children: [
+                          Container(
+                              margin: EdgeInsets.only(
+                                left: 20,
+                              ),
+                              child: Icon(store.storageRoom != null ||
+                                      store.storageRoom!
+                                  ? Icons.warehouse
+                                  : Icons.not_interested_outlined)),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "storage-room".i18n(),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              store.storageRoom != null || store.storageRoom!
+                                  ? "yes".i18n()
+                                  : "no".i18n(),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (store.description != null &&
+                          store.description!.isNotEmpty)
+                        Container(
+                          margin: EdgeInsets.only(right: 20, left: 20),
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            "description".i18n(),
+                          ),
+                        ),
+                      if (store.description != null &&
+                          store.description!.isNotEmpty)
+                        Container(
+                          margin: EdgeInsets.only(right: 20, left: 20),
+                          alignment: Alignment.topRight,
+                          child: Text(decodeUtf8ToString(store.description!),
+                              maxLines: 3),
+                        ),
                       FutureBuilder(
                         future: media,
                         builder: (context, snapshot) {
@@ -249,148 +278,268 @@ class _StoreDisplay extends State<StoreDisplay> {
                                 itemBuilder: (context, index) {
                                   if (media[index].contentType.split("/")[0] !=
                                       "image") {
-                                    getThumbNail(id, media[index].id);
-                                  }
-                                  return Wrap(
-                                    children: [
-                                      ClipOval(
-                                        child: media[index]
-                                                    .contentType
-                                                    .split("/")[0] ==
-                                                "image"
-                                            ? TextButton(
-                                                child: Image.network(
-                                                  HttpService.getEstateMedia(
-                                                      id, media[index].id),
-                                                  fit: BoxFit.cover,
-                                                  width: 250,
-                                                  height: 500,
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.push(
+                                    var future;
+                                    future = getThumbNail(id, media[index].id);
+                                    return FutureBuilder(
+                                      future: future,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Container(
+                                              width: 250,
+                                              height: 500,
+                                              child: Center(
+                                                  child:
+                                                      CircularProgressIndicator()));
+                                        } else if (snapshot.hasError) {
+                                          return ClipOval(
+                                            child: TextButton(
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Image.asset(
+                                                    "assets/no-thumbnail.png",
+                                                    fit: BoxFit.cover,
+                                                    width: 250,
+                                                    height: 500,
+                                                  ),
+                                                  CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor:
+                                                        Colors.black54,
+                                                    child:
+                                                        Icon(Icons.play_arrow),
+                                                  )
+                                                ],
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ImageDisplay(
+                                                        builder: ((context) =>
+                                                            DisplayVideo(
                                                               link: HttpService
                                                                   .getEstateMedia(
                                                                       id,
                                                                       media[index]
-                                                                          .id)),
-                                                    ),
-                                                  );
-                                                },
-                                              )
-                                            : FutureBuilder(
-                                                future: VideoThumbnail
-                                                    .thumbnailData(
-                                                        video: HttpService
-                                                            .getEstateMedia(
-                                                                id,
-                                                                media[index]
-                                                                    .id)),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.waiting) {
-                                                    return CircularProgressIndicator();
-                                                  } else if (snapshot
-                                                      .hasError) {
-                                                    setState(() {});
-                                                    return Wrap();
-                                                  } else {
-                                                    return TextButton(
-                                                      child: Stack(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        children: [
-                                                          Image.memory(
-                                                            thumb!,
-                                                            fit: BoxFit.cover,
-                                                            width: 250,
-                                                            height: 500,
-                                                          ),
-                                                          CircleAvatar(
-                                                            radius: 30,
-                                                            backgroundColor:
-                                                                Colors.black54,
-                                                            child: Icon(Icons
-                                                                .play_arrow),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    ((context) =>
-                                                                        DisplayVideo(
-                                                                          link: HttpService.getEstateMedia(
-                                                                              id,
-                                                                              media[index].id),
-                                                                        ))));
-                                                      },
-                                                    );
-                                                  }
-                                                },
+                                                                          .id),
+                                                            ))));
+                                              },
+                                            ),
+                                          );
+                                        } else {
+                                          Uint8List? data =
+                                              snapshot.data as Uint8List?;
+                                          return ClipOval(
+                                            child: TextButton(
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Image.memory(
+                                                    data!,
+                                                    fit: BoxFit.cover,
+                                                    width: 250,
+                                                    height: 500,
+                                                  ),
+                                                  CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor:
+                                                        Colors.black54,
+                                                    child:
+                                                        Icon(Icons.play_arrow),
+                                                  )
+                                                ],
                                               ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: ((context) =>
+                                                            DisplayVideo(
+                                                              link: HttpService
+                                                                  .getEstateMedia(
+                                                                      id,
+                                                                      media[index]
+                                                                          .id),
+                                                            ))));
+                                              },
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  } else {
+                                    return ClipOval(
+                                      child: TextButton(
+                                        child: Image.network(
+                                          HttpService.getEstateMedia(
+                                              id, media[index].id),
+                                          fit: BoxFit.cover,
+                                          width: 250,
+                                          height: 500,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ImageDisplay(
+                                                      link: HttpService
+                                                          .getEstateMedia(id,
+                                                              media[index].id)),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                               Row(
-                          children: [
-                            Column(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pushNamed('/editpage');
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),
-                                  child: Text("edit-estate".i18n()),
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 20, bottom: 5, top: 10),
-                                  alignment: Alignment.centerLeft,
-                                  child: ElevatedButton(
-                                     style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),
-                                    child: Text("delete-estate".i18n()),
-                                    onPressed: () {
-                                      openDialop();
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                                    ],
-                                  );
+                                    );
+                                  }
                                 },
                               ),
                             );
                           }
                         },
                       ),
+                      const SizedBox(height: 30),
+                      Provider.of<UserSession>(context, listen: false).id ==
+                              store.ownerId
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton.icon(
+                                    icon: Icon(Icons.edit),
+                                    label: Text("edit-estate".i18n()),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
+                                    ),
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  EditStore(id: id))));
+                                    },
+                                  ),
+                                  ElevatedButton.icon(
+                                    icon: Icon(Icons.delete_forever),
+                                    label: Text("delete-estate".i18n()),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .error),
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                              "delete-estate".i18n(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelMedium,
+                                            ),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  child: Text(
+                                                    "estate-delete-confirmation"
+                                                        .i18n(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    ElevatedButton(
+                                                      onPressed: () async {
+                                                        var response =
+                                                            await HttpService
+                                                                .deleteEstateById(
+                                                                    id);
+                                                        if (response
+                                                                .statusCode ==
+                                                            200) {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator
+                                                              .popAndPushNamed(
+                                                                  context,
+                                                                  "/mainpage");
+                                                        } else {
+                                                          Navigator.pop(
+                                                              context);
+                                                          ToastFactory
+                                                              .makeToast(
+                                                                  context,
+                                                                  TOAST_TYPE
+                                                                      .warning,
+                                                                  null,
+                                                                  "error"
+                                                                      .i18n(),
+                                                                  false,
+                                                                  () {});
+                                                        }
+                                                      },
+                                                      child: Text("yes".i18n(),
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2),
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .error)),
+                                                    ),
+                                                    OutlinedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        "no".i18n(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2,
+                                                      ),
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Wrap(),
                     ],
                   ),
                 ),
@@ -399,33 +548,4 @@ class _StoreDisplay extends State<StoreDisplay> {
           },
         ),
       );
-  Future openDialop() => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: Text("delete-estate?".i18n()),
-            actions: [
-              ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),onPressed: () {}, child: Text("yes".i18n())),
-              ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("no".i18n())),
-            ],
-          ));
 }

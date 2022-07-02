@@ -49,6 +49,7 @@ flutter:
   assets:
     - lib/i18n/
     - assets/user/default_pfp.png
+    - assets/no-thumbnail.png
 
 
       

@@ -3,10 +3,13 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
+import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
 import 'package:emtalik/models/house.dart';
 import 'package:emtalik/models/media_response.dart';
+import 'package:emtalik/pages/edit_house.dart';
 import 'package:emtalik/pages/image_display.dart';
 import 'package:emtalik/pages/video_display.dart';
 import 'package:emtalik/providers/user_session.dart';
@@ -34,8 +37,8 @@ class _HouseDisplay extends State<HouseDisplay> {
 
   int id;
   late Future<House> house;
-  Uint8List? thumb;
   late Future<List<MediaResponse>> media;
+
   Future<List<MediaResponse>> getMediaInfo() async {
     var response = await HttpService.getEstateMediaInfo(id);
 
@@ -48,15 +51,15 @@ class _HouseDisplay extends State<HouseDisplay> {
     return result;
   }
 
-  void getThumbNail(int estateId, int mediaId) async {
+  Future<Uint8List?> getThumbNail(int estateId, int mediaId) async {
     var result = await VideoThumbnail.thumbnailData(
         video: HttpService.getEstateMedia(estateId, mediaId));
 
-    thumb = result;
+    return result;
   }
 
   Future<House> getHouse() async {
-    var response = await HttpService.getEstateByTypeAndId("apartment", id);
+    var response = await HttpService.getEstateByTypeAndId("house", id);
 
     return House.fromRawJson(response.body);
   }
@@ -65,6 +68,7 @@ class _HouseDisplay extends State<HouseDisplay> {
   void initState() {
     super.initState();
     house = getHouse();
+    media = getMediaInfo();
   }
 
   @override
@@ -73,7 +77,7 @@ class _HouseDisplay extends State<HouseDisplay> {
           future: house,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Scaffold(body: Center(child: CircularProgressIndicator()));
             } else {
               var house = snapshot.data as House;
               return Scaffold(
@@ -121,6 +125,8 @@ class _HouseDisplay extends State<HouseDisplay> {
                             onPressed: () {},
                             child: Row(
                               children: [
+                                Text("owner".i18n()),
+                                const SizedBox(width: 20),
                                 Container(
                                   margin: EdgeInsets.only(right: 5),
                                   child: ClipOval(
@@ -141,8 +147,6 @@ class _HouseDisplay extends State<HouseDisplay> {
                                   decodeUtf8ToString(house.ownerUserName),
                                   style: Theme.of(context).textTheme.bodyText2,
                                 ),
-                                const SizedBox(width: 20),
-                                Text("owner".i18n()),
                               ],
                             ),
                           )),
@@ -160,26 +164,6 @@ class _HouseDisplay extends State<HouseDisplay> {
                             child: Text(
                               house.province.i18n() +
                                   ", " +
-                                  decodeUtf8ToString(house.province),
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.addressCard)),
-                          Container(
-                            margin:
-                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              house.address.i18n() +
-                                  ", " +
                                   decodeUtf8ToString(house.address),
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
@@ -193,6 +177,8 @@ class _HouseDisplay extends State<HouseDisplay> {
                                 left: 20,
                               ),
                               child: FaIcon(FontAwesomeIcons.ruler)),
+                          Text("size-in-square-meters".i18n()),
+                          SizedBox(width: 10),
                           Container(
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
@@ -202,19 +188,17 @@ class _HouseDisplay extends State<HouseDisplay> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text("size-in-square-meters".i18n()),
                         ],
                       ),
                       Row(
                         children: [
+                          Text("house-number-floors".i18n()),
+                          SizedBox(width: 10),
                           Container(
                               margin: EdgeInsets.only(
                                 left: 20,
                               ),
-                              child: FaIcon(FontAwesomeIcons.houseFloodWater)),
+                              child: Icon(Icons.format_list_numbered)),
                           Container(
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
@@ -224,19 +208,17 @@ class _HouseDisplay extends State<HouseDisplay> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text("number-of-floors".i18n()),
                         ],
                       ),
                       Row(
                         children: [
+                          Text("house-number-rooms".i18n()),
+                          SizedBox(width: 10),
                           Container(
                               margin: EdgeInsets.only(
                                 left: 20,
                               ),
-                              child: FaIcon(FontAwesomeIcons.restroom)),
+                              child: Icon(Icons.meeting_room)),
                           Container(
                             margin:
                                 EdgeInsets.only(left: 20, bottom: 5, top: 10),
@@ -246,12 +228,50 @@ class _HouseDisplay extends State<HouseDisplay> {
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text("number-of-rooms".i18n()),
                         ],
                       ),
+                      Row(
+                        children: [
+                          Text("swimming-pool".i18n()),
+                          SizedBox(width: 10),
+                          Container(
+                              margin: EdgeInsets.only(
+                                left: 20,
+                              ),
+                              child: Icon(house.swimmingPool != null &&
+                                      house.swimmingPool!
+                                  ? Icons.pool
+                                  : Icons.not_interested_outlined)),
+                          Container(
+                            margin:
+                                EdgeInsets.only(left: 20, bottom: 5, top: 10),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              house.swimmingPool != null && house.swimmingPool!
+                                  ? "yes".i18n()
+                                  : "no".i18n(),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (house.description != null &&
+                          house.description!.isNotEmpty)
+                        Container(
+                          margin: EdgeInsets.only(right: 20, left: 20),
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            "description".i18n(),
+                          ),
+                        ),
+                      if (house.description != null &&
+                          house.description!.isNotEmpty)
+                        Container(
+                          margin: EdgeInsets.only(right: 20, left: 20),
+                          alignment: Alignment.topRight,
+                          child: Text(decodeUtf8ToString(house.description!),
+                              maxLines: 3),
+                        ),
                       FutureBuilder(
                         future: media,
                         builder: (context, snapshot) {
@@ -270,148 +290,269 @@ class _HouseDisplay extends State<HouseDisplay> {
                                 itemBuilder: (context, index) {
                                   if (media[index].contentType.split("/")[0] !=
                                       "image") {
-                                    getThumbNail(id, media[index].id);
-                                  }
-                                  return Wrap(
-                                    children: [
-                                      ClipOval(
-                                        child: media[index]
-                                                    .contentType
-                                                    .split("/")[0] ==
-                                                "image"
-                                            ? TextButton(
-                                                child: Image.network(
-                                                  HttpService.getEstateMedia(
-                                                      id, media[index].id),
-                                                  fit: BoxFit.cover,
-                                                  width: 250,
-                                                  height: 500,
-                                                ),
-                                                onPressed: () {
-                                                  Navigator.push(
+                                    var future;
+                                    future = getThumbNail(id, media[index].id);
+                                    return FutureBuilder(
+                                      future: future,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return Container(
+                                              width: 250,
+                                              height: 500,
+                                              child: Center(
+                                                  child:
+                                                      CircularProgressIndicator()));
+                                        } else if (snapshot.hasError) {
+                                          return ClipOval(
+                                            child: TextButton(
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Image.asset(
+                                                    "assets/no-thumbnail.png",
+                                                    fit: BoxFit.cover,
+                                                    width: 250,
+                                                    height: 500,
+                                                  ),
+                                                  CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor:
+                                                        Colors.black54,
+                                                    child:
+                                                        Icon(Icons.play_arrow),
+                                                  )
+                                                ],
+                                              ),
+                                              onPressed: () {
+                                                Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
-                                                      builder: (context) =>
-                                                          ImageDisplay(
+                                                        builder: ((context) =>
+                                                            DisplayVideo(
                                                               link: HttpService
                                                                   .getEstateMedia(
                                                                       id,
                                                                       media[index]
-                                                                          .id)),
-                                                    ),
-                                                  );
-                                                },
-                                              )
-                                            : FutureBuilder(
-                                                future: VideoThumbnail
-                                                    .thumbnailData(
-                                                        video: HttpService
-                                                            .getEstateMedia(
-                                                                id,
-                                                                media[index]
-                                                                    .id)),
-                                                builder: (context, snapshot) {
-                                                  if (snapshot
-                                                          .connectionState ==
-                                                      ConnectionState.waiting) {
-                                                    return CircularProgressIndicator();
-                                                  } else if (snapshot
-                                                      .hasError) {
-                                                    setState(() {});
-                                                    return Wrap();
-                                                  } else {
-                                                    return TextButton(
-                                                      child: Stack(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        children: [
-                                                          Image.memory(
-                                                            thumb!,
-                                                            fit: BoxFit.cover,
-                                                            width: 250,
-                                                            height: 500,
-                                                          ),
-                                                          CircleAvatar(
-                                                            radius: 30,
-                                                            backgroundColor:
-                                                                Colors.black54,
-                                                            child: Icon(Icons
-                                                                .play_arrow),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      onPressed: () {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    ((context) =>
-                                                                        DisplayVideo(
-                                                                          link: HttpService.getEstateMedia(
-                                                                              id,
-                                                                              media[index].id),
-                                                                        ))));
-                                                      },
-                                                    );
-                                                  }
-                                                },
+                                                                          .id),
+                                                            ))));
+                                              },
+                                            ),
+                                          );
+                                        } else {
+                                          Uint8List? data =
+                                              snapshot.data as Uint8List?;
+                                          return ClipOval(
+                                            child: TextButton(
+                                              child: Stack(
+                                                alignment: Alignment.center,
+                                                children: [
+                                                  Image.memory(
+                                                    data!,
+                                                    fit: BoxFit.cover,
+                                                    width: 250,
+                                                    height: 500,
+                                                  ),
+                                                  CircleAvatar(
+                                                    radius: 30,
+                                                    backgroundColor:
+                                                        Colors.black54,
+                                                    child:
+                                                        Icon(Icons.play_arrow),
+                                                  )
+                                                ],
                                               ),
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: ((context) =>
+                                                            DisplayVideo(
+                                                              link: HttpService
+                                                                  .getEstateMedia(
+                                                                      id,
+                                                                      media[index]
+                                                                          .id),
+                                                            ))));
+                                              },
+                                            ),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  } else {
+                                    return ClipOval(
+                                      child: TextButton(
+                                        child: Image.network(
+                                          HttpService.getEstateMedia(
+                                              id, media[index].id),
+                                          fit: BoxFit.cover,
+                                          width: 250,
+                                          height: 500,
+                                        ),
+                                        onPressed: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ImageDisplay(
+                                                      link: HttpService
+                                                          .getEstateMedia(id,
+                                                              media[index].id)),
+                                            ),
+                                          );
+                                        },
                                       ),
-                                    ],
-                                  );
+                                    );
+                                  }
                                 },
                               ),
                             );
                           }
                         },
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                Row(
-                          children: [
-                            Column(
-                              children: [
-                                ElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pushNamed('/editpage');
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),
-                                  child: Text("edit-estate".i18n()),
-                                ),
-                                SizedBox(
-                                  height: 15,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: 20, bottom: 5, top: 10),
-                                  alignment: Alignment.centerLeft,
-                                  child: ElevatedButton(
-                                     style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),
-                                    child: Text("delete-estate".i18n()),
+                      const SizedBox(height: 20),
+                      const SizedBox(height: 30),
+                      Provider.of<UserSession>(context, listen: false).id ==
+                              house.ownerId
+                          ? Container(
+                              margin: EdgeInsets.only(
+                                  left: 10, right: 10, bottom: 10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  ElevatedButton.icon(
+                                    icon: Icon(Icons.edit),
+                                    label: Text("edit-estate".i18n()),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .secondary),
+                                    ),
                                     onPressed: () {
-                                      openDialop();
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: ((context) =>
+                                                  EditHouse(id: id))));
                                     },
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                  ElevatedButton.icon(
+                                    icon: Icon(Icons.delete_forever),
+                                    label: Text("delete-estate".i18n()),
+                                    style: ButtonStyle(
+                                      backgroundColor:
+                                          MaterialStateProperty.all(
+                                              Theme.of(context)
+                                                  .colorScheme
+                                                  .error),
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            title: Text(
+                                              "delete-estate".i18n(),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .labelMedium,
+                                            ),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Container(
+                                                  child: Text(
+                                                    "estate-delete-confirmation"
+                                                        .i18n(),
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .bodyMedium,
+                                                  ),
+                                                ),
+                                                const SizedBox(height: 10),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    ElevatedButton(
+                                                      onPressed: () async {
+                                                        var response =
+                                                            await HttpService
+                                                                .deleteEstateById(
+                                                                    id);
+                                                        if (response
+                                                                .statusCode ==
+                                                            200) {
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator
+                                                              .popAndPushNamed(
+                                                                  context,
+                                                                  "/mainpage");
+                                                        } else {
+                                                          Navigator.pop(
+                                                              context);
+                                                          ToastFactory
+                                                              .makeToast(
+                                                                  context,
+                                                                  TOAST_TYPE
+                                                                      .warning,
+                                                                  null,
+                                                                  "error"
+                                                                      .i18n(),
+                                                                  false,
+                                                                  () {});
+                                                        }
+                                                      },
+                                                      child: Text("yes".i18n(),
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .bodyText2),
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .error)),
+                                                    ),
+                                                    OutlinedButton(
+                                                      onPressed: () {
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(
+                                                        "no".i18n(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText2,
+                                                      ),
+                                                      style: ButtonStyle(
+                                                          backgroundColor:
+                                                              MaterialStateProperty
+                                                                  .all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Wrap(),
                     ],
                   ),
                 ),
@@ -420,32 +561,4 @@ class _HouseDisplay extends State<HouseDisplay> {
           },
         ),
       );
-  Future openDialop() => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: Text("delete-estate?".i18n()),
-            actions: [
-              ElevatedButton(      style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),onPressed: () {}, child: Text("yes".i18n())),
-              ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                                    elevation: 5,
-                                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(50)),
-                                    padding: EdgeInsets.all(10),
-                                    side: BorderSide(color: Colors.blue),
-                                    primary: Color.fromARGB(239, 253, 233, 199),
-                                    onPrimary: Colors.black
-                                  ),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("no".i18n())),
-            ],
-          ));
 }

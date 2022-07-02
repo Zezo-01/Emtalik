@@ -1,17 +1,18 @@
 // ignore_for_file: no_logic_in_create_state, must_be_immutable, prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:emtalik/Widgets/UserInfoWidgets/customformfield.dart';
+import 'package:emtalik/Widgets/UserInfoWidgets/passwordformfield.dart';
 import 'package:emtalik/etc/enums.dart';
 import 'package:emtalik/etc/http_service.dart';
 import 'package:emtalik/etc/toastfactory.dart';
 import 'package:emtalik/etc/utils.dart';
-import 'package:emtalik/models/estate_response.dart';
+import 'package:emtalik/models/error.dart';
 import 'package:emtalik/models/land.dart';
-import 'package:emtalik/models/parking.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:emtalik/models/land_register.dart';
+import 'package:emtalik/providers/user_session.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:localization/localization.dart';
+import 'package:provider/provider.dart';
 
 class EditLand extends StatefulWidget {
   EditLand({
@@ -31,9 +32,20 @@ class _EditLand extends State<EditLand> {
   });
 
   int id;
+  final _formKey = GlobalKey<FormState>();
+
+  final _landName = TextEditingController();
+  final _landAddress = TextEditingController();
+
+  final _landDescription = TextEditingController();
+  final _landSize = TextEditingController();
+  final _confirmPasswordId = TextEditingController();
   late String province;
   late Future<Land> land;
- bool cityHallElectricitySupport = false;
+
+  bool _electricSupport = false;
+
+  late bool initlized;
   Future<Land> getEstate() async {
     var response = await HttpService.getEstateByTypeAndId("land", id);
     return Land.fromRawJson(response.body);
@@ -41,6 +53,7 @@ class _EditLand extends State<EditLand> {
 
   @override
   void initState() {
+    initlized = false;
     super.initState();
     land = getEstate();
     province = "";
@@ -52,9 +65,27 @@ class _EditLand extends State<EditLand> {
           future: land,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return Scaffold(
+                  appBar: AppBar(),
+                  body: Center(child: CircularProgressIndicator()));
             } else {
               var land = snapshot.data as Land;
+              if (initlized == false) {
+                _landName.text = decodeUtf8ToString(land.name);
+                _landAddress.text = decodeUtf8ToString(land.address);
+
+                _landDescription.text =
+                    land.description == null || land.description!.isEmpty
+                        ? ""
+                        : decodeUtf8ToString(land.description!);
+                province = land.province;
+                _landSize.text = land.size.toString();
+                land.cityHallElectricitySupport != null &&
+                        land.cityHallElectricitySupport!
+                    ? _electricSupport = true
+                    : _electricSupport = false;
+                initlized = true;
+              }
               return Scaffold(
                 appBar: AppBar(
                   shape: RoundedRectangleBorder(
@@ -72,7 +103,7 @@ class _EditLand extends State<EditLand> {
                   title: Container(
                       margin: EdgeInsets.only(top: 30),
                       child: Text(
-                        decodeUtf8ToString(land.name),
+                        "edit-estate".i18n(),
                         style: Theme.of(context).textTheme.bodyMedium,
                       )),
                   leading: IconButton(
@@ -82,323 +113,337 @@ class _EditLand extends State<EditLand> {
                     icon: Icon(Icons.arrow_back),
                   ),
                 ),
-                body: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(top: 10),
-                        child: Image.network(
-                          HttpService.getEstateMainPicture(land.id),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.city)),
-                          Container(
-                              margin:
-                                  EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Text("Enter New Name :-"),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomFormField(labelText: "Enter New Name"),
-                                ],
-                              )),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.ruler)),
-                          Container(
-                              margin:
-                                  EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Text("Enter New Address :-"),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomFormField(
-                                      labelText: "Enter New Address"),
-                                ],
-                              )),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.squareParking)),
-                          Container(
-                              margin:
-                                  EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Text("Enter New Province :-"),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  DropdownButtonFormField<String>(
-                                    onChanged: (value) {
-                                      setState(() {
-                                        province = value!;
-                                      });
-                                    },
-                                    validator: (value) {
-                                      if (value == null ||
-                                          value.trim().isEmpty) {
-                                        return "required-field".i18n();
-                                      }
-                                    },
-                                    hint: Text("pick-province".i18n()),
-                                    items: [
-                                      DropdownMenuItem(
-                                        child: Text("nablus".i18n()),
-                                        value: "nablus",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("ramallah".i18n()),
-                                        value: "ramallah",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("selfeet".i18n()),
-                                        value: "selfeet",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("hebrone".i18n()),
-                                        value: "hebrone",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("tubas".i18n()),
-                                        value: "tubas",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("bethleem".i18n()),
-                                        value: "bethleem",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("jenin".i18n()),
-                                        value: "jenin",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("jericho".i18n()),
-                                        value: "jericho",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("tulkarem".i18n()),
-                                        value: "tulkarem",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("qalqilya".i18n()),
-                                        value: "qalqilya",
-                                      ),
-                                      DropdownMenuItem(
-                                        child: Text("jerusalem".i18n()),
-                                        value: "jerusalem",
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ))
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                              margin: EdgeInsets.only(
-                                left: 20,
-                              ),
-                              child: FaIcon(FontAwesomeIcons.squareParking)),
-                          Container(
-                              margin:
-                                  EdgeInsets.only(left: 20, bottom: 5, top: 10),
-                              alignment: Alignment.centerLeft,
-                              child: Column(
-                                children: [
-                                  Text("Enter New Size :-"),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  CustomFormField(labelText: "Enter New Size"),
-                                ],
-                              ))
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Row(
-                        children: [
-                          Column(
-                            children: [
-                              ElevatedButton.icon(
-                                icon: Icon(Icons.save),
-                                label: Text("save-changes".i18n()),
-                                style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all(
-                                      Theme.of(context).colorScheme.secondary),
+                body: GestureDetector(
+                  onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+                  child: SingleChildScrollView(
+                    child: Container(
+                      margin: EdgeInsets.all(20),
+                      alignment: Alignment.center,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            Text(
+                              "estate-name-constraint".i18n(),
+                              style: Theme.of(context).textTheme.labelMedium,
+                            ),
+                            CustomFormField(
+                              labelText: "estate-name",
+                              icon: const Icon(Icons.other_houses),
+                              controller: _landName,
+                              type: TextInputType.name,
+                              enterKeyAction: TextInputAction.done,
+                              onValidation: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "required-field".i18n();
+                                } else if (value.length > 35) {
+                                  return "too-long".i18n();
+                                }
+                              },
+                            ),
+                            Text(
+                              "province".i18n(),
+                              style: Theme.of(context).textTheme.labelMedium,
+                            ),
+                            DropdownButtonFormField<String>(
+                              onChanged: (value) {
+                                setState(() {
+                                  province = value!;
+                                });
+                              },
+                              validator: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "required-field".i18n();
+                                }
+                              },
+                              value: province,
+                              items: [
+                                DropdownMenuItem(
+                                  child: Text("nablus".i18n()),
+                                  value: "nablus",
                                 ),
-                                onPressed: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) {
-                                      return AlertDialog(
-                                        title: Text(
-                                          "save-changes".i18n(),
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .labelMedium,
-                                        ),
-                                        content: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Container(
-                                              child: Text(
-                                                "estate-change-confirmation"
-                                                    .i18n(),
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium,
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                ElevatedButton(
-                                                  onPressed: () async {
-                                                    var response =
-                                                        await HttpService
-                                                            .deleteEstateById(
-                                                                id);
-                                                    if (response.statusCode ==
-                                                        200) {
-                                                      Navigator.pop(context);
-                                                      Navigator.popAndPushNamed(
-                                                          context, "mainpage");
-                                                    } else {
-                                                      Navigator.pop(context);
-                                                      ToastFactory.makeToast(
-                                                          context,
-                                                          TOAST_TYPE.warning,
-                                                          null,
-                                                          "error".i18n(),
-                                                          false,
-                                                          () {});
-                                                    }
-                                                  },
-                                                  child: Text("yes".i18n(),
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodyText2),
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .error)),
-                                                ),
-                                                OutlinedButton(
-                                                  onPressed: () {
-                                                    Navigator.pop(context);
-                                                  },
+                                DropdownMenuItem(
+                                  child: Text("ramallah".i18n()),
+                                  value: "ramallah",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("selfeet".i18n()),
+                                  value: "selfeet",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("hebrone".i18n()),
+                                  value: "hebrone",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("tubas".i18n()),
+                                  value: "tubas",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("bethleem".i18n()),
+                                  value: "bethleem",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("jenin".i18n()),
+                                  value: "jenin",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("jericho".i18n()),
+                                  value: "jericho",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("tulkarem".i18n()),
+                                  value: "tulkarem",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("qalqilya".i18n()),
+                                  value: "qalqilya",
+                                ),
+                                DropdownMenuItem(
+                                  child: Text("jerusalem".i18n()),
+                                  value: "jerusalem",
+                                ),
+                              ],
+                            ),
+                            Text(
+                              "address-constraint".i18n(),
+                              style: Theme.of(context).textTheme.labelMedium,
+                            ),
+                            CustomFormField(
+                              labelText: "address",
+                              icon: const Icon(Icons.other_houses),
+                              controller: _landAddress,
+                              type: TextInputType.name,
+                              enterKeyAction: TextInputAction.done,
+                              onValidation: (value) {
+                                if (value == null || value.trim().isEmpty) {
+                                  return "required-field".i18n();
+                                } else if (value.length > 35) {
+                                  return "too-long".i18n();
+                                }
+                              },
+                            ),
+                            CustomFormField(
+                              labelText: "size-in-square-meters".i18n(),
+                              icon: const Icon(Icons.height),
+                              controller: _landSize,
+                              type: TextInputType.number,
+                              enterKeyAction: TextInputAction.done,
+                              onValidation: (value) {
+                                if (value == null || value!.isEmpty) {
+                                  return "required-field".i18n();
+                                } else {
+                                  try {
+                                    double.parse(value);
+                                  } catch (e) {
+                                    return "must-be-number".i18n();
+                                  }
+                                }
+                              },
+                            ),
+                            CustomFormField(
+                              minLines: 3,
+                              maxLines: 5,
+                              labelText: "description".i18n(),
+                              icon: const Icon(Icons.description),
+                              controller: _landDescription,
+                              type: TextInputType.multiline,
+                              enterKeyAction: TextInputAction.done,
+                              onValidation: (value) {
+                                if (value == null ||
+                                    value.trim().isNotEmpty &&
+                                        value.length > 255) {
+                                  return "too-long".i18n();
+                                }
+                              },
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Switch(
+                                  value: _electricSupport,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      _electricSupport = value;
+                                    });
+                                  },
+                                ),
+                                Wrap(
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    Icon(_electricSupport
+                                        ? Icons.power
+                                        : Icons.power_off),
+                                    const SizedBox(width: 2),
+                                    Text(
+                                      "electric-support".i18n(),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                ElevatedButton.icon(
+                                    onPressed: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: Center(
                                                   child: Text(
-                                                    "no".i18n(),
+                                                    "confirm-password".i18n(),
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .bodyText2,
+                                                        .labelMedium,
                                                   ),
-                                                  style: ButtonStyle(
-                                                      backgroundColor:
-                                                          MaterialStateProperty
-                                                              .all(Theme.of(
-                                                                      context)
-                                                                  .colorScheme
-                                                                  .primary)),
                                                 ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              ),
-                              SizedBox(
-                                height: 15,
-                              ),
-                              Form(
-                                              
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                children: [
-                                                  Row(
+                                                content: SizedBox(
+                                                  width: 450,
+                                                  height: 250,
+                                                  child: Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
-                                                            .spaceBetween,
+                                                            .center,
                                                     children: [
-                                                      Switch(
-                                                        value:
-                                                            cityHallElectricitySupport,
-                                                        onChanged: (value) {
-                                                          setState(() {
-                                                            cityHallElectricitySupport =
-                                                                value;
-                                                          });
-                                                        },
+                                                      Text("password".i18n()),
+                                                      PasswordFormField(
+                                                        controller:
+                                                            _confirmPasswordId,
                                                       ),
-                                                      Wrap(
-                                                        crossAxisAlignment:
-                                                            WrapCrossAlignment
-                                                                .center,
-                                                        children: [
-                                                          Icon(cityHallElectricitySupport
-                                                              ? Icons.power
-                                                              : Icons
-                                                                  .power_off),
-                                                          const SizedBox(
-                                                              width: 2),
-                                                          Text(
-                                                            "electric-support"
-                                                                .i18n(),
-                                                          ),
-                                                        ],
-                                                      ),
+                                                      Row(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: [
+                                                            ElevatedButton(
+                                                              onPressed:
+                                                                  () async {
+                                                                var response = await HttpService.validateUser(
+                                                                    decodeUtf8ToString(
+                                                                        Provider.of<UserSession>(context, listen: false).username ??
+                                                                            ""),
+                                                                    _confirmPasswordId
+                                                                        .text);
+                                                                if (response
+                                                                        .statusCode ==
+                                                                    200) {
+                                                                  // TODO: SEND ESTATE MODIFy
+                                                                  LandRegister
+                                                                      newLand =
+                                                                      LandRegister(
+                                                                    name: _landName
+                                                                        .text,
+                                                                    address:
+                                                                        _landAddress
+                                                                            .text,
+                                                                    type:
+                                                                        "parking",
+                                                                    size: int.parse(
+                                                                        _landSize
+                                                                            .text),
+                                                                    description:
+                                                                        _landDescription
+                                                                            .text,
+                                                                    cityHallElectricitySupport:
+                                                                        _electricSupport,
+                                                                    province:
+                                                                        province,
+                                                                  );
+
+                                                                  var response =
+                                                                      await HttpService.updateEstate(
+                                                                          newLand
+                                                                              .toRawJson(),
+                                                                          "land",
+                                                                          land.id);
+                                                                  if (response
+                                                                          .statusCode ==
+                                                                      200) {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                    Navigator.pushNamed(
+                                                                        context,
+                                                                        "/mainpage");
+                                                                  } else {
+                                                                    ToastFactory.makeToast(
+                                                                        context,
+                                                                        TOAST_TYPE
+                                                                            .error,
+                                                                        null,
+                                                                        "error"
+                                                                            .i18n(),
+                                                                        false,
+                                                                        () {});
+                                                                  }
+                                                                } else {
+                                                                  ToastFactory.makeToast(
+                                                                      context,
+                                                                      TOAST_TYPE
+                                                                          .error,
+                                                                      "error"
+                                                                          .i18n(),
+                                                                      Error.fromRawJson(
+                                                                              response.body)
+                                                                          .message
+                                                                          .i18n(),
+                                                                      false,
+                                                                      () {});
+                                                                }
+                                                              },
+                                                              child: const Icon(
+                                                                  Icons.check),
+                                                              style: ButtonStyle(
+                                                                  backgroundColor: MaterialStateProperty.all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .error)),
+                                                            ),
+                                                            OutlinedButton(
+                                                              onPressed: () {
+                                                                Navigator.pop(
+                                                                    context);
+                                                              },
+                                                              child: const Icon(
+                                                                  Icons
+                                                                      .cancel_outlined),
+                                                              style: ButtonStyle(
+                                                                  backgroundColor: MaterialStateProperty.all(Theme.of(
+                                                                          context)
+                                                                      .colorScheme
+                                                                      .primary)),
+                                                            ),
+                                                          ]),
                                                     ],
-                                                  )
-                                                ],
-                                              ),
-                                            )
-                            ],
-                          ),
-                        ],
+                                                  ),
+                                                ),
+                                              );
+                                            });
+                                      } else {
+                                        ToastFactory.makeToast(
+                                            context,
+                                            TOAST_TYPE.error,
+                                            "error".i18n(),
+                                            "empty-fields".i18n(),
+                                            false,
+                                            () {});
+                                      }
+                                    },
+                                    icon: const Icon(Icons.check),
+                                    label: Text("confirm".i18n())),
+                                ElevatedButton.icon(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    icon: const Icon(Icons.cancel_outlined),
+                                    label: Text("cancel".i18n())),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
-                    ],
+                    ),
                   ),
                 ),
               );
@@ -406,35 +451,4 @@ class _EditLand extends State<EditLand> {
           },
         ),
       );
-  Future openDialop() => showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-            title: Text("save-changes?".i18n()),
-            actions: [
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      padding: EdgeInsets.all(10),
-                      side: BorderSide(color: Colors.blue),
-                      primary: Color.fromARGB(239, 253, 233, 199),
-                      onPrimary: Colors.black),
-                  onPressed: () {},
-                  child: Text("yes".i18n())),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50)),
-                      padding: EdgeInsets.all(10),
-                      side: BorderSide(color: Colors.blue),
-                      primary: Color.fromARGB(239, 253, 233, 199),
-                      onPrimary: Colors.black),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text("no".i18n())),
-            ],
-          ));
 }
