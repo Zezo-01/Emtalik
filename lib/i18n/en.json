@@ -150,6 +150,7 @@
     "cancel":"Cancel",
     "confirm-password":"Confirm Password",
     "empty-fields":"You have empty fields or fields with errors",
-    "province":"Province"
+    "province":"Province",
+    "users":"Users"
    
 }

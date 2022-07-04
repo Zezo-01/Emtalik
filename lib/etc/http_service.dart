@@ -260,4 +260,10 @@ abstract class HttpService {
       "estateId": estateId.toString()
     });
   }
+
+  static Future<http.Response> searchEstate(
+      String name, String? type, String? province) {
+    return http.post(Uri.parse(estateTarget + "/search"),
+        body: {"name": name, "type": type, "province": province});
+  }
 }

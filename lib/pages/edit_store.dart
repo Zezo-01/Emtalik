@@ -91,6 +91,8 @@ class _EditStore extends State<EditStore> {
                 store.storageRoom != null && store.storageRoom!
                     ? _storageRoom = true
                     : _storageRoom = false;
+                _storeFridges.text =
+                    store.fridges != null ? store.fridges.toString() : "";
                 initlized = true;
               }
               return Scaffold(
@@ -299,7 +301,7 @@ class _EditStore extends State<EditStore> {
                                         : Icons.not_interested_outlined),
                                     const SizedBox(width: 2),
                                     Text(
-                                      "electric-support".i18n(),
+                                      "storage-room".i18n(),
                                     ),
                                   ],
                                 ),
@@ -436,9 +438,9 @@ class _EditStore extends State<EditStore> {
                                                                             .text,
                                                                     type:
                                                                         "store",
-                                                                    size: int.parse(
-                                                                        _storeSize
-                                                                            .text),
+                                                                    size: double.parse(
+                                                                            _storeSize.text)
+                                                                        .toInt(),
                                                                     description:
                                                                         _storeDescription
                                                                             .text,

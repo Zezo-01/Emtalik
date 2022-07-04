@@ -340,9 +340,9 @@ class _EditLand extends State<EditLand> {
                                                                             .text,
                                                                     type:
                                                                         "parking",
-                                                                    size: int.parse(
-                                                                        _landSize
-                                                                            .text),
+                                                                    size: double.parse(
+                                                                            _landSize.text)
+                                                                        .toInt(),
                                                                     description:
                                                                         _landDescription
                                                                             .text,

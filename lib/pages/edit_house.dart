@@ -385,9 +385,8 @@ class _EditHouse extends State<EditHouse> {
                                                                               .text,
                                                                       type:
                                                                           "house",
-                                                                      size: int.parse(
-                                                                          _houseSize
-                                                                              .text),
+                                                                      size: double.parse(_houseSize.text)
+                                                                          .toInt(),
                                                                       province:
                                                                           province,
                                                                       description:
